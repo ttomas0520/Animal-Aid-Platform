@@ -17,12 +17,12 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<Category> DeleteAsync(Guid id)
+        public Task<Category> DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Category> GetByIdAsync(Guid id)
+        public Task<Category> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }

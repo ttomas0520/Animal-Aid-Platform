@@ -76,7 +76,7 @@ namespace AnimalAidPlatform.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategoryById(Guid id)
+        public async Task<IActionResult> GetCategoryById(int id)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace AnimalAidPlatform.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(Guid id, CategoryRequestDto request)
+        public async Task<IActionResult> UpdateCategory(int id, CategoryRequestDto request)
         {
             if (!ModelState.IsValid)
             {

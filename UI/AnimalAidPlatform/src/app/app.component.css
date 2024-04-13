@@ -1,0 +1,5 @@
+:host {
+    min-height: 100vh;
+    display:block;
+    background: radial-gradient(circle farthest-side, #00f8c680, #eee);
+}

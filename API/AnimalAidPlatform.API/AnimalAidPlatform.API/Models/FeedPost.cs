@@ -4,7 +4,7 @@ namespace AnimalAidPlatform.Models
 {
     public class FeedPost
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "A cím megadása kötelező.")]
         public string Title { get; set; }

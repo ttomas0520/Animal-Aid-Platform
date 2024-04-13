@@ -20,7 +20,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             return await _context.Animals.ToListAsync();
         }
 
-        public async Task<Animal> GetAnimalById(Guid id)
+        public async Task<Animal> GetAnimalById(int id)
         {
             return await _context.Animals.FirstOrDefaultAsync(a => a.Id == id);
         }
@@ -32,7 +32,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             return animal;
         }
 
-        public async Task<Animal> UpdateAnimal(Guid id, Animal animal)
+        public async Task<Animal> UpdateAnimal(int id, Animal animal)
         {
             var existingAnimal = await _context.Animals.FirstOrDefaultAsync(a => a.Id == id);
             if (existingAnimal != null)
@@ -49,7 +49,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             return existingAnimal;
         }
 
-        public async Task<bool> DeleteAnimal(Guid id)
+        public async Task<bool> DeleteAnimal(int id)
         {
             var animalToDelete = await _context.Animals.FirstOrDefaultAsync(a => a.Id == id);
             if (animalToDelete != null)

@@ -20,7 +20,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             return await _context.Categories.ToListAsync();
         }
 
-        public async Task<Category> GetCategoryById(Guid id)
+        public async Task<Category> GetCategoryById(int id)
         {
             return await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
         }
@@ -37,7 +37,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             return category;
         }
 
-        public async Task<Category> UpdateCategory(Guid id, Category category)
+        public async Task<Category> UpdateCategory(int id, Category category)
         {
             var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
             if (existingCategory != null)
@@ -50,7 +50,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             return existingCategory;
         }
 
-        public async Task<bool> DeleteCategory(Guid id)
+        public async Task<bool> DeleteCategory(int id)
         {
             var categoryToDelete = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
             if (categoryToDelete != null)

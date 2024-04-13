@@ -1,32 +1,22 @@
-import { Injectable } from '@angular/core';
-import { CategoryModel } from '../models/category-model';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Api } from '../../../apiClient/Api';
+import { environment } from '../../../environments/environment.development';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
-  private serverUrl = 'https://localhost:7022';
-  constructor(private http: HttpClient) {}
+  constructor(private apiService: ApiService) {}
 
-  addCategory(model: CategoryModel): Observable<CategoryModel> {
-    const url = `${this.serverUrl}/api/categories`;
-    return this.http.post<CategoryModel>(url, model);
-  }
-
-  deleteCategory(category: CategoryModel): Observable<unknown> {
-    const url = `${this.serverUrl}/api/categories`;
-    const params = new HttpParams()
-      .set('name', category.name)
-      .set('url', category.urlHandle);
-    return this.http.delete(`https://localhost:7022/api/categories`, {
-      params,
-    });
-  }
-
-  getAllCategory(): Observable<CategoryModel[]> {
-    const url = `${this.serverUrl}/api/categories`;
-    return this.http.get<CategoryModel[]>(url);
+  async getRoles() {
+    console.log(await this.apiService.api.rolesList());
+    /*this.http
+      .get('https://jsonplaceholder.typicode.com/users')
+      .subscribe((res) => {
+        console.log(res);
+      });*/
   }
 }

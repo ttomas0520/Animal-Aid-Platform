@@ -1,40 +1,52 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" >Animal Aid Platform</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand">Animal Aid Platform</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="me-auto mb-2 mb-lg-0"><button mat-button  >Admin</button></div>
+      <form class="d-flex" role="search">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Keresés"
+          aria-label="Keresés"
+        />
+        <button class="btn btn-outline-success" type="submit">Keresés</button>
+      </form>
+
+      @if (this.authService.isAuthenticated()) {
+
+      <button mat-fab class="mdc-fab mdc-fab--extended ms-auto mb-2 mb-lg-0" [matMenuTriggerFor]="profileMenu" color="#ffff">
+        <div class="mdc-fab__ripple"></div>
+        <span class="material-icons mdc-fab__icon">person</span>
+        <span class="mdc-fab__label">Minta Béla</span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Kezdőlap</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Admin
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" [routerLink]="['/admin/categories']" routerLinkActive="router-link-active" >Poszt kategóriák</a></li>
-              <li><a class="dropdown-item" href="#">Felhasználók</a></li>
-              <li><a class="dropdown-item" href="#">Menhelyek</a></li>
-              <!-- <li><a class="dropdown-item" href="#">Another action</a></li> -->
-              <!-- <li><hr class="dropdown-divider"></li> -->
-              <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
-            </ul>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/user/register']" routerLinkActive="router-link-active" aria-current="page">Regisztráció</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/user/login']" routerLinkActive="router-link-active" aria-current="page">Bejelentkezés</a>
-          </li>
-        </ul>
-      </div>
+
+      <mat-menu #profileMenu="matMenu">
+        <button mat-menu-item routerLink="">
+          <mat-icon>notifications</mat-icon> Értesítések beállítása
+        </button>
+        <button mat-menu-item>
+          <mat-icon>pets</mat-icon> Állataink
+        </button>
+        <button mat-menu-item routerLink="user/profile">
+          <mat-icon>settings</mat-icon> Profil szerkesztése
+        </button>
+        <button mat-menu-item>
+          <mat-icon>logout</mat-icon> Kijelentkezés
+        </button>
+      </mat-menu>
+      }
     </div>
-  </nav>
+  </div>
+</nav>

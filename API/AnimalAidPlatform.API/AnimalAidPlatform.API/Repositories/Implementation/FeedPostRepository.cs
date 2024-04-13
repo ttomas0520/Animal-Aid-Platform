@@ -20,7 +20,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             return await _context.FeedPosts.ToListAsync();
         }
 
-        public async Task<FeedPost> GetFeedPostById(Guid id)
+        public async Task<FeedPost> GetFeedPostById(int id)
         {
             return await _context.FeedPosts.FirstOrDefaultAsync(fp => fp.Id == id);
         }
@@ -32,7 +32,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             return feedPost;
         }
 
-        public async Task<FeedPost> UpdateFeedPost(Guid id, FeedPost feedPost)
+        public async Task<FeedPost> UpdateFeedPost(int id, FeedPost feedPost)
         {
             var existingFeedPost = await _context.FeedPosts.FirstOrDefaultAsync(fp => fp.Id == id);
             if (existingFeedPost != null)
@@ -50,7 +50,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             return existingFeedPost;
         }
 
-        public async Task<bool> DeleteFeedPost(Guid id)
+        public async Task<bool> DeleteFeedPost(int id)
         {
             var feedPostToDelete = await _context.FeedPosts.FirstOrDefaultAsync(fp => fp.Id == id);
             if (feedPostToDelete != null)

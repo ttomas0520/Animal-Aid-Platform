@@ -1,83 +1,161 @@
-<section class="vh-100" style="background-color: #eee;">
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-lg-12 col-xl-11">
-          <div class="card text-black" style="border-radius: 25px;">
-            <div class="card-body p-md-5">
-              <div class="row justify-content-center">
-                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-  
-                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Regisztráció</p>
-  
-                  <form class="mx-1 mx-md-4">
-  
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <div class="form-outline flex-fill mb-0">
-                        <input type="text" id="form3Example1c" class="form-control" />
-                        <label class="form-label" for="form3Example1c">Név</label>
-                      </div>
-                    </div>
-  
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <div class="form-outline flex-fill mb-0">
-                        <input type="email" id="form3Example3c" class="form-control" />
-                        <label class="form-label" for="form3Example3c">Email cím</label>
-                      </div>
-                    </div>
-                    
-  
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <div class="form-outline flex-fill mb-0">
-                        <input type="password" id="form3Example4c" class="form-control" />
-                        <label class="form-label" for="form3Example4c">Jelszó</label>
-                      </div>
-                    </div>
-  
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <div class="form-outline flex-fill mb-0">
-                        <input type="password" id="form3Example4cd" class="form-control" />
-                        <label class="form-label" for="form3Example4cd">Jelszó újra</label>
-                      </div>
-                    </div>
-                    
-                    <div class=" d-flex flex-row align-items-center mb-4">
+<section class="vh-100" style="background-color: #eee">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11">
+        <div class="card text-black" style="border-radius: 25px">
+          <div class="card-body p-md-5">
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
+                  Regisztráció
+                </p>
 
-                        <div class="form-outline flex-fill mb-0">
-                            <select class="form-select" id="type">
-                                <option value="1" selected disabled>Típus</option>
-                                <option value="2">Civil</option>
-                                <option value="3">Civil állatmentő</option>
-                                <option value="4">Menhelyi dolgozó</option>
-                                <option value="4">Menhely</option>
-                              </select>
-                              <label class="form-label" for="type">Fiók típusa</label>
-                            </div>
-                        </div>
-  
-                    <div class="form-check d-flex justify-content-center mb-5">
-                      <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-                      <label class="form-check-label" for="form2Example3">
-                        Kijelentem, hogy elfogadom az <a href="#!">Adatkezelési tájékoztatót</a>
-                      </label>
+                <form
+                  class="mx-1 mx-md-4"
+                  [formGroup]="registerForm"
+                  (ngSubmit)="registerSubmit()"
+                >
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Név</mat-label>
+                        <input
+                          matInput
+                          placeholder="Mek Elek"
+                          formControlName="name"
+                        />
+                        <mat-icon matPrefix>person</mat-icon>
+                      </mat-form-field>
                     </div>
-  
-                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <button type="button" class="btn btn-primary btn-lg">Regisztráció</button>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Email</mat-label>
+                        <input
+                          matInput
+                          placeholder="minta@mail.com"
+                          formControlName="email"
+                        />
+                        <mat-icon matPrefix>email</mat-icon>
+                      </mat-form-field>
                     </div>
-  
-                  </form>
-  
-                </div>
-                <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-  
-                  <img src="\assets\register.jfif"
-                    class="img-fluid" alt="Sample image">
-  
-                </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Jelszó</mat-label>
+                        <input
+                          matInput
+                          type="{{ hide ? 'password' : 'text' }}"
+                          placeholder="Jelszó"
+                          formControlName="password"
+                          (input)="onPasswordInput()"
+                        />
+                        <mat-icon matPrefix>lock</mat-icon>
+                        <mat-icon (click)="hide = !hide" matSuffix>{{
+                          hide ? "visibility_off" : "visibility"
+                        }}</mat-icon>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Jelszó újra</mat-label>
+                        <input
+                          matInput
+                          type="{{ hide ? 'password' : 'text' }}"
+                          placeholder="Jelszó újra"
+                          formControlName="confirmPassword"
+                          (input)="onPasswordInput()"
+                        />
+                        <mat-error *ngIf="confirmPassword!.hasError('required')"
+                          >Please confirm your password</mat-error
+                        >
+                        <mat-error
+                          *ngIf="
+                            confirmPassword!.invalid &&
+                            !confirmPassword!.hasError('required')
+                          "
+                          >A jelszavak nem egyeznek</mat-error
+                        >
+                        <mat-icon matPrefix>lock</mat-icon>
+                        <mat-icon (click)="hide = !hide" matSuffix>{{
+                          hide ? "visibility_off" : "visibility"
+                        }}</mat-icon>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Fiók típusa</mat-label>
+                        <mat-select
+                          placeholder="Fiók típusa"
+                          [(value)]="selectedType"
+                          name="item"
+                          formControlName="type"
+                        >
+                          @for (type of accountTypes; track $index) {
+                          <mat-option value="{{ type }}">{{ type }}</mat-option>
+                          }
+                        </mat-select>
+                        <mat-icon matPrefix>badge</mat-icon>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Telefonszám</mat-label>
+                        <input
+                          matInput
+                          placeholder="+36123456789"
+                          formControlName="phoneNumber"
+                        />
+                        <mat-icon matPrefix>phone</mat-icon>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="form-check d-flex justify-content-center mb-5">
+                    <input
+                      class="form-check-input me-2"
+                      type="checkbox"
+                      value=""
+                      id="form2Example3c"
+                    />
+                    <label class="form-check-label" for="form2Example3">
+                      Kijelentem, hogy elfogadom az
+                      <a href="#!">Adatkezelési tájékoztatót</a>
+                    </label>
+                  </div>
+
+                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                      Regisztráció
+                    </button>
+                  </div>
+                </form>
+                <a [routerLink]="['/user/login']" routerLinkActive="router-link-active" >Van már profilod? Jelentkezz be</a>
+              </div>
+              <div
+                class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2"
+              >
+                <img
+                  src="\assets\register.jfif"
+                  class="img-fluid"
+                  alt="Sample image"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>

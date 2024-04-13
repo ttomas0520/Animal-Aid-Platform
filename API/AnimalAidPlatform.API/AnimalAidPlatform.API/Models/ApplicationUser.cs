@@ -1,10 +1,13 @@
 ﻿using AnimalAidPlatform.Models.Enums;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnimalAidPlatform.Models
 {
-    public class ApplicationUser : IdentityUser<Guid>
+    public class ApplicationUser : IdentityUser
     {
         [Required]
         public string Name { get; set; }
@@ -15,7 +18,7 @@ namespace AnimalAidPlatform.Models
 
         public Role Role { get; set; }
 
-        public Guid? AnimalShelterId { get; set; }
+        public int? AnimalShelterId { get; set; }
         public AnimalShelter? RegularWorkingPlace { get; set; }
         public AnimalShelter? AdminWorkingPlace { get; set; }
 

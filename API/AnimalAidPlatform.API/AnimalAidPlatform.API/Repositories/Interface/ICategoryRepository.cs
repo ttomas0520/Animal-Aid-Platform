@@ -6,10 +6,10 @@ namespace AnimalAidPlatform.API.Repositories.Interface
     public interface ICategoryRepository
     {
         Task<IEnumerable<Category>> GetAllCategories();
-        Task<Category> GetCategoryById(Guid id);
+        Task<Category> GetCategoryById(int id);
         Task<Category> GetCategoryByNameAndUrl(CategoryRequestDto category);
         Task<Category> CreateCategory(Category category);
-        Task<Category> UpdateCategory(Guid id, Category category);
-        Task<bool> DeleteCategory(Guid id);
+        Task<Category> UpdateCategory(int id, Category category);
+        Task<bool> DeleteCategory(int id);
     }
 }

@@ -1,12 +1,15 @@
 ﻿using AnimalAidPlatform.API.Models;
 using AnimalAidPlatform.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Reflection.Metadata;
-
+using ZarovizsgaPortal.Model.Entities.Identity;
 namespace AnimalAidPlatform.API.Data
 {
 
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -19,6 +22,7 @@ namespace AnimalAidPlatform.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<AnimalShelter>()
                 .HasMany(e => e.Admins)
                 .WithOne(e => e.AdminWorkingPlace)
@@ -30,6 +34,7 @@ namespace AnimalAidPlatform.API.Data
                 .WithOne(e => e.RegularWorkingPlace)
                 .HasForeignKey(e => e.AnimalShelterId)
                 .HasPrincipalKey(e => e.Id);
+
         }
     }
 }

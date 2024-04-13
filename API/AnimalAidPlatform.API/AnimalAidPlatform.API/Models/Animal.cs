@@ -4,7 +4,7 @@ namespace AnimalAidPlatform.Models
 {
     public class Animal
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "A név megadása kötelező.")]
         public string Name { get; set; }
@@ -19,7 +19,7 @@ namespace AnimalAidPlatform.Models
 
         public string? Description { get; set; }
 
-        public Guid AnimalShelterId { get; set; }
+        public int AnimalShelterId { get; set; }
         public AnimalShelter AnimalShelter { get; set; }
     }
 }
