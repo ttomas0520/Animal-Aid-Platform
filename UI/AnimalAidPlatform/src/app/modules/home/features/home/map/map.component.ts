@@ -1,96 +1,155 @@
-import { Component, OnInit } from '@angular/core';
-import 'ol/ol.css';
-import Map from 'ol/Map';
-import View from 'ol/View';
-import { OSM, Vector as VectorSource } from 'ol/source.js';
-import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
-import Geolocation from 'ol/Geolocation';
-import { Feature } from 'ol';
-import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
-import { Circle, Geometry, Point } from 'ol/geom';
-import { transform } from 'ol/proj';
+import { AfterViewInit, Component, OnInit, contentChild } from '@angular/core';
+import { ImportModule } from '../../../../common/import.module';
+import { Loader } from '@googlemaps/js-api-loader';
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [],
+  imports: [ImportModule],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
-export class MapComponent {
-  map = new Map();
+export class MapComponent implements OnInit {
+  options: google.maps.MapOptions = {
+    mapId: 'dab6a2e41b45a87d',
+    center: { lat: -31, lng: 147 },
+    zoom: 13,
+  };
 
-  ngAfterViewInit(): void {
-    console.log('init');
-    this.map = new Map({
-      view: new View({
-        center: [0, 0],
-        zoom: 1,
-      }),
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-      ],
-      target: 'ol-map',
-    });
+  loader = new Loader({
+    apiKey: 'AIzaSyBU36I4TZpP41_zX8gZpMsad_9cFiEypgY',
+    version: 'weekly',
+  });
 
-    const view = new View({
-      center: [0, 0],
-      zoom: 2,
-    });
+  async ngOnInit() {
+    if (navigator.geolocation) {
+      await navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          this.options.center = pos;
+          this.loader.importLibrary('maps').then(() => this.initMap());
+        },
+        () => {}
+      );
+    }
+  }
+  map: google.maps.Map | undefined;
 
-    const geolocation = new Geolocation({
-      // enableHighAccuracy must be set to true to have the heading value.
-      trackingOptions: {
-        enableHighAccuracy: true,
+  async initMap() {
+    // Request needed libraries.
+    const { Map } = (await google.maps.importLibrary(
+      'maps'
+    )) as google.maps.MapsLibrary;
+    const { AdvancedMarkerElement, PinElement } =
+      (await google.maps.importLibrary('marker')) as google.maps.MarkerLibrary;
+
+    this.map = new google.maps.Map(
+      document.getElementById('map') as HTMLElement,
+      {
+        ...this.options,
+      }
+    );
+
+    const icons: Record<string, { icon: string }> = {
+      lost: {
+        icon: '/assets/lost.svg',
       },
-      projection: view.getProjection(),
-    });
+      found: {
+        icon: '/assets/found.svg',
+      },
+      help: {
+        icon: '/assets/help.svg',
+      },
+      ad: {
+        icon: '/assets/ad.svg',
+      },
+    };
 
-    const positionFeature = new Feature();
-    positionFeature.setStyle(
-      new Style({
-        image: new CircleStyle({
-          radius: 6,
-          fill: new Fill({
-            color: '#3399CC',
-          }),
-          stroke: new Stroke({
-            color: '#fff',
-            width: 2,
-          }),
-        }),
-      })
-    );
+    const lostString =
+      '<h2>Morzsi Elveszett</h2>' +
+      '<p>XII Ker. Budapest Sáfrány utca 147/2</p>' +
+      '<div style="text-align:center"><img src="/assets/dog.webp" class="img-fluid" alt="Sample image" width="150px"/></div>' +
+      '<div style="display: flex; justify-content: space-between;">' +
+      '<span class="material-icons">visibility</span>' +
+      '<span class="material-icons">thumb_up</span>' +
+      '<span class="material-icons">arrow_forward</span>' +
+      '</div>';
 
-    geolocation.on('change:position', function () {
-      const coordinates = geolocation.getPosition();
-      positionFeature.setGeometry(
-        coordinates ? (new Point(coordinates) as Geometry) : undefined
-      );
-    });
+    const helpString =
+      '<h2>Macska a fán</h2>' +
+      '<p>XII Ker. Budapest Sáfrány utca 147/2</p>' +
+      '<div style="text-align:center"><img src="/assets/cat.webp" class="img-fluid" alt="Sample image" width="150px"/></div>' +
+      '<div style="display: flex; justify-content: space-between;">' +
+      '<span class="material-icons">visibility</span>' +
+      '<span class="material-icons">thumb_up</span>' +
+      '<span class="material-icons">arrow_forward</span>' +
+      '</div>';
 
-    const accuracyFeature = new Feature();
-    geolocation.on('change:accuracyGeometry', function () {
-      accuracyFeature.setGeometry(
-        geolocation.getAccuracyGeometry() as Geometry
-      );
-    });
+    const foundString =
+      '<h2>Talált süni</h2>' +
+      '<p>XII Ker. Budapest Sáfrány utca 147/2</p>' +
+      '<div style="text-align:center"><img src="/assets/hedgehog.avif" class="img-fluid" alt="Sample image" width="150px"/></div>' +
+      '<div style="display: flex; justify-content: space-between;">' +
+      '<span class="material-icons">visibility</span>' +
+      '<span class="material-icons">thumb_up</span>' +
+      '<span class="material-icons">arrow_forward</span>' +
+      '</div>';
 
-    geolocation.setTracking(true);
+    const adString =
+      '<h2>Örökbefogadható csöppségek</h2>' +
+      '<p>XII Ker. Budapest Sáfrány utca 147/2</p>' +
+      '<div style="text-align:center"><img src="/assets/babys.jpg" class="img-fluid" alt="Sample image" width="150px"/></div>' +
+      '<div style="display: flex; justify-content: space-between;">' +
+      '<span class="material-icons">visibility</span>' +
+      '<span class="material-icons">thumb_up</span>' +
+      '<span class="material-icons">arrow_forward</span>' +
+      '</div>';
 
-    var circle = new Circle(
-      transform([2.1833, 41.3833], 'EPSG:4326', 'EPSG:3857'),
-      10
-      
-    );
+    const features = [
+      {
+        position: new google.maps.LatLng(47.476923, 19.1004811),
+        type: 'lost',
+        content: lostString,
+      },
+      {
+        position: new google.maps.LatLng(47.486923, 19.1004811),
+        type: 'help',
+        content: helpString,
+      },
+      {
+        position: new google.maps.LatLng(47.456923, 19.1004811),
+        type: 'found',
+        content: foundString,
+      },
+      {
+        position: new google.maps.LatLng(47.466923, 19.1004811),
+        type: 'ad',
+        content: adString,
+      },
+    ];
 
-    var circleFeature = new Feature(circle);
-    new VectorLayer({
-      map: this.map,
-      source: new VectorSource({
-        features: [accuracyFeature, positionFeature, circleFeature],
-      }),
-    });
+    var lastOpenedWindow: google.maps.InfoWindow;
+    for (let i = 0; i < features.length; i++) {
+      const iconImage = document.createElement('img');
+      iconImage.src = icons[features[i].type].icon;
+      iconImage.width = 40;
+      iconImage.height = 40;
+      const marker = new google.maps.marker.AdvancedMarkerElement({
+        map: this.map,
+        position: features[i].position,
+        content: iconImage,
+      });
+      const infowindow = new google.maps.InfoWindow({
+        content: features[i].content,
+      });
+      marker.gmpClickable = true;
+      marker.addListener('click', (e: any) => {
+        if (lastOpenedWindow) lastOpenedWindow.close();
+        infowindow.open(marker.map, marker);
+        lastOpenedWindow = infowindow;
+      });
+    }
   }
 }

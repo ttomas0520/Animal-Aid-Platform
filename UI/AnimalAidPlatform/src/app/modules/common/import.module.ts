@@ -60,7 +60,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
-import { FlexLayoutModule } from '@angular/flex-layout'
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [],
@@ -114,7 +115,8 @@ import { FlexLayoutModule } from '@angular/flex-layout'
     MatTreeModule,
     //----//
 
-    FlexLayoutModule, 
+    FlexLayoutModule,
+    GoogleMapsModule,
   ],
   exports: [
     CommonModule,
@@ -165,7 +167,8 @@ import { FlexLayoutModule } from '@angular/flex-layout'
     MatTooltipModule,
     MatTreeModule,
 
-    FlexLayoutModule, 
+    FlexLayoutModule,
+    GoogleMapsModule,
   ],
 })
 export class ImportModule {}

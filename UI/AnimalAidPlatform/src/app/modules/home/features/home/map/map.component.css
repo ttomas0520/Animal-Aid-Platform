@@ -1,9 +1,8 @@
-:host {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-.map-container {
-    flex-grow: 1;
+.my-google-map {
+  width: 100%;
+  height: 87vh;
 }
 
+.wrap {
+  margin-left: auto;
+}
