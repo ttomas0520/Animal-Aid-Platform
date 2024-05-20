@@ -17,7 +17,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
 
         public async Task<IEnumerable<FeedPost>> GetAllFeedPosts()
         {
-            return await _context.FeedPosts.ToListAsync();
+            return await _context.FeedPosts.Include(fp=> fp.Creator).Include(fp=>fp.Category).ToListAsync();
         }
 
         public async Task<FeedPost> GetFeedPostById(int id)

@@ -1,6 +1,6 @@
 ﻿using AnimalAidPlatform.API.Data;
 using AnimalAidPlatform.API.Models;
-using AnimalAidPlatform.API.Models.DTO;
+using AnimalAidPlatform.API.Models.DTO.Category;
 using AnimalAidPlatform.API.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 

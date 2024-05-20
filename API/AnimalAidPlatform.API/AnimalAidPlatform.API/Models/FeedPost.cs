@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AnimalAidPlatform.Models
+﻿using AnimalAidPlatform.API.Models;
+using AnimalAidPlatform.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Spatial;
+namespace AnimalAidPlatform.API.Models
 {
     public class FeedPost
     {
@@ -11,14 +13,22 @@ namespace AnimalAidPlatform.Models
 
         [Required(ErrorMessage = "A tartalom megadása kötelező.")]
         public string ContentText { get; set; }
-        public string ImageUrl {  get; set; }
-        public string UrlHandle {  get; set; }
+
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+
+        public string? ImageUrl {  get; set; }
+        public string? UrlHandle {  get; set; }
+        public double GeoLong {  get; set; }
+        public double GeoLat {  get; set; }
+        public string Address { get; set; }
 
         public DateTime PostDate { get; set; }
 
+        public string CreatorId { get; set; }
         public ApplicationUser Creator { get; set; }
 
-        public ICollection<Animal> AssociatedAnimals { get; set; }
+        public ICollection<Animal>? AssociatedAnimals { get; set; }
 
     }
 }

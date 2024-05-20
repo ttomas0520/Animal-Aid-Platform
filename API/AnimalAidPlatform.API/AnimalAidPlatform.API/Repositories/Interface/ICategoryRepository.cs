@@ -1,5 +1,5 @@
 ﻿using AnimalAidPlatform.API.Models;
-using AnimalAidPlatform.API.Models.DTO;
+using AnimalAidPlatform.API.Models.DTO.Category;
 
 namespace AnimalAidPlatform.API.Repositories.Interface
 {

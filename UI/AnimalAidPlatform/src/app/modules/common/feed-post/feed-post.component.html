@@ -1,0 +1,39 @@
+<mat-card class="mt-3 p-3">
+  <div class="header">
+    <h2 class="title">{{ post?.title }}</h2>
+    <button
+      mat-icon-button
+      class="example-icon"
+      aria-label="Example icon-button with menu icon"
+      [matMenuTriggerFor]="menu"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </div>
+
+  <div class="text-muted location">{{ post?.location?.address }}</div>
+  <div style="text-align: center">
+    <img
+      src="/assets/dog.webp"
+      class="img-fluid"
+      alt="Sample image"
+      width="200px"
+    />
+  </div>
+  <div class="description">
+    {{ post?.contentText }}
+  </div>
+  <div class="feed-buttons">
+    <span class="material-icons">visibility</span>
+    <span class="material-icons">thumb_up</span>
+  </div>
+</mat-card>
+
+<mat-menu #menu="matMenu">
+  @if(isAdminMode){
+  <button mat-menu-item>Poszt törlése</button>
+  <button mat-menu-item>Figyelmeztetés</button>
+  }@else {
+  <button mat-menu-item>Jelentés</button>
+  }
+</mat-menu>

@@ -13,7 +13,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="me-auto mb-2 mb-lg-0"><button mat-button  >Admin</button></div>
+      @if (this.authService.isAuthenticated()) {
+      <div class="me-auto mb-2 mb-lg-0">
+        <button mat-button [routerLink]="'/admin'">Admin</button>
+      </div>
       <form class="d-flex" role="search">
         <input
           class="form-control me-2"
@@ -24,9 +27,12 @@
         <button class="btn btn-outline-success" type="submit">Keresés</button>
       </form>
 
-      @if (this.authService.isAuthenticated()) {
-
-      <button mat-fab class="mdc-fab mdc-fab--extended ms-auto mb-2 mb-lg-0" [matMenuTriggerFor]="profileMenu" color="#ffff">
+      <button
+        mat-fab
+        class="mdc-fab mdc-fab--extended ms-auto mb-2 mb-lg-0"
+        [matMenuTriggerFor]="profileMenu"
+        color="#ffff"
+      >
         <div class="mdc-fab__ripple"></div>
         <span class="material-icons mdc-fab__icon">person</span>
         <span class="mdc-fab__label">Minta Béla</span>
@@ -36,15 +42,11 @@
         <button mat-menu-item routerLink="">
           <mat-icon>notifications</mat-icon> Értesítések beállítása
         </button>
-        <button mat-menu-item>
-          <mat-icon>pets</mat-icon> Állataink
-        </button>
+        <button mat-menu-item><mat-icon>pets</mat-icon> Állataink</button>
         <button mat-menu-item routerLink="user/profile">
           <mat-icon>settings</mat-icon> Profil szerkesztése
         </button>
-        <button mat-menu-item>
-          <mat-icon>logout</mat-icon> Kijelentkezés
-        </button>
+        <button mat-menu-item><mat-icon>logout</mat-icon> Kijelentkezés</button>
       </mat-menu>
       }
     </div>

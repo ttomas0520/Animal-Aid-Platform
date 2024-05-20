@@ -8,6 +8,7 @@ import { FeedComponent } from './modules/home/features/home/feed/feed.component'
 import { ErrorComponent } from './core/components/error/error.component';
 import { adminGuard, authGuard } from './guards/guards.guard';
 import { HomeComponent } from './modules/home/features/home/home.component';
+import { AdminMenuComponent } from './modules/home/features/admin-menu/admin-menu.component';
 
 export const routes: Routes = [
   {
@@ -16,14 +17,21 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'admin/categories',
-    component: CategoryListComponent,
+    path: 'admin',
+    component: AdminMenuComponent,
     canActivate: [authGuard, adminGuard],
-  },
-  {
-    path: 'admin/categories/add',
-    component: AddCategoryComponent,
-    canActivate: [authGuard, adminGuard],
+    children: [
+      {
+        path: 'categories',
+        component: CategoryListComponent,
+        canActivate: [authGuard, adminGuard],
+      },
+      {
+        path: 'admin/categories/add',
+        component: AddCategoryComponent,
+        canActivate: [authGuard, adminGuard],
+      },
+    ],
   },
   {
     path: 'user/register',

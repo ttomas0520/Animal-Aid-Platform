@@ -46,6 +46,7 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IFeedPostRepository, FeedPostRepository>();
 builder.Services.AddSwaggerGen(c => {
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {

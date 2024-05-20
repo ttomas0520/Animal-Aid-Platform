@@ -35,6 +35,17 @@ namespace AnimalAidPlatform.API.Data
                 .HasForeignKey(e => e.AnimalShelterId)
                 .HasPrincipalKey(e => e.Id);
 
+            modelBuilder.Entity<FeedPost>()
+                .HasOne(e => e.Category)
+                .WithMany(e => e.Posts)
+                .HasForeignKey(e => e.CategoryId)
+                .HasPrincipalKey(e => e.Id);   
+
+            modelBuilder.Entity<FeedPost>()
+                .HasOne(e => e.Creator)
+                .WithMany(e => e.Posts)
+                .HasForeignKey(e =>e.CreatorId)
+                .HasPrincipalKey (e => e.Id);  
         }
     }
 }

@@ -4,6 +4,7 @@ using AnimalAidPlatform.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnimalAidPlatform.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240516094140_FeedPost")]
+    partial class FeedPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,57 +44,6 @@ namespace AnimalAidPlatform.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("AnimalAidPlatform.API.Models.FeedPost", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ContentText")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<double>("GeoLat")
-                        .HasColumnType("float");
-
-                    b.Property<double>("GeoLong")
-                        .HasColumnType("float");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PostDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UrlHandle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("CreatorId");
-
-                    b.ToTable("FeedPosts");
                 });
 
             modelBuilder.Entity("AnimalAidPlatform.Models.Animal", b =>
@@ -263,6 +215,47 @@ namespace AnimalAidPlatform.API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("AnimalAidPlatform.Models.FeedPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContentText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("GeoLang")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("GeoLat")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PostDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UrlHandle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("FeedPosts");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -396,25 +389,6 @@ namespace AnimalAidPlatform.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AnimalAidPlatform.API.Models.FeedPost", b =>
-                {
-                    b.HasOne("AnimalAidPlatform.API.Models.Category", "Category")
-                        .WithMany("Posts")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AnimalAidPlatform.Models.ApplicationUser", "Creator")
-                        .WithMany("Posts")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Creator");
-                });
-
             modelBuilder.Entity("AnimalAidPlatform.Models.Animal", b =>
                 {
                     b.HasOne("AnimalAidPlatform.Models.AnimalShelter", "AnimalShelter")
@@ -423,7 +397,7 @@ namespace AnimalAidPlatform.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AnimalAidPlatform.API.Models.FeedPost", null)
+                    b.HasOne("AnimalAidPlatform.Models.FeedPost", null)
                         .WithMany("AssociatedAnimals")
                         .HasForeignKey("FeedPostId");
 
@@ -443,6 +417,15 @@ namespace AnimalAidPlatform.API.Migrations
                     b.Navigation("AdminWorkingPlace");
 
                     b.Navigation("RegularWorkingPlace");
+                });
+
+            modelBuilder.Entity("AnimalAidPlatform.Models.FeedPost", b =>
+                {
+                    b.HasOne("AnimalAidPlatform.Models.ApplicationUser", "Creator")
+                        .WithMany("Posts")
+                        .HasForeignKey("CreatorId");
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -496,16 +479,6 @@ namespace AnimalAidPlatform.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AnimalAidPlatform.API.Models.Category", b =>
-                {
-                    b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("AnimalAidPlatform.API.Models.FeedPost", b =>
-                {
-                    b.Navigation("AssociatedAnimals");
-                });
-
             modelBuilder.Entity("AnimalAidPlatform.Models.AnimalShelter", b =>
                 {
                     b.Navigation("Admins");
@@ -516,6 +489,11 @@ namespace AnimalAidPlatform.API.Migrations
             modelBuilder.Entity("AnimalAidPlatform.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("AnimalAidPlatform.Models.FeedPost", b =>
+                {
+                    b.Navigation("AssociatedAnimals");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
-﻿using AnimalAidPlatform.API.Models.Enums;
+﻿using AnimalAidPlatform.API.Migrations;
+using AnimalAidPlatform.API.Models.Enums;
 
 namespace AnimalAidPlatform.API.Models
 {
@@ -7,5 +8,6 @@ namespace AnimalAidPlatform.API.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Urlhandle { get; set; }
+        public ICollection<FeedPost> Posts { get; set; }
     }
 }

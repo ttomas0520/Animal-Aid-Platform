@@ -1,4 +1,5 @@
-﻿using AnimalAidPlatform.Models.Enums;
+﻿using AnimalAidPlatform.API.Models;
+using AnimalAidPlatform.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

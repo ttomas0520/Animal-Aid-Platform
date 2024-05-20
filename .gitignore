@@ -2,3 +2,4 @@
 API/AnimalAidPlatform.API/AnimalAidPlatform.API/bin
 API/AnimalAidPlatform.API/AnimalAidPlatform.API/obj
 UI/AnimalAidPlatform/.vscode
+UI/AnimalAidPlatform/src/environments/environment.development.ts
