@@ -1,6 +1,15 @@
 <mat-tab-group preserveContent>
-  <mat-tab label="Üzenőfal"><app-feed></app-feed></mat-tab>
+  <mat-tab label="Üzenőfal">
+    <div class="main-container">
+      <app-feed
+        class="feed_new"
+        [isAdminMode]="false"
+        [posts]="postList"
+        (postCreated)="refreshPostList($event)"
+      ></app-feed></div
+  ></mat-tab>
   <mat-tab label="Térkép">
-    <ng-template matTabContent> <app-map></app-map> </ng-template
+    <ng-template matTabContent>
+      <app-map [posts]="postList"></app-map> </ng-template
   ></mat-tab>
 </mat-tab-group>

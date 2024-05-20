@@ -1,0 +1,9 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.feed-buttons {
+  display: flex;
+  justify-content: space-between;
+}

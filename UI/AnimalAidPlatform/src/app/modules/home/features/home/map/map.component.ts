@@ -1,6 +1,14 @@
-import { AfterViewInit, Component, OnInit, contentChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  contentChild,
+} from '@angular/core';
 import { ImportModule } from '../../../../common/import.module';
 import { Loader } from '@googlemaps/js-api-loader';
+import { environment } from '../../../../../../environments/environment.development';
+import { FeedPostResponseDTO } from '../../../../../../apiClient/data-contracts';
 @Component({
   selector: 'app-map',
   standalone: true,
@@ -9,6 +17,7 @@ import { Loader } from '@googlemaps/js-api-loader';
   styleUrl: './map.component.css',
 })
 export class MapComponent implements OnInit {
+  @Input() posts: FeedPostResponseDTO[] = [];
   options: google.maps.MapOptions = {
     mapId: 'dab6a2e41b45a87d',
     center: { lat: -31, lng: 147 },
@@ -16,7 +25,7 @@ export class MapComponent implements OnInit {
   };
 
   loader = new Loader({
-    apiKey: 'AIzaSyBU36I4TZpP41_zX8gZpMsad_9cFiEypgY',
+    apiKey: environment.googleApiKey,
     version: 'weekly',
   });
 
@@ -78,8 +87,8 @@ export class MapComponent implements OnInit {
       '</div>';
 
     const helpString =
-      '<h2>Macska a fán</h2>' +
-      '<p>XII Ker. Budapest Sáfrány utca 147/2</p>' +
+      '<h2>${title}</h2>' +
+      '<p>${address}</p>' +
       '<div style="text-align:center"><img src="/assets/cat.webp" class="img-fluid" alt="Sample image" width="150px"/></div>' +
       '<div style="display: flex; justify-content: space-between;">' +
       '<span class="material-icons">visibility</span>' +
@@ -107,7 +116,7 @@ export class MapComponent implements OnInit {
       '<span class="material-icons">arrow_forward</span>' +
       '</div>';
 
-    const features = [
+    var features = [
       {
         position: new google.maps.LatLng(47.476923, 19.1004811),
         type: 'lost',
@@ -130,6 +139,20 @@ export class MapComponent implements OnInit {
       },
     ];
 
+    this.posts.forEach((post) => {
+      features.push({
+        position: new google.maps.LatLng(
+          post.location?.latitude!,
+          post.location?.longitude
+        ),
+        type: 'help',
+        content: this.fillTemplateString(helpString, {
+          title: post.title,
+          address: post.location?.address,
+        }),
+      });
+    });
+
     var lastOpenedWindow: google.maps.InfoWindow;
     for (let i = 0; i < features.length; i++) {
       const iconImage = document.createElement('img');
@@ -151,5 +174,14 @@ export class MapComponent implements OnInit {
         lastOpenedWindow = infowindow;
       });
     }
+  }
+  fillTemplateString(
+    template: string,
+    variables: { [key: string]: any }
+  ): string {
+    return template.replace(
+      /\${(.*?)}/g,
+      (match, p1) => variables[p1.trim()] || ''
+    );
   }
 }

@@ -1,4 +1,4 @@
-﻿using AnimalAidPlatform.API.Models.DTO;
+﻿using AnimalAidPlatform.API.Models.DTO.User;
 using AnimalAidPlatform.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +14,7 @@ namespace AnimalAidPlatform.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -51,7 +52,7 @@ namespace AnimalAidPlatform.API.Controllers
 
             if (data.Roles is null)
             {
-                await _userManager.AddToRoleAsync(user, "User");
+                await _userManager.AddToRoleAsync(user, "REGULAR");
             }
             else
             {

@@ -11,8 +11,12 @@
 
 import {
   AuthResponseDTO,
+  CategoryDto,
   CategoryRequestDto,
+  CreatePostDTO,
   CreateRoleDTO,
+  FeedPost,
+  FeedPostResponseDTO,
   LoginDTO,
   RegisterDTO,
   RoleDTO,
@@ -47,10 +51,11 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @secure
    */
   categoriesList = (params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.request<CategoryDto[], any>({
       path: `/api/categories`,
       method: "GET",
       secure: true,
+      format: "json",
       ...params,
     });
   /**
@@ -84,10 +89,11 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @secure
    */
   categoriesDetail = (id: number, params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.request<CategoryDto, any>({
       path: `/api/categories/${id}`,
       method: "GET",
       secure: true,
+      format: "json",
       ...params,
     });
   /**
@@ -105,6 +111,88 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       body: data,
       secure: true,
       type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Post
+   * @name PostList
+   * @request GET:/api/Post
+   * @secure
+   */
+  postList = (params: RequestParams = {}) =>
+    this.request<FeedPostResponseDTO[], any>({
+      path: `/api/Post`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Post
+   * @name PostCreate
+   * @request POST:/api/Post
+   * @secure
+   */
+  postCreate = (data: CreatePostDTO, params: RequestParams = {}) =>
+    this.request<number, any>({
+      path: `/api/Post`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Post
+   * @name PostDetail
+   * @request GET:/api/Post/{id}
+   * @secure
+   */
+  postDetail = (id: number, params: RequestParams = {}) =>
+    this.request<FeedPost, any>({
+      path: `/api/Post/${id}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Post
+   * @name PostUpdate
+   * @request PUT:/api/Post/{id}
+   * @secure
+   */
+  postUpdate = (id: number, data: FeedPost, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/api/Post/${id}`,
+      method: "PUT",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Post
+   * @name PostDelete
+   * @request DELETE:/api/Post/{id}
+   * @secure
+   */
+  postDelete = (id: number, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/api/Post/${id}`,
+      method: "DELETE",
+      secure: true,
       ...params,
     });
   /**

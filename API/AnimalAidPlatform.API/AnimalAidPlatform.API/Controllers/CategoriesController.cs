@@ -1,6 +1,7 @@
 ﻿using AnimalAidPlatform.API.Data;
 using AnimalAidPlatform.API.Models;
-using AnimalAidPlatform.API.Models.DTO;
+using AnimalAidPlatform.API.Models.DTO.Category;
+using AnimalAidPlatform.API.Models.DTO.FeedPost;
 using AnimalAidPlatform.API.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +55,7 @@ namespace AnimalAidPlatform.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories()
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllCategories()
         {
             try
             {
@@ -76,7 +77,7 @@ namespace AnimalAidPlatform.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategoryById(int id)
+        public async Task<ActionResult<CategoryDto>> GetCategoryById(int id)
         {
             try
             {
