@@ -4,7 +4,6 @@ import { ImportModule } from '../../../../common/import.module';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FeedPostComponent } from '../../../../common/feed-post/feed-post.component';
 import { Loader } from '@googlemaps/js-api-loader';
-import { environment } from '../../../../../../environments/environment.development';
 import {
   CategoryDto,
   CreatePostDTO,
@@ -17,6 +16,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { environment } from '../../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-feed',
