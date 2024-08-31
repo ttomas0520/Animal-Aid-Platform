@@ -115,6 +115,7 @@ export interface CreatePostDTO {
   contentText: string;
   location?: LocationDTO;
   shortAddess?: string | null;
+  imageUrl?: string | null;
   /** @format int32 */
   categoryId?: number;
 }
@@ -156,6 +157,7 @@ export interface FeedPostResponseDTO {
   location?: LocationDTO;
   category?: CategoryDto;
   userID?: string | null;
+  imageUrl?: string | null;
 }
 
 export interface LocationDTO {

@@ -12,6 +12,7 @@ namespace AnimalAidPlatform.API.Models.DTO.FeedPost
         public string ContentText { get; set; }
         public LocationDTO Location { get; set; }
         public string? ShortAddess { get; set; }
+        public string? ImageUrl { get; set; }
 
         public int CategoryId {  get; set; }
     }

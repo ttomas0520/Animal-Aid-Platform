@@ -17,6 +17,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { environment } from '../../../../../../environments/environment.development';
+import {
+  FirebaseStorage,
+  Storage,
+  ref,
+  uploadBytesResumable,
+} from '@angular/fire/storage';
+import { getDownloadURL } from '@firebase/storage';
 
 @Component({
   selector: 'app-feed',
@@ -31,9 +38,11 @@ export class FeedComponent implements OnInit {
   @Output() postCreated = new EventEmitter<number>();
   categories: CategoryDto[] = [];
   postForm: UntypedFormGroup;
+
   constructor(
     private sanitizer: DomSanitizer,
-    private postService: FeedPostService
+    private postService: FeedPostService,
+    private storage: Storage
   ) {
     this.postForm = new UntypedFormGroup({
       title: new UntypedFormControl('', Validators.required),
@@ -50,9 +59,16 @@ export class FeedComponent implements OnInit {
   image: string | SafeUrl = '';
   currentLocation = 'Hely meghatározása';
   geocodedLocation: LocationDTO = {};
-  updateImage(ev: any) {
+  updateImage(event: any) {
+    const file = event.target.files[0];
+    const storageRef = ref(this.storage, file.name);
+    uploadBytesResumable(storageRef, file).then((val) =>
+      getDownloadURL(val.ref).then((url) =>
+        this.postForm.controls['image'].setValue(url)
+      )
+    );
     this.image = this.sanitizer.bypassSecurityTrustUrl(
-      window.URL.createObjectURL(ev.target.files[0])
+      window.URL.createObjectURL(file)
     );
   }
 
@@ -68,6 +84,7 @@ export class FeedComponent implements OnInit {
         contentText: this.postForm.controls['contentText'].value,
         categoryId: this.postForm.controls['category'].value,
         location: this.geocodedLocation,
+        imageUrl: this.postForm.controls['image'].value,
       };
       this.postService.createPost(post).then((id) => {
         if (id) {

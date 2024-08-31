@@ -13,12 +13,15 @@
 
   <div class="text-muted location">{{ post?.location?.address }}</div>
   <div style="text-align: center">
+    @if(post?.imageUrl){
     <img
-      src="/assets/dog.webp"
+      [ngSrc]="post?.imageUrl!"
       class="img-fluid"
       alt="Sample image"
-      width="200px"
+      width="200"
+      height="200"
     />
+    }
   </div>
   <div class="description">
     {{ post?.contentText }}

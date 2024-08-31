@@ -89,7 +89,7 @@ export class MapComponent implements OnInit {
     const helpString =
       '<h2>${title}</h2>' +
       '<p>${address}</p>' +
-      '<div style="text-align:center"><img src="/assets/cat.webp" class="img-fluid" alt="Sample image" width="150px"/></div>' +
+      '<div style="text-align:center"><img src="${imgUrl}" class="img-fluid" alt="Sample image" width="200" height="200" priority/></div>' +
       '<div style="display: flex; justify-content: space-between;">' +
       '<span class="material-icons">visibility</span>' +
       '<span class="material-icons">thumb_up</span>' +
@@ -149,6 +149,7 @@ export class MapComponent implements OnInit {
         content: this.fillTemplateString(helpString, {
           title: post.title,
           address: post.location?.address,
+          imgUrl: post.imageUrl,
         }),
       });
     });

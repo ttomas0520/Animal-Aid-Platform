@@ -11,5 +11,6 @@ namespace AnimalAidPlatform.API.Models.DTO.FeedPost
         public LocationDTO Location { get; set; }
         public CategoryDto Category { get; set; }
         public string UserID {  get; set; }
+        public string ImageUrl {  get; set; }
     }
 }

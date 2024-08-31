@@ -39,6 +39,7 @@ namespace AnimalAidPlatform.API.Controllers
                     Title = feedPost.Title,
                     ContentText = feedPost.ContentText,
                     UserID = feedPost.CreatorId,
+                    ImageUrl= feedPost.ImageUrl,
                     Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong },
                     Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle }
                 });
@@ -74,6 +75,7 @@ namespace AnimalAidPlatform.API.Controllers
                 GeoLong = request.Location.Longitude,
                 GeoLat = request.Location.Latitude,
                 Address = request.Location.Address,
+                ImageUrl= request.ImageUrl,
                 PostDate = DateTime.Now,
                 Creator = user,
                 Category = category,
