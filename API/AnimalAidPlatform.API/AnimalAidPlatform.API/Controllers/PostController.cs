@@ -39,6 +39,7 @@ namespace AnimalAidPlatform.API.Controllers
                     Title = feedPost.Title,
                     ContentText = feedPost.ContentText,
                     UserID = feedPost.CreatorId,
+                    CreatorName = feedPost.Creator.Name,
                     ImageUrl= feedPost.ImageUrl,
                     Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong },
                     Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle }
@@ -114,6 +115,29 @@ namespace AnimalAidPlatform.API.Controllers
                 return NotFound();
             }
             return NoContent();
+        }
+
+        // GET: api/Post/{userId}
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<FeedPostResponseDTO>>> GetAllFeedPostsCreatedByUser(string userId)
+        {
+            var feedPosts = await _feedPostRepository.GetAllFeedPostCreatedByUser(userId);
+            var resp = new List<FeedPostResponseDTO>();
+            foreach (var feedPost in feedPosts)
+            {
+                resp.Add(new FeedPostResponseDTO
+                {
+                    Id = feedPost.Id,
+                    Title = feedPost.Title,
+                    ContentText = feedPost.ContentText,
+                    UserID = feedPost.CreatorId,
+                    CreatorName = feedPost.Creator.Name,
+                    ImageUrl = feedPost.ImageUrl,
+                    Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong },
+                    Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle }
+                });
+            }
+            return Ok(resp);
         }
 
     }

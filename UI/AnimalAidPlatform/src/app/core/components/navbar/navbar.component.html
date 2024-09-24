@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
-    <a class="navbar-brand">Animal Aid Platform</a>
+    <a [routerLink]="'/'" class="navbar-brand">Animal Aid Platform</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -13,7 +13,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      @if (this.authService.isAuthenticated()) {
+      @if (checkAuthenticated()) {
       <div class="me-auto mb-2 mb-lg-0">
         <button mat-button [routerLink]="'/admin'">Admin</button>
       </div>
@@ -35,18 +35,22 @@
       >
         <div class="mdc-fab__ripple"></div>
         <span class="material-icons mdc-fab__icon">person</span>
-        <span class="mdc-fab__label">Minta Béla</span>
+        <span class="mdc-fab__label">{{ this.name }}</span>
       </button>
 
       <mat-menu #profileMenu="matMenu">
-        <button mat-menu-item routerLink="">
+        <button mat-menu-item [routerLink]="'/profile/notification-settings'">
           <mat-icon>notifications</mat-icon> Értesítések beállítása
         </button>
-        <button mat-menu-item><mat-icon>pets</mat-icon> Állataink</button>
-        <button mat-menu-item routerLink="user/profile">
+        <button mat-menu-item [routerLink]="'/profile/owned-animals'">
+          <mat-icon>pets</mat-icon> Állataink
+        </button>
+        <button mat-menu-item [routerLink]="'/profile'">
           <mat-icon>settings</mat-icon> Profil szerkesztése
         </button>
-        <button mat-menu-item><mat-icon>logout</mat-icon> Kijelentkezés</button>
+        <button mat-menu-item (click)="this.authService.logout()">
+          <mat-icon>logout</mat-icon> Kijelentkezés
+        </button>
       </mat-menu>
       }
     </div>

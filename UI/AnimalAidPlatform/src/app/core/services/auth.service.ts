@@ -29,17 +29,24 @@ export class AuthService {
     return roles.includes('ADMIN');
   }
   async login(data: LoginDTO) {
-    console.log('bent');
-    var resp = await this.apiService.api.userLoginCreate(data).catch((e)=>{console.log(e)});
+    var resp = await this.apiService.api.userLoginCreate(data).catch((e) => {
+      console.log(e);
+    });
     if (resp && resp.data.isSucces) {
       localStorage.setItem('userToken', resp.data.token!);
       this.apiService.api.setSecurityData(resp.data.token);
       var details = await this.apiService.api.userDetailList();
       localStorage.setItem('userRoles', JSON.stringify(details.data.roles));
+      localStorage.setItem('userName', details.data.name!);
       this.router.navigate(['home']);
     } else {
       this.router.navigate(['error']);
     }
+  }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['user/login']);
   }
 
   async register(data: RegisterDTO) {
@@ -52,6 +59,11 @@ export class AuthService {
     var token = this.getAuthorizationToken();
     var permission = !helper.isTokenExpired(token);
     return permission;
+  }
+
+  getUserName() {
+    var name = localStorage.getItem('userName');
+    return name;
   }
 
   getAuthorizationToken() {

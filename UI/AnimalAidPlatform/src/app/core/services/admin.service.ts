@@ -4,6 +4,11 @@ import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ApiService } from './api.service';
+import {
+  FeedPostResponseDTO,
+  UserDetailDTO,
+} from '../../../apiClient/data-contracts';
+import { user } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -18,5 +23,27 @@ export class AdminService {
       .subscribe((res) => {
         console.log(res);
       });*/
+  }
+
+  async getUsers(): Promise<Array<UserDetailDTO>> {
+    return new Promise<Array<UserDetailDTO>>((resolve, reject) => {
+      this.apiService.api.userList().then((resp) => {
+        if (resp.ok) {
+          resolve(resp.data);
+        }
+      });
+    });
+  }
+
+  async getPostCreatedByUser(
+    userId: string
+  ): Promise<Array<FeedPostResponseDTO>> {
+    return new Promise<Array<FeedPostResponseDTO>>((resolve, reject) => {
+      this.apiService.api.postUserDetail(userId).then((resp) => {
+        if (resp.ok) {
+          resolve(resp.data);
+        }
+      });
+    });
   }
 }

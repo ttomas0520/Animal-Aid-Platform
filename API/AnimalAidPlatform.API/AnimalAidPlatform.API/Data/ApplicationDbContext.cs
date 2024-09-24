@@ -19,10 +19,16 @@ namespace AnimalAidPlatform.API.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<AnimalShelter> AnimalShelters { get; set; }
+        public DbSet<NotificationSettings> NotificationSettings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<NotificationSettings>()
+                .HasOne(e => e.User)
+                .WithOne(e => e.NotificationSettings)
+                .HasForeignKey<NotificationSettings>(ns => ns.UserId);
+
             modelBuilder.Entity<AnimalShelter>()
                 .HasMany(e => e.Admins)
                 .WithOne(e => e.AdminWorkingPlace)

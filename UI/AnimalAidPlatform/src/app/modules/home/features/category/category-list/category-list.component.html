@@ -1,75 +1,36 @@
 <div class="container">
-    <h1 class="mt-3"> Kategóriák</h1>
-    <div class ="d-flex justify-content-end mt-3">
-        <a [routerLink]="['/admin/categories/add']" routerLinkActive="router-link-active"  class="btn btn-primary">Hozzáadás</a>
-    </div>
-    <div class="container mt-3">
-        <div class="row">
-          <div class="col-12">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Név</th>
-                  <th scope="col">Url</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Örökbe fogadás</td>
-                  <td>/orokbe_fogadas</td>
-                  <td>
-      
-                    <button type="button" class="btn btn-success"> <fa-icon [icon]="faEdit"></fa-icon></button>
-                  <button type="button" class="btn btn-danger"><fa-icon [icon]="faTrash"></fa-icon></button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Segitsegkeres</td>
-                  <td>/segitseg_keres</td>
-                  <td>
-      
-                    <button type="button" class="btn btn-success"> <fa-icon [icon]="faEdit"></fa-icon></button>
-                  <button type="button" class="btn btn-danger"><fa-icon [icon]="faTrash"></fa-icon></button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Elvihető adomány</td>
-                  <td>/adomany</td>
-                  <td>
-      
-                    <button type="button" class="btn btn-success"> <fa-icon [icon]="faEdit"></fa-icon></button>
-                  <button type="button" class="btn btn-danger"><fa-icon [icon]="faTrash"></fa-icon></button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>Hírdetménye</td>
-                  <td>/hirdetmeny</td>
-                  <td>
-      
-                    <button type="button" class="btn btn-success"> <fa-icon [icon]="faEdit"></fa-icon></button>
-                  <button type="button" class="btn btn-danger"><fa-icon [icon]="faTrash"></fa-icon></button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                  <td>Placeholder</td>
-                  <td>/placeholder</td>
-                  <td>
-      
-                    <button type="button" class="btn btn-success"> <fa-icon [icon]="faEdit"></fa-icon></button>
-                  <button type="button" class="btn btn-danger"><fa-icon [icon]="faTrash"></fa-icon></button>
-                  </td>
-                </tr>
-
-              </tbody>
-            </table>
-          </div>
-        </div>
+  <h1 class="mt-3">Kategóriák</h1>
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Név</th>
+              <th scope="col">Url</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (cat of categories; track $index) {
+            <tr>
+              <th scope="row">{{ cat.id }}</th>
+              <td>{{ cat.name }}</td>
+              <td>/{{ cat.urlhandle }}</td>
+              <td>
+                <button type="button" class="btn btn-success">
+                  <fa-icon [icon]="faEdit"></fa-icon>
+                </button>
+                <button type="button" class="btn btn-danger">
+                  <fa-icon [icon]="faTrash"></fa-icon>
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
       </div>
+    </div>
+  </div>
 </div>

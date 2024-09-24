@@ -1,0 +1,40 @@
+<div class="container">
+    <h1>Értesítési beállítások</h1>
+
+    <form [formGroup]="notiForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <mat-checkbox name="push_notifications" formControlName="pushNotificationChecked" />
+            <mat-label>Push értesítések</mat-label>
+        </div>
+
+        <div class="categories" formArrayName="categories">
+            @for (cat of categories.controls; track $index) {
+            <div [formGroupName]=$index>
+                <mat-checkbox name="categories" formControlName="enabled" />
+                <mat-label>{{cat.get('cName')!.value}}</mat-label>
+            </div>
+            }
+        </div>
+
+        <div class="location-group form-group">
+            <label for="autocomplete">Tartózkodási hely</label>
+            <input type="text" id="autocomplete" placeholder="Jelenlegi hely" />
+            <button type="button">Keresés</button>
+        </div>
+
+        <div class="radius-group form-group">
+            <label for="radius">Értesítési sugár (km)</label>
+            <mat-form-field>
+                <input matInput  class="form-control" type="number" id="radius" name="radius" min="1" value="1"  formControlName="radius" />
+            </mat-form-field>
+            
+        </div>
+        <button mat-button type="submit" style="width: 100%; height: 40px; background-color: lightblue;">
+            Mentés
+        </button>
+
+        <div class="map-container">
+            <div id="map" class="map"></div>
+        </div>
+    </form>
+</div>

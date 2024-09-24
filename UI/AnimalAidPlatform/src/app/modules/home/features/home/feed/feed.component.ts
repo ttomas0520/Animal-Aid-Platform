@@ -53,9 +53,8 @@ export class FeedComponent implements OnInit {
     postService.getCategories().then((resp) => (this.categories = resp));
   }
 
-  ngOnInit() {
-    console.log(this.posts);
-  }
+  ngOnInit() {}
+
   image: string | SafeUrl = '';
   currentLocation = 'Hely meghatározása';
   geocodedLocation: LocationDTO = {};

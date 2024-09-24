@@ -15,4 +15,19 @@ import { ImportModule } from '../../../modules/common/import.module';
 })
 export class NavbarComponent {
   authService = inject(AuthService);
+  name: string = '';
+
+  constructor() {}
+
+  ngOnInit() {
+    console.log(this.name);
+  }
+
+  checkAuthenticated(): boolean {
+    if (this.authService.isAuthenticated()) {
+      this.name = this.authService.getUserName()!;
+      return true;
+    }
+    return false;
+  }
 }

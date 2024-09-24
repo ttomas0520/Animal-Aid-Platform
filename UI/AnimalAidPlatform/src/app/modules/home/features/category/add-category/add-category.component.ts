@@ -4,6 +4,8 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CategoryModel } from '../../../../../core/models/category-model';
 import { AdminService } from '../../../../../core/services/admin.service';
+import { FeedComponent } from '../../home/feed/feed.component';
+import { FeedPostService } from '../../../../../core/services/feedPost.service';
 
 @Component({
   selector: 'app-add-category',
@@ -21,7 +23,7 @@ import { AdminService } from '../../../../../core/services/admin.service';
 export class AddCategoryComponent {
   model: CategoryModel;
 
-  constructor(private adminService: AdminService) {
+  constructor(private feedpostService: FeedPostService) {
     this.model = {
       name: '',
       urlHandle: '',

@@ -24,5 +24,6 @@ namespace AnimalAidPlatform.Models
         public AnimalShelter? AdminWorkingPlace { get; set; }
 
         public ICollection<FeedPost>? Posts { get; set; }
+        public NotificationSettings? NotificationSettings { get; set; }
     }
 }

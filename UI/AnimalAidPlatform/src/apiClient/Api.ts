@@ -18,6 +18,7 @@ import {
   FeedPost,
   FeedPostResponseDTO,
   LoginDTO,
+  NotificationSettingsDto,
   RegisterDTO,
   RoleDTO,
   UserDetailDTO,
@@ -116,6 +117,39 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
+   * @tags NotificationSettings
+   * @name NotificationSettingsList
+   * @request GET:/api/NotificationSettings
+   * @secure
+   */
+  notificationSettingsList = (params: RequestParams = {}) =>
+    this.request<NotificationSettingsDto, any>({
+      path: `/api/NotificationSettings`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags NotificationSettings
+   * @name NotificationSettingsUpdate
+   * @request PUT:/api/NotificationSettings
+   * @secure
+   */
+  notificationSettingsUpdate = (data: NotificationSettingsDto, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/api/NotificationSettings`,
+      method: "PUT",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
    * @tags Post
    * @name PostList
    * @request GET:/api/Post
@@ -193,6 +227,22 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       path: `/api/Post/${id}`,
       method: "DELETE",
       secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Post
+   * @name PostUserDetail
+   * @request GET:/api/Post/user/{userId}
+   * @secure
+   */
+  postUserDetail = (userId: string, params: RequestParams = {}) =>
+    this.request<FeedPostResponseDTO[], any>({
+      path: `/api/Post/user/${userId}`,
+      method: "GET",
+      secure: true,
+      format: "json",
       ...params,
     });
   /**

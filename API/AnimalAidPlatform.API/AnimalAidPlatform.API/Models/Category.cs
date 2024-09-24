@@ -9,5 +9,6 @@ namespace AnimalAidPlatform.API.Models
         public string Name { get; set; }
         public string Urlhandle { get; set; }
         public ICollection<FeedPost> Posts { get; set; }
+        public ICollection<NotificationSettings> NotificationSettings { get; set; }
     }
 }

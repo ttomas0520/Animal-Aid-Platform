@@ -80,6 +80,7 @@ export interface ApplicationUser {
   regularWorkingPlace?: AnimalShelter;
   adminWorkingPlace?: AnimalShelter;
   posts?: FeedPost[] | null;
+  notificationSettings?: NotificationSettings;
 }
 
 export interface AuthResponseDTO {
@@ -94,6 +95,7 @@ export interface Category {
   name?: string | null;
   urlhandle?: string | null;
   posts?: FeedPost[] | null;
+  notificationSettings?: NotificationSettings[] | null;
 }
 
 export interface CategoryDto {
@@ -157,6 +159,7 @@ export interface FeedPostResponseDTO {
   location?: LocationDTO;
   category?: CategoryDto;
   userID?: string | null;
+  creatorName?: string | null;
   imageUrl?: string | null;
 }
 
@@ -173,6 +176,30 @@ export interface LoginDTO {
   email: string;
   /** @minLength 1 */
   password: string;
+}
+
+export interface NotificationSettings {
+  /** @format int32 */
+  id?: number;
+  userId?: string | null;
+  user?: ApplicationUser;
+  pushNotificationEnabled?: boolean;
+  /** @format double */
+  geoLong?: number;
+  /** @format double */
+  geoLat?: number;
+  address?: string | null;
+  /** @format double */
+  radius?: number;
+  categories?: Category[] | null;
+}
+
+export interface NotificationSettingsDto {
+  pushNotificationEnabled?: boolean;
+  location?: LocationDTO;
+  /** @format double */
+  radius?: number;
+  categoryIds?: number[] | null;
 }
 
 export interface RegisterDTO {

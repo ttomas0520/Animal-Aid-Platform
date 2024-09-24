@@ -1,9 +1,39 @@
 <div fxLayout="column">
   <div fxLayout="row">
-    <div fxFlex="20%"></div>
-    <div fxFlex="60%">
-      <app-feed class="admin_feed" [isAdminMode]="true"></app-feed>
+    <div fxFlex="20%">
+      <mat-card>
+        <mat-toolbar color="primary">
+          <span>Felhasználók</span>
+        </mat-toolbar>
+
+        <mat-form-field appearance="fill" class="search-bar">
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput placeholder="Keresés" [(ngModel)]="searchTerm" />
+        </mat-form-field>
+
+        <mat-nav-list>
+          <mat-list-item
+            *ngFor="let user of filteredUsers()"
+            (click)="selectUser(user)"
+          >
+            {{ user.name }}
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-card>
     </div>
-    <div fxFlex="20%"></div>
+    <div fxFlex="60%">
+      @if (searchTerm !== "") {
+      <h1>{{ searchTerm }} posztjai</h1>
+      }
+      <app-feed
+        class="admin_feed"
+        [isAdminMode]="true"
+        [posts]="postList"
+      ></app-feed>
+    </div>
+    <div fxFlex="20%">
+      <app-add-category></app-add-category>
+      <app-category-list></app-category-list>
+    </div>
   </div>
 </div>

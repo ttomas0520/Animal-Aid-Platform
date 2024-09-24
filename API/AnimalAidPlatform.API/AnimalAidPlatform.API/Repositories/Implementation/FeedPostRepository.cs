@@ -1,5 +1,6 @@
 ﻿using AnimalAidPlatform.API.Data;
 using AnimalAidPlatform.API.Models;
+using AnimalAidPlatform.API.Models.DTO.FeedPost;
 using AnimalAidPlatform.API.Repositories.Interface;
 using AnimalAidPlatform.Models;
 using Microsoft.EntityFrameworkCore;
@@ -60,6 +61,11 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
                 return true;
             }
             return false;
+        }
+
+        public async Task<IEnumerable<FeedPost>> GetAllFeedPostCreatedByUser(string userId)
+        {
+            return await _context.FeedPosts.Include(fp => fp.Creator).Include(fp => fp.Category).Where(fp=> fp.CreatorId == userId) .ToListAsync();
         }
     }
 }
