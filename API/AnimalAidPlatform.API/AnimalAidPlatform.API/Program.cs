@@ -1,6 +1,10 @@
 using AnimalAidPlatform.API.Data;
+using AnimalAidPlatform.API.Options;
 using AnimalAidPlatform.API.Repositories.Implementation;
 using AnimalAidPlatform.API.Repositories.Interface;
+using AnimalAidPlatform.API.Services;
+using AnimalAidPlatform.API.Services.Interface;
+using AnimalAidPlatform.API.Services.Strategy;
 using AnimalAidPlatform.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +21,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.Configure<GmailOptions>(builder.Configuration.GetSection(GmailOptions.GmaiOptionsKey));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -45,6 +50,10 @@ builder.Services.AddAuthentication(opt =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTSettings.GetSection("securityKey").Value!))
     };
 });
+builder.Services.AddSingleton<INotificationStrategy, EmailNotificationStrategy>();
+builder.Services.AddSingleton<NotificationService>();
+builder.Services.AddHostedService<NotificationBackgroundService>();
+
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IFeedPostRepository, FeedPostRepository>();
 builder.Services.AddScoped<INotificationSettingsRepository, NotificationSettingsRepository>();
