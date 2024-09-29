@@ -3,6 +3,7 @@ using AnimalAidPlatform.API.Models;
 using AnimalAidPlatform.API.Models.DTO;
 using AnimalAidPlatform.API.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
+using NetTopologySuite.Geometries;
 using System.Security.Claims;
 
 namespace AnimalAidPlatform.API.Controllers
@@ -31,7 +32,6 @@ namespace AnimalAidPlatform.API.Controllers
                 return NotFound("Notification settings not found.");
             }
 
-            // DTO átalakítás
             var notificationSettingsDto = new NotificationSettingsDto
             {
                 PushNotificationEnabled = notificationSettings.PushNotificationEnabled,
@@ -59,10 +59,8 @@ namespace AnimalAidPlatform.API.Controllers
                 return NotFound("User not found.");
             }
 
-            // Kategóriák lekérése a DTO alapján
             var newCategories = _context.Categories.Where(c => dto.CategoryIds.Contains(c.Id)).ToList();
 
-            // NotificationSettings létrehozása vagy frissítése
             var notificationSettings = new NotificationSettings
             {
                 UserId = currentUserId,
@@ -72,7 +70,10 @@ namespace AnimalAidPlatform.API.Controllers
                 GeoLong = dto.Location.Longitude,
                 Address = dto.Location.Address,
                 Radius = dto.Radius,
-                Categories = newCategories
+                Categories = newCategories,
+                Location = (dto.Location.Latitude != 0 && dto.Location.Longitude != 0)
+                    ? new Point(dto.Location.Longitude, dto.Location.Latitude)
+                    : null 
             };
 
             _repository.Upsert(notificationSettings);
