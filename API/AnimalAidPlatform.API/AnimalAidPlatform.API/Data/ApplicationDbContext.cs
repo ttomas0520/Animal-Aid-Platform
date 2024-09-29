@@ -1,11 +1,7 @@
 ﻿using AnimalAidPlatform.API.Models;
 using AnimalAidPlatform.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Reflection.Metadata;
-using ZarovizsgaPortal.Model.Entities.Identity;
 namespace AnimalAidPlatform.API.Data
 {
 
@@ -20,6 +16,7 @@ namespace AnimalAidPlatform.API.Data
         public DbSet<Animal> Animals { get; set; }
         public DbSet<AnimalShelter> AnimalShelters { get; set; }
         public DbSet<NotificationSettings> NotificationSettings { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,13 +42,21 @@ namespace AnimalAidPlatform.API.Data
                 .HasOne(e => e.Category)
                 .WithMany(e => e.Posts)
                 .HasForeignKey(e => e.CategoryId)
-                .HasPrincipalKey(e => e.Id);   
+                .HasPrincipalKey(e => e.Id);
 
             modelBuilder.Entity<FeedPost>()
                 .HasOne(e => e.Creator)
                 .WithMany(e => e.Posts)
-                .HasForeignKey(e =>e.CreatorId)
-                .HasPrincipalKey (e => e.Id);  
+                .HasForeignKey(e => e.CreatorId)
+                .HasPrincipalKey(e => e.Id);
+
+            modelBuilder.Entity<FeedPost>()
+            .Property(f => f.Location)
+            .HasColumnType("geography");
+
+            modelBuilder.Entity<NotificationSettings>()
+                .Property(n => n.Location)
+                .HasColumnType("geography");
         }
     }
 }

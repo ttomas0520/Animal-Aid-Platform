@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace AnimalAidPlatform.API.Models.DTO
+﻿namespace AnimalAidPlatform.API.Models.DTO
 {
     public class NotificationSettingsDto
     {

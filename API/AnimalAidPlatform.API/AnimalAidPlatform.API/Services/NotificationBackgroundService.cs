@@ -1,16 +1,17 @@
-﻿
+﻿using AnimalAidPlatform.API.Repositories.Interface;
+
 namespace AnimalAidPlatform.API.Services
 {
     public class NotificationBackgroundService : BackgroundService
     {
-        private readonly NotificationService _notificationService;
+        private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<NotificationBackgroundService> _logger;
 
         public NotificationBackgroundService(
-            NotificationService notificationService,
+            IServiceProvider serviceProvider,
             ILogger<NotificationBackgroundService> logger)
         {
-            _notificationService = notificationService;
+            _serviceProvider = serviceProvider;
             _logger = logger;
         }
 
@@ -18,42 +19,34 @@ namespace AnimalAidPlatform.API.Services
         {
             _logger.LogInformation("Notification Background Service is running.");
 
-           // while (!stoppingToken.IsCancellationRequested)
-           // {
+            while (!stoppingToken.IsCancellationRequested)
+            {
                 try
                 {
-                    // Üzenetek lekérdezése (polling) adatbázisból, queue-ból stb.
-                    var messages = await PollMessagesAsync();
-
-                    foreach (var message in messages)
+                    using (var scope = _serviceProvider.CreateScope()) // Új scope létrehozása
                     {
-                        // Értesítés küldése a NotificationService segítségével
-                        await _notificationService.SendNotificationAsync(message);
-                    }
+                        var notificationService = scope.ServiceProvider.GetRequiredService<NotificationService>();
+                        var notificationRepository = scope.ServiceProvider.GetRequiredService<INotificationRepository>();
 
-                    // Várakozás, hogy ne terheljük túl a rendszert
+                        var notifications = await notificationRepository.GetNotificationsAsync(100);
+
+                        foreach (var notification in notifications)
+                        {
+                            await notificationService.SendNotificationAsync(notification);
+                            await notificationRepository.DeleteNotificationAsync(notification.Id);
+                        }
+                    }
                     await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Hiba történt a notification service-ben.");
                 }
-            //    }
+            }
 
-            await Task.Delay(1000, stoppingToken); //Teszt
             _logger.LogInformation("Notification Background Service is stopping.");
-
         }
-
-        private Task<List<string>> PollMessagesAsync()
-        {
-            // Itt kellene megvalósítani a valós üzenetek lekérdezését (pl. adatbázisból vagy queue-ból)
-            return Task.FromResult(new List<string>
-        {
-            "asd"
-        });
-        }
-
-
     }
+
+
 }

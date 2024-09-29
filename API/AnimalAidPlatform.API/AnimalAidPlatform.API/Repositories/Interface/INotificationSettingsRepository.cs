@@ -6,5 +6,6 @@ namespace AnimalAidPlatform.API.Repositories.Interface
     {
         NotificationSettings GetByUserId(string userId);
         void Upsert(NotificationSettings notificationSettings);
+        Task<List<NotificationSettings>> GetUsersToNotifyAsync(double latitude, double longitude, int categoryId);
     }
 }

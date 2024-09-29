@@ -1,8 +1,6 @@
 ﻿using AnimalAidPlatform.API.Data;
 using AnimalAidPlatform.API.Models;
-using AnimalAidPlatform.API.Models.DTO.FeedPost;
 using AnimalAidPlatform.API.Repositories.Interface;
-using AnimalAidPlatform.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnimalAidPlatform.API.Repositories.Implementation
@@ -18,7 +16,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
 
         public async Task<IEnumerable<FeedPost>> GetAllFeedPosts()
         {
-            return await _context.FeedPosts.Include(fp=> fp.Creator).Include(fp=>fp.Category).ToListAsync();
+            return await _context.FeedPosts.Include(fp => fp.Creator).Include(fp => fp.Category).ToListAsync();
         }
 
         public async Task<FeedPost> GetFeedPostById(int id)
@@ -65,7 +63,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
 
         public async Task<IEnumerable<FeedPost>> GetAllFeedPostCreatedByUser(string userId)
         {
-            return await _context.FeedPosts.Include(fp => fp.Creator).Include(fp => fp.Category).Where(fp=> fp.CreatorId == userId) .ToListAsync();
+            return await _context.FeedPosts.Include(fp => fp.Creator).Include(fp => fp.Category).Where(fp => fp.CreatorId == userId).ToListAsync();
         }
     }
 }

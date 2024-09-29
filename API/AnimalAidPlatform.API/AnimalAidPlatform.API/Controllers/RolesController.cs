@@ -10,7 +10,7 @@ namespace AnimalAidPlatform.API.Controllers
     [Authorize(Roles = "ADMIN")]
     [ApiController]
     [Route("api/[controller]")]
-    public class RolesController: ControllerBase
+    public class RolesController : ControllerBase
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -19,7 +19,7 @@ namespace AnimalAidPlatform.API.Controllers
         {
             _roleManager = roleManager;
             _userManager = userManager;
-        }  
+        }
         [HttpPost]
         public async Task<IActionResult> CreateRole([FromBody] CreateRoleDTO data)
         {
@@ -37,7 +37,8 @@ namespace AnimalAidPlatform.API.Controllers
 
             var roleResult = await _roleManager.CreateAsync(new IdentityRole(data.RoleName));
 
-            if (roleResult.Succeeded) {
+            if (roleResult.Succeeded)
+            {
                 return Ok(new { message = "Role created" });
             }
             else

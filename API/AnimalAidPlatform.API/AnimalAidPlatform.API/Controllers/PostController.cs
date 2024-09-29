@@ -1,12 +1,12 @@
 ﻿using AnimalAidPlatform.API.Models;
 using AnimalAidPlatform.API.Models.DTO.FeedPost;
 using AnimalAidPlatform.API.Repositories.Interface;
+using AnimalAidPlatform.API.Services;
 using AnimalAidPlatform.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Spatial;
 
 namespace AnimalAidPlatform.API.Controllers
 {
@@ -18,11 +18,13 @@ namespace AnimalAidPlatform.API.Controllers
         private readonly IFeedPostRepository _feedPostRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICategoryRepository _categoryRepository;
-        public PostController(IFeedPostRepository feedPostRepository, UserManager<ApplicationUser> userManager, ICategoryRepository categoryRepository)
+        private readonly NotificationService _notificationService;
+        public PostController(IFeedPostRepository feedPostRepository, UserManager<ApplicationUser> userManager, ICategoryRepository categoryRepository, NotificationService notificationService)
         {
             _feedPostRepository = feedPostRepository;
             _userManager = userManager;
             _categoryRepository = categoryRepository;
+            _notificationService = notificationService;
         }
 
         // GET: api/FeedPosts
@@ -40,7 +42,7 @@ namespace AnimalAidPlatform.API.Controllers
                     ContentText = feedPost.ContentText,
                     UserID = feedPost.CreatorId,
                     CreatorName = feedPost.Creator.Name,
-                    ImageUrl= feedPost.ImageUrl,
+                    ImageUrl = feedPost.ImageUrl,
                     Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong },
                     Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle }
                 });
@@ -76,13 +78,14 @@ namespace AnimalAidPlatform.API.Controllers
                 GeoLong = request.Location.Longitude,
                 GeoLat = request.Location.Latitude,
                 Address = request.Location.Address,
-                ImageUrl= request.ImageUrl,
+                ImageUrl = request.ImageUrl,
                 PostDate = DateTime.Now,
                 Creator = user,
                 Category = category,
 
             };
             var createdFeedPost = await _feedPostRepository.CreateFeedPost(createPost);
+            _ = this._notificationService.CreateNotificationsForFeedPost(createdFeedPost);
             return Ok(createdFeedPost.Id);
         }
 

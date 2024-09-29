@@ -1,7 +1,4 @@
-﻿using AnimalAidPlatform.API.Migrations;
-using AnimalAidPlatform.API.Models.Enums;
-
-namespace AnimalAidPlatform.API.Models
+﻿namespace AnimalAidPlatform.API.Models
 {
     public class Category
     {

@@ -1,5 +1,4 @@
 ﻿using AnimalAidPlatform.API.Models;
-using AnimalAidPlatform.Models;
 
 namespace AnimalAidPlatform.API.Repositories.Interface
 {

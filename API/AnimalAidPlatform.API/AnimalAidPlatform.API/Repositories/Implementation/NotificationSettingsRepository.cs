@@ -1,6 +1,7 @@
 ﻿using AnimalAidPlatform.API.Data;
 using AnimalAidPlatform.API.Models;
 using AnimalAidPlatform.API.Repositories.Interface;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnimalAidPlatform.API.Repositories.Implementation
@@ -64,6 +65,23 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             {
                 existingSettings.Categories.Remove(category);
             }
+        }
+
+        public async Task<List<NotificationSettings>> GetUsersToNotifyAsync(double latitude, double longitude, int categoryId)
+        {
+            return await _context.NotificationSettings.FromSqlRaw(@"
+                    SELECT ns.*
+                    FROM NotificationSettings ns
+                    CROSS APPLY (SELECT geography::Point(@Lat, @Long, 4326) AS PostLocation) AS pl
+                    WHERE ns.Categories.Any(c => c.Id == @CategoryId)
+                    AND ns.Location IS NOT NULL
+                    AND ns.Location.STDistance(pl.PostLocation) <= ns.Radius * 1000",
+                    new SqlParameter("@Lat", latitude),
+                    new SqlParameter("@Long", longitude),
+                    new SqlParameter("@CategoryId", categoryId))
+                    .Include(ns => ns.User)
+                    .Include(ns => ns.Categories)
+                    .ToListAsync();
         }
     }
 }

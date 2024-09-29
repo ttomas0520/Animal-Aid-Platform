@@ -1,6 +1,4 @@
-﻿using AnimalAidPlatform.API.Models.Enums;
-
-namespace AnimalAidPlatform.API.Models.DTO.Category
+﻿namespace AnimalAidPlatform.API.Models.DTO.Category
 {
     public class CategoryRequestDto
     {

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -135,11 +134,11 @@ namespace AnimalAidPlatform.API.Controllers
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userManager.FindByIdAsync(currentUserId!);
 
-            if(user is null)
+            if (user is null)
             {
                 return NotFound(new AuthResponseDTO
                 {
-                    IsSucces=false,
+                    IsSucces = false,
                     Message = "User not found"
                 });
             }
@@ -150,9 +149,9 @@ namespace AnimalAidPlatform.API.Controllers
                 Email = user.Email,
                 Name = user.Name,
                 PhoneNumber = user.PhoneNumber,
-                Roles= [..await _userManager.GetRolesAsync(user)],
+                Roles = [.. await _userManager.GetRolesAsync(user)],
                 PhoneNumberConfirmed = user.PhoneNumberConfirmed,
-                AccessFailedCount =user.AccessFailedCount,
+                AccessFailedCount = user.AccessFailedCount,
                 TwoFactorEnabled = user.TwoFactorEnabled,
             });
         }

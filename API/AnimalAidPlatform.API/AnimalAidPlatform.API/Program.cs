@@ -25,7 +25,8 @@ builder.Services.Configure<GmailOptions>(builder.Configuration.GetSection(GmailO
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AnimalAidPlatformConnectionString"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AnimalAidPlatformConnectionString"),
+        sqlOptions => sqlOptions.UseNetTopologySuite());
 });
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
@@ -51,13 +52,16 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 builder.Services.AddSingleton<INotificationStrategy, EmailNotificationStrategy>();
-builder.Services.AddSingleton<NotificationService>();
+builder.Services.AddScoped<NotificationService>();
 builder.Services.AddHostedService<NotificationBackgroundService>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IFeedPostRepository, FeedPostRepository>();
 builder.Services.AddScoped<INotificationSettingsRepository, NotificationSettingsRepository>();
-builder.Services.AddSwaggerGen(c => {
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
+builder.Services.AddSwaggerGen(c =>
+{
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = @"JW Authorization Example: 'Bearer sefjsdfhaefohEf'",
@@ -83,7 +87,7 @@ builder.Services.AddSwaggerGen(c => {
         },
         new List<string>()
       }
-    }) ;
+    });
 });
 var app = builder.Build();
 

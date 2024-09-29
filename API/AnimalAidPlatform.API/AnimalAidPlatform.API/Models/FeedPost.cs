@@ -1,7 +1,6 @@
-﻿using AnimalAidPlatform.API.Models;
-using AnimalAidPlatform.Models;
+﻿using AnimalAidPlatform.Models;
+using NetTopologySuite.Geometries;
 using System.ComponentModel.DataAnnotations;
-using System.Spatial;
 namespace AnimalAidPlatform.API.Models
 {
     public class FeedPost
@@ -17,11 +16,13 @@ namespace AnimalAidPlatform.API.Models
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public string? ImageUrl {  get; set; }
-        public string? UrlHandle {  get; set; }
-        public double GeoLong {  get; set; }
-        public double GeoLat {  get; set; }
+        public string? ImageUrl { get; set; }
+        public string? UrlHandle { get; set; }
+        public double GeoLong { get; set; }
+        public double GeoLat { get; set; }
         public string Address { get; set; }
+
+        public Point Location { get; set; }
 
         public DateTime PostDate { get; set; }
 

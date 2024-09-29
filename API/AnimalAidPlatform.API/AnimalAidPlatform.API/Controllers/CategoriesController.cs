@@ -1,9 +1,6 @@
-﻿using AnimalAidPlatform.API.Data;
-using AnimalAidPlatform.API.Models;
+﻿using AnimalAidPlatform.API.Models;
 using AnimalAidPlatform.API.Models.DTO.Category;
-using AnimalAidPlatform.API.Models.DTO.FeedPost;
 using AnimalAidPlatform.API.Repositories.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnimalAidPlatform.API.Controllers

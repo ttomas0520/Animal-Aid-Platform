@@ -1,5 +1,4 @@
 ﻿using AnimalAidPlatform.API.Models.DTO.Category;
-using System.ComponentModel.DataAnnotations;
 
 namespace AnimalAidPlatform.API.Models.DTO.FeedPost
 {
@@ -10,8 +9,8 @@ namespace AnimalAidPlatform.API.Models.DTO.FeedPost
         public string ContentText { get; set; }
         public LocationDTO Location { get; set; }
         public CategoryDto Category { get; set; }
-        public string UserID {  get; set; }
+        public string UserID { get; set; }
         public string CreatorName { get; set; }
-        public string ImageUrl {  get; set; }
+        public string ImageUrl { get; set; }
     }
 }

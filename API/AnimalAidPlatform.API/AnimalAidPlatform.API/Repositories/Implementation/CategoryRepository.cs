@@ -27,7 +27,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
 
         public async Task<Category> GetCategoryByNameAndUrl(CategoryRequestDto category)
         {
-            return await _context.Categories.FirstOrDefaultAsync(c => c.Name == category.Name && c.Urlhandle== category.Urlhandle);
+            return await _context.Categories.FirstOrDefaultAsync(c => c.Name == category.Name && c.Urlhandle == category.Urlhandle);
         }
 
         public async Task<Category> CreateCategory(Category category)
