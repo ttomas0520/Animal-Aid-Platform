@@ -43,6 +43,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
                 existingFeedPost.PostDate = feedPost.PostDate;
                 existingFeedPost.Creator = feedPost.Creator;
                 existingFeedPost.AssociatedAnimals = feedPost.AssociatedAnimals;
+                existingFeedPost.Location = feedPost.Location;
 
                 await _context.SaveChangesAsync();
             }

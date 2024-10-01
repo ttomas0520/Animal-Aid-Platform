@@ -60,7 +60,8 @@ namespace AnimalAidPlatform.API.Controllers
             }
 
             var newCategories = _context.Categories.Where(c => dto.CategoryIds.Contains(c.Id)).ToList();
-
+            var point = new Point(dto.Location.Longitude, dto.Location.Latitude);
+            point.SRID = 4326;
             var notificationSettings = new NotificationSettings
             {
                 UserId = currentUserId,
@@ -71,9 +72,7 @@ namespace AnimalAidPlatform.API.Controllers
                 Address = dto.Location.Address,
                 Radius = dto.Radius,
                 Categories = newCategories,
-                Location = (dto.Location.Latitude != 0 && dto.Location.Longitude != 0)
-                    ? new Point(dto.Location.Longitude, dto.Location.Latitude)
-                    : null 
+                Location = point
             };
 
             _repository.Upsert(notificationSettings);

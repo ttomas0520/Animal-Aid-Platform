@@ -1,4 +1,6 @@
 ﻿using AnimalAidPlatform.API.Models;
+using AnimalAidPlatform.Models;
+using NetTopologySuite.Geometries;
 
 namespace AnimalAidPlatform.API.Repositories.Interface
 {
@@ -6,6 +8,6 @@ namespace AnimalAidPlatform.API.Repositories.Interface
     {
         NotificationSettings GetByUserId(string userId);
         void Upsert(NotificationSettings notificationSettings);
-        Task<List<NotificationSettings>> GetUsersToNotifyAsync(double latitude, double longitude, int categoryId);
+        Task<List<ApplicationUser>> GetUsersToNotifyAsync(Point postLocation, int categoryId);
     }
 }

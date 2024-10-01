@@ -1,8 +1,11 @@
 ﻿using AnimalAidPlatform.API.Data;
 using AnimalAidPlatform.API.Models;
 using AnimalAidPlatform.API.Repositories.Interface;
+using AnimalAidPlatform.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
+using System.Globalization;
 
 namespace AnimalAidPlatform.API.Repositories.Implementation
 {
@@ -39,6 +42,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
                 existingSettings.GeoLong = notificationSettings.GeoLong;
                 existingSettings.Address = notificationSettings.Address;
                 existingSettings.Radius = notificationSettings.Radius;
+                existingSettings.Location = notificationSettings.Location;
 
                 // Kategóriák frissítése
                 UpdateCategories(existingSettings, notificationSettings.Categories);
@@ -67,21 +71,31 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             }
         }
 
-        public async Task<List<NotificationSettings>> GetUsersToNotifyAsync(double latitude, double longitude, int categoryId)
+        public async Task<List<ApplicationUser>> GetUsersToNotifyAsync(Point postLocation, int categoryId)
         {
-            return await _context.NotificationSettings.FromSqlRaw(@"
-                    SELECT ns.*
-                    FROM NotificationSettings ns
-                    CROSS APPLY (SELECT geography::Point(@Lat, @Long, 4326) AS PostLocation) AS pl
-                    WHERE ns.Categories.Any(c => c.Id == @CategoryId)
-                    AND ns.Location IS NOT NULL
-                    AND ns.Location.STDistance(pl.PostLocation) <= ns.Radius * 1000",
-                    new SqlParameter("@Lat", latitude),
-                    new SqlParameter("@Long", longitude),
-                    new SqlParameter("@CategoryId", categoryId))
-                    .Include(ns => ns.User)
-                    .Include(ns => ns.Categories)
-                    .ToListAsync();
+            var latitude = postLocation.Y.ToString(CultureInfo.InvariantCulture);
+            var longitude = postLocation.X.ToString(CultureInfo.InvariantCulture);
+
+            Console.WriteLine($"Latitude: {latitude}, Longitude: {longitude}, CategoryId: {categoryId}");
+
+            var resp = await _context.Users.FromSqlRaw(@"
+        SELECT u.*
+        FROM NotificationSettings ns
+        INNER JOIN CategoryNotificationSettings cns ON cns.NotificationSettingsId = ns.Id
+        INNER JOIN AspNetUsers u ON ns.UserId = u.Id
+        WHERE cns.CategoriesId = @CategoryId
+        AND ns.Location IS NOT NULL
+        AND ns.Location.STDistance(geography::Point(@Lat, @Long, 4326)) <= ns.Radius * 1000",
+                new SqlParameter("@Lat", latitude),
+                new SqlParameter("@Long", longitude),
+                new SqlParameter("@CategoryId", categoryId))
+                .AsSplitQuery()
+                .ToListAsync();
+            return resp;
         }
+
+
+
+
     }
 }

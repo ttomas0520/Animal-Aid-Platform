@@ -2,6 +2,7 @@
 using AnimalAidPlatform.API.Options;
 using AnimalAidPlatform.API.Services.Interface;
 using Microsoft.Extensions.Options;
+using System.Net;
 using System.Net.Mail;
 
 namespace AnimalAidPlatform.API.Services.Strategy
@@ -27,7 +28,7 @@ namespace AnimalAidPlatform.API.Services.Strategy
                 Body = notification.Message
             };
 
-            /*mailMessage.To.Add(new MailAddress("darcsibarbara@gmail.com"));
+            mailMessage.To.Add(new MailAddress("darcsibarbara@gmail.com"));
 
             using var smtpClient = new SmtpClient();
             smtpClient.Host = gmailOptions.Host;
@@ -37,7 +38,7 @@ namespace AnimalAidPlatform.API.Services.Strategy
                 );
             smtpClient.EnableSsl = true;
 
-            await smtpClient.SendMailAsync(mailMessage);*/
+            await smtpClient.SendMailAsync(mailMessage);
             this._logger.Log(LogLevel.Information, message: "Kiküldött email " + notification.Message);
 
         }

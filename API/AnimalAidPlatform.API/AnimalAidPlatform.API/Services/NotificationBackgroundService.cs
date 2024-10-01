@@ -23,7 +23,7 @@ namespace AnimalAidPlatform.API.Services
             {
                 try
                 {
-                    using (var scope = _serviceProvider.CreateScope()) // Új scope létrehozása
+                    using (var scope = _serviceProvider.CreateScope()) 
                     {
                         var notificationService = scope.ServiceProvider.GetRequiredService<NotificationService>();
                         var notificationRepository = scope.ServiceProvider.GetRequiredService<INotificationRepository>();

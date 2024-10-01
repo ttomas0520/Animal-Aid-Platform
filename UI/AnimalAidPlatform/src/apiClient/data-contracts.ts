@@ -172,9 +172,6 @@ export enum Dimension {
   Value1 = 1,
   Value2 = 2,
   Value3 = 3,
-  Value3 = -3,
-  Value2 = -2,
-  Value1 = -1,
 }
 
 export interface Envelope {
@@ -390,8 +387,6 @@ export enum Ordinates {
   Value536870912 = 536870912,
   Value1073741824 = 1073741824,
   Value2147483648 = -2147483648,
-  Value65536 = -65536,
-  Value1 = -1,
 }
 
 export interface Point {

@@ -6,6 +6,7 @@ using AnimalAidPlatform.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NetTopologySuite.Geometries;
 using System.Security.Claims;
 
 namespace AnimalAidPlatform.API.Controllers
@@ -71,6 +72,8 @@ namespace AnimalAidPlatform.API.Controllers
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userManager.FindByIdAsync(currentUserId!);
             var category = await _categoryRepository.GetCategoryById(request.CategoryId);
+            var point = new Point(request.Location.Longitude, request.Location.Latitude);
+            point.SRID = 4326;
             var createPost = new FeedPost()
             {
                 Title = request.Title,
@@ -82,10 +85,11 @@ namespace AnimalAidPlatform.API.Controllers
                 PostDate = DateTime.Now,
                 Creator = user,
                 Category = category,
+                Location = point,
 
             };
             var createdFeedPost = await _feedPostRepository.CreateFeedPost(createPost);
-            _ = this._notificationService.CreateNotificationsForFeedPost(createdFeedPost);
+            await this._notificationService.CreateNotificationsForFeedPost(createdFeedPost);
             return Ok(createdFeedPost.Id);
         }
 
