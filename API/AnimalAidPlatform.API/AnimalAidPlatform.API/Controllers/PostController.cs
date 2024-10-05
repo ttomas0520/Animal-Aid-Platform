@@ -1,11 +1,13 @@
 ﻿using AnimalAidPlatform.API.Models;
 using AnimalAidPlatform.API.Models.DTO.FeedPost;
+using AnimalAidPlatform.API.Repositories.Implementation;
 using AnimalAidPlatform.API.Repositories.Interface;
 using AnimalAidPlatform.API.Services;
 using AnimalAidPlatform.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Geometries;
 using System.Security.Claims;
 
@@ -20,22 +22,26 @@ namespace AnimalAidPlatform.API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICategoryRepository _categoryRepository;
         private readonly NotificationService _notificationService;
-        public PostController(IFeedPostRepository feedPostRepository, UserManager<ApplicationUser> userManager, ICategoryRepository categoryRepository, NotificationService notificationService)
+        private readonly IFeedPostLikeRepository _feedPostLikeRepository;
+        public PostController(IFeedPostRepository feedPostRepository, UserManager<ApplicationUser> userManager, ICategoryRepository categoryRepository, NotificationService notificationService, IFeedPostLikeRepository feedPostLikeRepository)
         {
             _feedPostRepository = feedPostRepository;
             _userManager = userManager;
             _categoryRepository = categoryRepository;
             _notificationService = notificationService;
+            _feedPostLikeRepository = feedPostLikeRepository;
         }
 
         // GET: api/FeedPosts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FeedPostResponseDTO>>> GetFeedPosts()
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var feedPosts = await _feedPostRepository.GetAllFeedPosts();
             var resp = new List<FeedPostResponseDTO>();
             foreach (var feedPost in feedPosts)
             {
+                bool isItLiked = (await _feedPostLikeRepository.GetUserPostLikeAsync(feedPost.Id, currentUserId)) != null;
                 resp.Add(new FeedPostResponseDTO
                 {
                     Id = feedPost.Id,
@@ -45,8 +51,11 @@ namespace AnimalAidPlatform.API.Controllers
                     CreatorName = feedPost.Creator.Name,
                     ImageUrl = feedPost.ImageUrl,
                     Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong },
-                    Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle }
-                });
+                    Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle },
+                    LikeNumber = feedPost.Likes,
+                    IsLiked = isItLiked,
+
+                }); 
             }
             return Ok(resp);
         }
@@ -124,7 +133,6 @@ namespace AnimalAidPlatform.API.Controllers
             return NoContent();
         }
 
-        // GET: api/Post/{userId}
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<FeedPostResponseDTO>>> GetAllFeedPostsCreatedByUser(string userId)
         {
@@ -132,6 +140,7 @@ namespace AnimalAidPlatform.API.Controllers
             var resp = new List<FeedPostResponseDTO>();
             foreach (var feedPost in feedPosts)
             {
+                bool isItLiked = (await _feedPostLikeRepository.GetUserPostLikeAsync(feedPost.Id, userId)) != null;
                 resp.Add(new FeedPostResponseDTO
                 {
                     Id = feedPost.Id,
@@ -141,11 +150,44 @@ namespace AnimalAidPlatform.API.Controllers
                     CreatorName = feedPost.Creator.Name,
                     ImageUrl = feedPost.ImageUrl,
                     Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong },
-                    Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle }
+                    Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle },
+                    LikeNumber = feedPost.Likes,
+                    IsLiked = isItLiked,
                 });
             }
             return Ok(resp);
         }
+
+        [HttpPost("{id}/like")]
+        public async Task<ActionResult<int>> LikePost(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get current user ID
+            var post = await _feedPostRepository.GetFeedPostById(id);
+            if (post == null) return NotFound();
+
+            var existingLike = await _feedPostLikeRepository.GetUserPostLikeAsync(id, userId);
+
+            if (existingLike != null)
+            {
+                // If the like exists, remove it (user is "unliking" the post)
+                await _feedPostLikeRepository.RemoveLikeAsync(id, userId);
+                await _feedPostRepository.LikePost(post, false);
+            }
+            else
+            {
+                // If no like exists, add a new like
+                var postLike = new FeedPostLike
+                {
+                    FeedPostId = id,
+                    UserId = userId,
+                };
+                await _feedPostLikeRepository.AddLikeAsync(postLike);
+                await _feedPostRepository.LikePost(post, true);
+            }
+
+            return Ok(post.Likes);
+        }
+
 
     }
 }

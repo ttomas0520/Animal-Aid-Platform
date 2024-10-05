@@ -84,6 +84,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
         INNER JOIN CategoryNotificationSettings cns ON cns.NotificationSettingsId = ns.Id
         INNER JOIN AspNetUsers u ON ns.UserId = u.Id
         WHERE cns.CategoriesId = @CategoryId
+        AND ns.PushNotificationEnabled = 1
         AND ns.Location IS NOT NULL
         AND ns.Location.STDistance(geography::Point(@Lat, @Long, 4326)) <= ns.Radius * 1000",
                 new SqlParameter("@Lat", latitude),

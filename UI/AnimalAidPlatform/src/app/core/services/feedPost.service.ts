@@ -23,12 +23,6 @@ export class FeedPostService {
         }
       });
     });
-
-    /*this.http
-        .get('https://jsonplaceholder.typicode.com/users')
-        .subscribe((res) => {
-          console.log(res);
-        });*/
   }
 
   createPost(post: CreatePostDTO): Promise<number> {
@@ -52,4 +46,18 @@ export class FeedPostService {
       });
     });
   }
+
+  likePost(id: number) : Promise<number>{
+    return new Promise<number>((resolve,reject) =>{
+      this.apiService.api.postLikeCreate(id).then((resp) =>{
+        if(resp.ok){
+          console.log(resp.data)
+          resolve(resp.data);
+        }else {
+          reject();
+        }
+      })
+    })
+  }
+
 }

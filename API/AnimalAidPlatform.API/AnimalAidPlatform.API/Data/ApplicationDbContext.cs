@@ -12,6 +12,7 @@ namespace AnimalAidPlatform.API.Data
         }
 
         public DbSet<FeedPost> FeedPosts { get; set; }
+        public DbSet<FeedPostLike> FeedPostLikes { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<AnimalShelter> AnimalShelters { get; set; }
@@ -57,6 +58,21 @@ namespace AnimalAidPlatform.API.Data
             modelBuilder.Entity<NotificationSettings>()
                 .Property(n => n.Location)
                 .HasColumnType("geography");
+
+            modelBuilder.Entity<FeedPostLike>()
+            .HasKey(pl => new { pl.FeedPostId, pl.UserId }); 
+
+            modelBuilder.Entity<FeedPostLike>()
+                .HasOne(pl => pl.FeedPost)
+                .WithMany(fp => fp.PostLikes)
+                .HasForeignKey(pl => pl.FeedPostId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<FeedPostLike>()
+                .HasOne(pl => pl.User)
+                .WithMany()
+                .HasForeignKey(pl => pl.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

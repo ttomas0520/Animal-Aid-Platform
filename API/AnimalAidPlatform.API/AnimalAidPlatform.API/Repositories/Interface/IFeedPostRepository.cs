@@ -10,5 +10,6 @@ namespace AnimalAidPlatform.API.Repositories.Interface
         Task<FeedPost> UpdateFeedPost(int id, FeedPost feedPost);
         Task<bool> DeleteFeedPost(int id);
         Task<IEnumerable<FeedPost>> GetAllFeedPostCreatedByUser(string userId);
+        Task<int> LikePost(FeedPost post, bool like);
     }
 }

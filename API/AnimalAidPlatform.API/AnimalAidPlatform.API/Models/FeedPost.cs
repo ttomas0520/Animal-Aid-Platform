@@ -31,5 +31,8 @@ namespace AnimalAidPlatform.API.Models
 
         public ICollection<Animal>? AssociatedAnimals { get; set; }
 
+        public ICollection<FeedPostLike> PostLikes { get; set; }
+        public int Likes { get; set; } = 0;
+
     }
 }

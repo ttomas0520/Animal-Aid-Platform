@@ -49,17 +49,9 @@ export class NotificationSettingsComponent {
       radius: [1],
       categories: this.fb.array([]),
     });
-    this.loadSettingsAndCategories().then(() => {
-      console.log(this.settings);
-      if (this.settings != null) {
-        this.notiForm.controls['pushNotificationChecked'].patchValue(
-          this.settings.pushNotificationEnabled
-        );
-        this.notiForm.controls['radius'].patchValue(this.settings.radius);
-        this.geocodedLocation = this.settings.location!;
-      }
-    });
+   
   }
+
 
   async loadSettingsAndCategories() {
     try {
@@ -69,10 +61,7 @@ export class NotificationSettingsComponent {
         this.postService.getCategories(),
       ]);
 
-      // Beállítjuk a settings-et
-      this.settings = settings;
-
-      // Kategóriák feldolgozása a settings alapján
+      this.settings = settings; 
       const categoryArray = categories.map((c) =>
         this.fb.group({
           id: [c.id],
@@ -80,8 +69,6 @@ export class NotificationSettingsComponent {
           enabled: [this.settings.categoryIds!.includes(c.id!)],
         })
       );
-
-      // Frissítjük a categories mezőt
       this.categories.clear();
       categoryArray.forEach((group) => this.categories.push(group));
     } catch (error) {
@@ -100,7 +87,17 @@ export class NotificationSettingsComponent {
   cityCircle: google.maps.Circle | undefined;
 
   async ngOnInit() {
-    console.log(this.userSettingsService.getNotificationById());
+    await this.loadSettingsAndCategories().then(() => {
+      if (this.settings != null) {
+        this.notiForm.controls['pushNotificationChecked'].patchValue(
+          this.settings.pushNotificationEnabled
+        );
+        this.notiForm.controls['radius'].patchValue(this.settings.radius);
+        this.geocodedLocation = this.settings.location!;
+      }
+    });
+    console.log("Újra itt")
+    console.log(this.settings)
     this.loader.importLibrary('maps').then(async () => {
       const map = new google.maps.Map(
         document.getElementById('map') as HTMLElement,

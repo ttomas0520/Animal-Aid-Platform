@@ -29,7 +29,7 @@
   </div>
   <div class="feed-buttons">
     <span class="material-icons">visibility</span>
-    <span class="material-icons">thumb_up</span>
+    <div><span class="material-icons" (click)="like()">thumb_up</span><span>{{this.post?.likeNumber}}</span></div>
   </div>
 </mat-card>
 

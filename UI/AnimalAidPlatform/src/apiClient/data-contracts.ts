@@ -222,6 +222,19 @@ export interface FeedPost {
   creatorId?: string | null;
   creator?: ApplicationUser;
   associatedAnimals?: Animal[] | null;
+  postLikes?: FeedPostLike[] | null;
+  /** @format int32 */
+  likes?: number;
+}
+
+export interface FeedPostLike {
+  /** @format int32 */
+  feedPostId?: number;
+  feedPost?: FeedPost;
+  userId?: string | null;
+  user?: ApplicationUser;
+  /** @format date-time */
+  likedAt?: string;
 }
 
 export interface FeedPostResponseDTO {
@@ -234,6 +247,9 @@ export interface FeedPostResponseDTO {
   userID?: string | null;
   creatorName?: string | null;
   imageUrl?: string | null;
+  /** @format int32 */
+  likeNumber?: number;
+  isLiked?: boolean;
 }
 
 export interface Geometry {

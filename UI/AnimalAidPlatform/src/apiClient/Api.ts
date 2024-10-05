@@ -248,6 +248,22 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
+   * @tags Post
+   * @name PostLikeCreate
+   * @request POST:/api/Post/{id}/like
+   * @secure
+   */
+  postLikeCreate = (id: number, params: RequestParams = {}) =>
+    this.request<number, any>({
+      path: `/api/Post/${id}/like`,
+      method: "POST",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
    * @tags Roles
    * @name RolesCreate
    * @request POST:/api/Roles

@@ -51,14 +51,15 @@ builder.Services.AddAuthentication(opt =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTSettings.GetSection("securityKey").Value!))
     };
 });
-builder.Services.AddSingleton<INotificationStrategy, EmailNotificationStrategy>();
+builder.Services.AddScoped<INotificationStrategy, EmailNotificationStrategy>();
 builder.Services.AddScoped<NotificationService>();
-builder.Services.AddHostedService<NotificationBackgroundService>();
+/*builder.Services.AddHostedService<NotificationBackgroundService>();*/
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IFeedPostRepository, FeedPostRepository>();
 builder.Services.AddScoped<INotificationSettingsRepository, NotificationSettingsRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<IFeedPostLikeRepository, FeedPostLikeRepository>();
 
 builder.Services.AddSwaggerGen(c =>
 {

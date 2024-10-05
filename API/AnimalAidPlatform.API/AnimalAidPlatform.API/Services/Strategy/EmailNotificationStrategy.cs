@@ -1,6 +1,8 @@
 ﻿using AnimalAidPlatform.API.Models;
 using AnimalAidPlatform.API.Options;
 using AnimalAidPlatform.API.Services.Interface;
+using AnimalAidPlatform.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
@@ -11,11 +13,13 @@ namespace AnimalAidPlatform.API.Services.Strategy
     {
         private readonly GmailOptions gmailOptions;
         private readonly ILogger<NotificationBackgroundService> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public EmailNotificationStrategy(IOptions<GmailOptions> gmailOptions, ILogger<NotificationBackgroundService> logger)
+        public EmailNotificationStrategy(UserManager<ApplicationUser> userManager, IOptions<GmailOptions> gmailOptions, ILogger<NotificationBackgroundService> logger)
         {
             this.gmailOptions = gmailOptions.Value;
             this._logger = logger;
+            this._userManager = userManager;
         }
 
 
@@ -28,7 +32,9 @@ namespace AnimalAidPlatform.API.Services.Strategy
                 Body = notification.Message
             };
 
-            mailMessage.To.Add(new MailAddress("darcsibarbara@gmail.com"));
+            var user = await this._userManager.FindByIdAsync(notification.UserId);
+
+            mailMessage.To.Add(new MailAddress(user.Email));
 
             using var smtpClient = new SmtpClient();
             smtpClient.Host = gmailOptions.Host;

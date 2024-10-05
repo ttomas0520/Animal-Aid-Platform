@@ -66,5 +66,16 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
         {
             return await _context.FeedPosts.Include(fp => fp.Creator).Include(fp => fp.Category).Where(fp => fp.CreatorId == userId).ToListAsync();
         }
+
+        public async Task<int> LikePost(FeedPost post, bool like)
+        {
+            if (post != null) {
+                post.Likes += like ? 1 : -1;
+                _context.FeedPosts.Update(post);
+                await _context.SaveChangesAsync();
+            }
+            
+            return post.Likes;
+        }
     }
 }
