@@ -22,17 +22,28 @@
       </mat-card>
     </div>
     <div fxFlex="60%">
-      @if (searchTerm !== "") {
-      <h1>{{ searchTerm }} posztjai</h1>
-      }
-      <app-feed
-        class="admin_feed"
-        [isAdminMode]="true"
-        [posts]="postList"
-      ></app-feed>
-    </div>
+      <div class="container">
+        <router-outlet></router-outlet>
+        <ng-container *ngIf="!isShelterRoute()">
+          <div class="me-auto mb-2 mb-lg-0">
+            <button mat-button [routerLink]="'shelter-form'">Állatmehely hozzáadása</button>
+          </div>
+          @if (searchTerm !== "") {
+            <h1>{{ searchTerm }} posztjai</h1>
+            }
+          <app-feed
+            class="admin_feed"
+            [isAdminMode]="true"
+            [posts]="postList"
+          ></app-feed>
+        </ng-container>
+      </div>
+      </div>
+      
     <div fxFlex="20%">
-      <app-add-category></app-add-category>
+      <div style="margin-bottom: 10px;">
+        <app-add-category></app-add-category>
+      </div>
       <app-category-list></app-category-list>
     </div>
   </div>

@@ -16,10 +16,6 @@ namespace AnimalAidPlatform.Models
 
         public Role Role { get; set; }
 
-        public int? AnimalShelterId { get; set; }
-        public AnimalShelter? RegularWorkingPlace { get; set; }
-        public AnimalShelter? AdminWorkingPlace { get; set; }
-
         public ICollection<FeedPost>? Posts { get; set; }
         public NotificationSettings? NotificationSettings { get; set; }
     }

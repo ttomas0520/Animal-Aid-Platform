@@ -96,8 +96,6 @@ export class NotificationSettingsComponent {
         this.geocodedLocation = this.settings.location!;
       }
     });
-    console.log("Újra itt")
-    console.log(this.settings)
     this.loader.importLibrary('maps').then(async () => {
       const map = new google.maps.Map(
         document.getElementById('map') as HTMLElement,

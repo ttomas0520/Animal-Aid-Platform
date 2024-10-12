@@ -12,6 +12,7 @@ import { AdminMenuComponent } from './modules/home/features/admin-menu/admin-men
 import { NotificationSettingsComponent } from './modules/user-menu/notification-settings/notification-settings.component';
 import { OwnedAnimalsComponent } from './modules/user-menu/owned-animals/owned-animals.component';
 import { ProfileComponent } from './modules/user-menu/profile/profile.component';
+import { AnimalShelterFormComponent } from './modules/home/features/admin-menu/animal-shelter-form/animal-shelter-form.component';
 
 export const routes: Routes = [
   {
@@ -34,6 +35,11 @@ export const routes: Routes = [
         component: AddCategoryComponent,
         canActivate: [authGuard, adminGuard],
       },
+      {
+        path: 'shelter-form',
+        component: AnimalShelterFormComponent,
+        canActivate: [authGuard, adminGuard],
+      }
     ],
   },
   {

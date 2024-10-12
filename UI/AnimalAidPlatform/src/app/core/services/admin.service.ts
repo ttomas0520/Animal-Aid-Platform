@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ApiService } from './api.service';
 import {
+  AnimalShelterDTO,
   FeedPostResponseDTO,
   UserDetailDTO,
 } from '../../../apiClient/data-contracts';
@@ -44,6 +45,16 @@ export class AdminService {
           resolve(resp.data);
         }
       });
+    });
+  }
+
+  async addAnimalShelter(dto: AnimalShelterDTO): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.apiService.api.animalShelterCreate(dto).catch((resp) => {
+        if (resp.ok) {
+          resolve(resp.ok);
+        }
+      })
     });
   }
 }

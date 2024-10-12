@@ -1,10 +1,9 @@
-﻿using AnimalAidPlatform.API.Models.DTO;
-using NetTopologySuite.Geometries;
-using System.ComponentModel.DataAnnotations;
-
-namespace AnimalAidPlatform.Models
+﻿namespace AnimalAidPlatform.API.Models.DTO
 {
-    public class AnimalShelter
+    using AnimalAidPlatform.Models;
+    using System.ComponentModel.DataAnnotations;
+
+    public class AnimalShelterDTO
     {
         public int Id { get; set; }
 
@@ -17,13 +16,8 @@ namespace AnimalAidPlatform.Models
 
         public string? Description { get; set; }
 
-        // Location Info
-        [Required(ErrorMessage = "A cím megadása kötelező.")]
-        public double GeoLong { get; set; }
-        public double GeoLat { get; set; }
-        public string Address { get; set; }
-
-        public Point? Location { get; set; }
+        // Location Info (Using LocationDTO)
+        public LocationDTO Location { get; set; }
 
         [Required(ErrorMessage = "A telefonszám megadása kötelező.")]
         [RegularExpression(@"^[\d\+\-\.\(\)\/\s]*$", ErrorMessage = "Érvénytelen telefonszám formátum.")]
@@ -53,20 +47,17 @@ namespace AnimalAidPlatform.Models
         public bool MedicalCare { get; set; }
         public bool Donations { get; set; }
 
-        public AnimalShelterDTO ToDto()
+        public AnimalShelter ToEntity()
         {
-            return new AnimalShelterDTO
+            return new AnimalShelter
             {
                 Id = this.Id,
                 Name = this.Name,
                 Type = this.Type,
                 Description = this.Description,
-                Location = new LocationDTO
-                {
-                    Longitude = this.GeoLong,
-                    Latitude = this.GeoLat,
-                    Address = this.Address
-                },
+                GeoLong = this.Location.Longitude,
+                GeoLat = this.Location.Latitude,
+                Address = this.Location.Address,
                 PhoneNumber = this.PhoneNumber,
                 Email = this.Email,
                 Website = this.Website,
@@ -83,6 +74,6 @@ namespace AnimalAidPlatform.Models
         }
     }
 
-    
+   
 
 }

@@ -1,0 +1,109 @@
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()"  class="card-container">
+
+  <!-- Shelter Information -->
+  <div [formGroupName]="'shelterInfo'" class="info-card">
+    <mat-card>
+      <mat-card-title>Menhely Információk</mat-card-title>
+      
+      <mat-form-field appearance="fill">
+        <mat-label>Menhely neve</mat-label>
+        <input matInput formControlName="name" placeholder="Pl. Kutyamenhely Budapest" required />
+        <mat-error *ngIf="registrationForm.get('shelterInfo.name')!.hasError('required')">
+          A név megadása kötelező.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Típus</mat-label>
+        <mat-select formControlName="type" required>
+          <mat-option value="kutyamenhely">Kutyamenhely</mat-option>
+          <mat-option value="macskamenhely">Macskamenhely</mat-option>
+          <mat-option value="vegyes">Vegyes</mat-option>
+        </mat-select>
+        <mat-error *ngIf="registrationForm.get('shelterInfo.type')!.hasError('required')">
+          A típus kiválasztása kötelező.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Leírás</mat-label>
+        <textarea matInput formControlName="description" rows="4" placeholder="Rövid leírás a menhelyről"></textarea>
+      </mat-form-field>
+    </mat-card>
+  </div>
+
+  <!-- Location Information -->
+  <div [formGroupName]="'locationInfo'" class="info-card">
+    <mat-card>
+      <mat-card-title>Helyszín és Elérhetőségek</mat-card-title>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Pozíció (Cím)</mat-label>
+        <input id="autocomplete" matInput formControlName="address" placeholder="Pl. 1027 Budapest, Kutyautca 5" required />
+        <mat-error *ngIf="registrationForm.get('locationInfo.address')!.hasError('required')">
+          A cím megadása kötelező.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Telefonszám</mat-label>
+        <input matInput formControlName="phoneNumber" type="tel" placeholder="+36 ..." required />
+        <mat-error *ngIf="registrationForm.get('locationInfo.phoneNumber')!.hasError('required')">
+          A telefonszám megadása kötelező.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Email cím</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="example@example.com" required />
+        <mat-error *ngIf="registrationForm.get('locationInfo.email')!.hasError('required') || registrationForm.get('locationInfo.email')!.hasError('email')">
+          Érvényes email cím megadása kötelező.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Weboldal (opcionális)</mat-label>
+        <input matInput formControlName="website" type="url" placeholder="http://menhelyweboldala.com" />
+      </mat-form-field>
+    </mat-card>
+  </div>
+
+  <!-- Contact Information -->
+  <div [formGroupName]="'contactInfo'" class="info-card">
+    <mat-card>
+      <mat-card-title>Kapcsolattartó Információk</mat-card-title>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Kapcsolattartó neve</mat-label>
+        <input matInput formControlName="contactName" placeholder="Pl. John Doe" required />
+        <mat-error *ngIf="registrationForm.get('contactInfo.contactName')!.hasError('required')">
+          A kapcsolattartó nevének megadása kötelező.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Kapcsolattartó pozíciója</mat-label>
+        <input matInput formControlName="contactPosition" placeholder="Pl. Menhely vezetője" required />
+        <mat-error *ngIf="registrationForm.get('contactInfo.contactPosition')!.hasError('required')">
+          A kapcsolattartó pozíciójának megadása kötelező.
+        </mat-error>
+      </mat-form-field>
+    </mat-card>
+  </div>
+
+  <!-- Services -->
+  <div [formGroupName]="'services'" class="info-card">
+    <mat-card>
+      <mat-card-title>Szolgáltatások</mat-card-title>
+
+      <mat-checkbox formControlName="adoption">Örökbefogadás</mat-checkbox>
+      <mat-checkbox formControlName="visiting">Menhely látogatás</mat-checkbox>
+      <mat-checkbox formControlName="volunteering">Önkéntes munka</mat-checkbox>
+      <mat-checkbox formControlName="medicalCare">Orvosi ellátás</mat-checkbox>
+      <mat-checkbox formControlName="donations">Támogatás, adománygyűjtés</mat-checkbox>
+    </mat-card>
+  </div>
+
+  <!-- Submit Button -->
+  <button mat-raised-button color="primary" type="submit">Küldés</button>
+</form>

@@ -9,6 +9,7 @@ import {
 import { AdminService } from '../../../../core/services/admin.service';
 import { AddCategoryComponent } from '../category/add-category/add-category.component';
 import { CategoryListComponent } from '../category/category-list/category-list.component';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-admin-menu',
@@ -20,6 +21,7 @@ import { CategoryListComponent } from '../category/category-list/category-list.c
     ImportModule,
     AddCategoryComponent,
     CategoryListComponent,
+    RouterModule,
   ],
 })
 export class AdminMenuComponent {
@@ -37,7 +39,8 @@ export class AdminMenuComponent {
 
   constructor(
     private postService: FeedPostService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private router: Router
   ) {
     postService.getPosts().then((resp) => {
       this.postList = [...resp];
@@ -53,5 +56,9 @@ export class AdminMenuComponent {
       this.searchTerm = user.name!;
       this.postList = [...resp];
     });
+  }
+
+  isShelterRoute(): boolean {
+    return this.router.url.includes('/admin/shelter-form');
   }
 }

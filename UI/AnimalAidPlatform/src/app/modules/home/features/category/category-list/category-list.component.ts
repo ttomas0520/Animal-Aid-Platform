@@ -7,6 +7,7 @@ import { CategoryModel } from '../../../../../core/models/category-model';
 import { AdminService } from '../../../../../core/services/admin.service';
 import { FeedPostService } from '../../../../../core/services/feedPost.service';
 import { CategoryDto } from '../../../../../../apiClient/data-contracts';
+import { ImportModule } from '../../../../common/import.module';
 
 @Component({
   selector: 'app-category-list',
@@ -17,6 +18,7 @@ import { CategoryDto } from '../../../../../../apiClient/data-contracts';
     RouterLink,
     RouterLinkActive,
     FontAwesomeModule,
+    ImportModule
   ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',

@@ -1,34 +1,60 @@
 ﻿using AnimalAidPlatform.API.Data;
 using AnimalAidPlatform.API.Models;
+using AnimalAidPlatform.API.Repositories.Interface;
+using AnimalAidPlatform.Models;
+using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 
 namespace AnimalAidPlatform.API.Repositories.Implementation
 {
-    public class AnimalShelterRepository
+    public class AnimalShelterRepository : IAnimalShelterRepository
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext _context;
 
-        public AnimalShelterRepository(ApplicationDbContext dbContext)
+        public AnimalShelterRepository(ApplicationDbContext context)
         {
-            this.dbContext = dbContext;
-        }
-        public Task<Category> CreateAsync(Category category)
-        {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<Category> DeleteAsync(int id)
+        public async Task<AnimalShelter?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.AnimalShelters.FindAsync(id);
         }
 
-        public Task<Category> GetByIdAsync(int id)
+        public async Task<IEnumerable<AnimalShelter>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.AnimalShelters.ToListAsync();
         }
 
-        public Task<Category> UpdateAsync(Category category)
+        public async Task AddAsync(AnimalShelter shelter)
         {
-            throw new NotImplementedException();
+            await _context.AnimalShelters.AddAsync(shelter);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(AnimalShelter shelter)
+        {
+            _context.AnimalShelters.Update(shelter);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var shelter = await GetByIdAsync(id);
+            if (shelter != null)
+            {
+                _context.AnimalShelters.Remove(shelter);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<IEnumerable<AnimalShelter>> GetByLocationAsync(Point location, double radius)
+        {
+            // Spatial query to find shelters within a certain radius of the given location
+            return await _context.AnimalShelters
+                .Where(s => s.Location != null &&
+                            s.Location.Distance(location) <= radius)
+                .ToListAsync();
         }
     }
 }

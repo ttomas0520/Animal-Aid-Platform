@@ -27,18 +27,6 @@ namespace AnimalAidPlatform.API.Data
                 .WithOne(e => e.NotificationSettings)
                 .HasForeignKey<NotificationSettings>(ns => ns.UserId);
 
-            modelBuilder.Entity<AnimalShelter>()
-                .HasMany(e => e.Admins)
-                .WithOne(e => e.AdminWorkingPlace)
-                .HasForeignKey(e => e.AnimalShelterId)
-                .HasPrincipalKey(e => e.Id);
-
-            modelBuilder.Entity<AnimalShelter>()
-                .HasMany(e => e.Workers)
-                .WithOne(e => e.RegularWorkingPlace)
-                .HasForeignKey(e => e.AnimalShelterId)
-                .HasPrincipalKey(e => e.Id);
-
             modelBuilder.Entity<FeedPost>()
                 .HasOne(e => e.Category)
                 .WithMany(e => e.Posts)

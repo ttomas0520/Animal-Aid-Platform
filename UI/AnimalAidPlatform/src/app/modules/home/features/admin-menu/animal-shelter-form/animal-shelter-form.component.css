@@ -1,0 +1,38 @@
+/* Alap beállítások a flexbox containerhez */
+.card-container {
+  display: flex;
+  flex-direction: column; /* Állítsa a flex irányt oszlopra */
+  align-items: center; /* Kártyák középre rendezése vízszintesen */
+  justify-content: flex-start; /* Kártyák igazítása függőlegesen a kezdőpont felé */
+  gap: 20px; /* Távolság az elemek között */
+  padding: 20px; /* Adjunk hozzá paddingot a jobb vizuális elrendezéshez */
+}
+
+/* Alapértelmezett stílus a kártyákhoz */
+.info-card {
+  width: 100%; /* A kártyák teljes szélességet elfoglalják */
+  max-width: 1200px; /* Max szélesség megadása, hogy ne legyen túl széles */
+  padding: 20px; /* Adjunk hozzá belső margót */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Doboz árnyék a jobb vizualitás érdekében */
+  border-radius: 8px; /* Lekerekített sarkok */
+}
+
+/* A formázott mezők szélessége */
+mat-form-field {
+  width: 100%;
+}
+
+/* Flexbox beállítások a form mezőknek */
+.submit-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Kisebb kijelzők (pl. mobil) */
+@media (max-width: 767px) {
+  .info-card {
+    width: 100%; /* Kisebb képernyőn a kártyák teljes szélességűek */
+    margin-bottom: 20px; /* Adjunk hozzá távolságot a kártyák közé */
+  }
+}

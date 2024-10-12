@@ -10,6 +10,7 @@
  */
 
 import {
+  AnimalShelterDTO,
   AuthResponseDTO,
   CategoryDto,
   CategoryRequestDto,
@@ -26,6 +27,99 @@ import {
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags AnimalShelter
+   * @name AnimalShelterList
+   * @request GET:/api/AnimalShelter
+   * @secure
+   */
+  animalShelterList = (params: RequestParams = {}) =>
+    this.request<AnimalShelterDTO[], any>({
+      path: `/api/AnimalShelter`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags AnimalShelter
+   * @name AnimalShelterCreate
+   * @request POST:/api/AnimalShelter
+   * @secure
+   */
+  animalShelterCreate = (data: AnimalShelterDTO, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/api/AnimalShelter`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags AnimalShelter
+   * @name AnimalShelterDetail
+   * @request GET:/api/AnimalShelter/{id}
+   * @secure
+   */
+  animalShelterDetail = (id: number, params: RequestParams = {}) =>
+    this.request<AnimalShelterDTO, any>({
+      path: `/api/AnimalShelter/${id}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags AnimalShelter
+   * @name AnimalShelterUpdate
+   * @request PUT:/api/AnimalShelter/{id}
+   * @secure
+   */
+  animalShelterUpdate = (id: number, data: AnimalShelterDTO, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/api/AnimalShelter/${id}`,
+      method: "PUT",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags AnimalShelter
+   * @name AnimalShelterLocationList
+   * @request GET:/api/AnimalShelter/location
+   * @secure
+   */
+  animalShelterLocationList = (
+    query?: {
+      /** @format double */
+      longitude?: number;
+      /** @format double */
+      latitude?: number;
+      /** @format double */
+      radius?: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<AnimalShelterDTO[], any>({
+      path: `/api/AnimalShelter/location`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
   /**
    * No description
    *

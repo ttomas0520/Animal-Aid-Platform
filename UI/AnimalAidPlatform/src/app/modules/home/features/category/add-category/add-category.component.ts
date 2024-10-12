@@ -6,6 +6,7 @@ import { CategoryModel } from '../../../../../core/models/category-model';
 import { AdminService } from '../../../../../core/services/admin.service';
 import { FeedComponent } from '../../home/feed/feed.component';
 import { FeedPostService } from '../../../../../core/services/feedPost.service';
+import { ImportModule } from '../../../../common/import.module';
 
 @Component({
   selector: 'app-add-category',
@@ -16,6 +17,7 @@ import { FeedPostService } from '../../../../../core/services/feedPost.service';
     RouterLink,
     RouterLinkActive,
     FormsModule,
+    ImportModule
   ],
   templateUrl: './add-category.component.html',
   styleUrl: './add-category.component.css',

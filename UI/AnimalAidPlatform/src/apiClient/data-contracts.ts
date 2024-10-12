@@ -36,22 +36,69 @@ export interface AnimalShelter {
   /** @minLength 1 */
   name: string;
   /** @minLength 1 */
-  address: string;
-  /**
-   * @format int32
-   * @min 0
-   * @max 2147483647
-   */
-  capacity: number;
-  contactEmail?: string | null;
-  contactPhone?: string | null;
-  website?: string | null;
-  /** @format date-time */
-  establishedDate?: string;
+  type: string;
   description?: string | null;
-  personId?: string | null;
-  admins?: ApplicationUser[] | null;
-  workers?: ApplicationUser[] | null;
+  /** @format double */
+  geoLong: number;
+  /** @format double */
+  geoLat?: number;
+  address?: string | null;
+  location?: Point;
+  /**
+   * @minLength 1
+   * @pattern ^[\d\+\-\.\(\)\/\s]*$
+   */
+  phoneNumber: string;
+  /**
+   * @format email
+   * @minLength 1
+   */
+  email: string;
+  website?: string | null;
+  /** @minLength 1 */
+  contactName: string;
+  /** @minLength 1 */
+  contactPosition: string;
+  weekdays?: string | null;
+  weekend?: string | null;
+  adoption?: boolean;
+  visiting?: boolean;
+  volunteering?: boolean;
+  medicalCare?: boolean;
+  donations?: boolean;
+}
+
+export interface AnimalShelterDTO {
+  /** @format int32 */
+  id?: number;
+  /** @minLength 1 */
+  name: string;
+  /** @minLength 1 */
+  type: string;
+  description?: string | null;
+  location?: LocationDTO;
+  /**
+   * @minLength 1
+   * @pattern ^[\d\+\-\.\(\)\/\s]*$
+   */
+  phoneNumber: string;
+  /**
+   * @format email
+   * @minLength 1
+   */
+  email: string;
+  website?: string | null;
+  /** @minLength 1 */
+  contactName: string;
+  /** @minLength 1 */
+  contactPosition: string;
+  weekdays?: string | null;
+  weekend?: string | null;
+  adoption?: boolean;
+  visiting?: boolean;
+  volunteering?: boolean;
+  medicalCare?: boolean;
+  donations?: boolean;
 }
 
 export interface ApplicationUser {
@@ -75,10 +122,6 @@ export interface ApplicationUser {
   phoneNumber?: string | null;
   email?: string | null;
   role?: Role;
-  /** @format int32 */
-  animalShelterId?: number | null;
-  regularWorkingPlace?: AnimalShelter;
-  adminWorkingPlace?: AnimalShelter;
   posts?: FeedPost[] | null;
   notificationSettings?: NotificationSettings;
 }
@@ -172,6 +215,9 @@ export enum Dimension {
   Value1 = 1,
   Value2 = 2,
   Value3 = 3,
+  Value4 = -3,
+  Value5 = -2,
+  Value6 = -1,
 }
 
 export interface Envelope {
