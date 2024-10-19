@@ -18,9 +18,7 @@
 }
 
 /* A formázott mezők szélessége */
-mat-form-field {
-  width: 100%;
-}
+
 
 /* Flexbox beállítások a form mezőknek */
 .submit-section {
@@ -35,4 +33,16 @@ mat-form-field {
     width: 100%; /* Kisebb képernyőn a kártyák teljes szélességűek */
     margin-bottom: 20px; /* Adjunk hozzá távolságot a kártyák közé */
   }
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  width: 100%;
+  flex: 1;
+  margin: 0 10px;
 }

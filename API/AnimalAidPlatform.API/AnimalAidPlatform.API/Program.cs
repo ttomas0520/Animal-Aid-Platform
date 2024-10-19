@@ -54,7 +54,7 @@ builder.Services.AddAuthentication(opt =>
 builder.Services.AddScoped<INotificationStrategy, EmailNotificationStrategy>();
 builder.Services.AddScoped<NotificationService>();
 /*builder.Services.AddHostedService<NotificationBackgroundService>();*/
-
+builder.Services.AddScoped<IAnimalShelterRepository, AnimalShelterRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IFeedPostRepository, FeedPostRepository>();
 builder.Services.AddScoped<INotificationSettingsRepository, NotificationSettingsRepository>();

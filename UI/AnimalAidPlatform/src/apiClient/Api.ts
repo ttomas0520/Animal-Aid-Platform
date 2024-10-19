@@ -85,12 +85,13 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @secure
    */
   animalShelterUpdate = (id: number, data: AnimalShelterDTO, params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.request<AnimalShelterDTO, any>({
       path: `/api/AnimalShelter/${id}`,
       method: "PUT",
       body: data,
       secure: true,
       type: ContentType.Json,
+      format: "json",
       ...params,
     });
   /**

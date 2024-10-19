@@ -59,7 +59,7 @@ namespace AnimalAidPlatform.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, AnimalShelterDTO shelterDto)
+        public async Task<ActionResult<AnimalShelterDTO>> Update(int id, AnimalShelterDTO shelterDto)
         {
             if (id != shelterDto.Id)
             {
@@ -77,11 +77,12 @@ namespace AnimalAidPlatform.API.Controllers
                 return NotFound();
             }
 
-            // Mapping DTO to domain model using AnimalShelterMapper
-            var updatedShelter = shelterDto.ToEntity();
+            // Map DTO to existing entity (instead of creating a new one)
+            shelterDto.UpdateEntity(existingShelter);
 
-            await _repository.UpdateAsync(updatedShelter);
-            return NoContent();
+            // Update the entity in the repository
+            var dbEntity = await _repository.UpdateAsync(existingShelter);
+            return Ok(dbEntity.ToDto());
         }
 
         [HttpGet("location")]

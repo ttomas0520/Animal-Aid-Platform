@@ -3,7 +3,12 @@
     <div fxFlex="20%">
       <mat-card>
         <mat-toolbar color="primary">
-          <span>Felhasználók</span>
+          @if(isShelterRoute()){
+            <span>Állatmenhelyek</span>
+          }@else {
+            <span>Felhasználók</span>
+          }
+         
         </mat-toolbar>
 
         <mat-form-field appearance="fill" class="search-bar">
@@ -12,12 +17,22 @@
         </mat-form-field>
 
         <mat-nav-list>
-          <mat-list-item
+          @if (isShelterRoute()) {
+            <mat-list-item
+            *ngFor="let shelter of filteredShelters()"
+            (click)="selectShelter(shelter)"
+          >
+            {{ shelter.name }}
+          </mat-list-item>
+          }@else {
+            <mat-list-item
             *ngFor="let user of filteredUsers()"
             (click)="selectUser(user)"
           >
             {{ user.name }}
           </mat-list-item>
+          }
+          
         </mat-nav-list>
       </mat-card>
     </div>

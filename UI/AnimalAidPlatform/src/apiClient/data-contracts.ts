@@ -215,9 +215,6 @@ export enum Dimension {
   Value1 = 1,
   Value2 = 2,
   Value3 = 3,
-  Value4 = -3,
-  Value5 = -2,
-  Value6 = -1,
 }
 
 export interface Envelope {

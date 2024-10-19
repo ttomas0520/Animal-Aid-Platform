@@ -1,4 +1,14 @@
-<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()"  class="card-container">
+<form [formGroup]="registrationForm" (ngSubmit)="(selectedShelter != null )? onUpdate() : onSubmit()"  class="card-container">
+<!-- Submit Button -->
+ <div class="button-container">
+  @if (selectedShelter != null ) {
+    <button mat-raised-button color="primary" type="submit">Frissítés</button>
+  } @else {
+    <button mat-raised-button color="primary" type="submit">Mentés</button>
+  }
+    <button mat-raised-button color="warn" type="reset" (click)="resetSelected()">Reset</button>
+ </div>
+  
 
   <!-- Shelter Information -->
   <div [formGroupName]="'shelterInfo'" class="info-card">
@@ -91,6 +101,32 @@
     </mat-card>
   </div>
 
+  <div [formGroupName]="'openingHours'" class="info-card">
+    <mat-card>
+      <mat-card-title>Nyitvatartási Idők</mat-card-title>
+  
+      <!-- Weekdays Opening Hours -->
+      <mat-form-field appearance="fill">
+        <mat-label>Hétköznapi nyitvatartás</mat-label>
+        <input matInput formControlName="weekdays" placeholder="Pl: 08:00 - 17:00">
+        <mat-error *ngIf="registrationForm.get('openingHours.weekdays')!.hasError('required')">
+          A hétköznapi nyitvatartás megadása kötelező.
+        </mat-error>
+      </mat-form-field>
+      
+  
+      <!-- Weekend Opening Hours -->
+      <mat-form-field appearance="fill">
+        <mat-label>Hétköznapi nyitvatartás</mat-label>
+        <input matInput formControlName="weekend" placeholder="Pl: 08:00 - 17:00">
+        <mat-error *ngIf="registrationForm.get('openingHours.weekend')!.hasError('required')">
+          A hétvégi nyitvatartás megadása kötelező.
+        </mat-error>
+      </mat-form-field>
+  
+    </mat-card>
+  </div>
+  
   <!-- Services -->
   <div [formGroupName]="'services'" class="info-card">
     <mat-card>
@@ -104,6 +140,4 @@
     </mat-card>
   </div>
 
-  <!-- Submit Button -->
-  <button mat-raised-button color="primary" type="submit">Küldés</button>
 </form>

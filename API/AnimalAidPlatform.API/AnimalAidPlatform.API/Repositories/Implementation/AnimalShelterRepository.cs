@@ -32,10 +32,11 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(AnimalShelter shelter)
+        public async Task<AnimalShelter?> UpdateAsync(AnimalShelter shelter)
         {
             _context.AnimalShelters.Update(shelter);
             await _context.SaveChangesAsync();
+            return await _context.AnimalShelters.FindAsync(shelter.Id);
         }
 
         public async Task DeleteAsync(int id)

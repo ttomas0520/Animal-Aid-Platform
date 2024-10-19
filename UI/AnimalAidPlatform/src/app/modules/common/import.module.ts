@@ -62,6 +62,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { GoogleMapsModule } from '@angular/google-maps';
+import {NgxMatTimepickerModule} from 'ngx-mat-timepicker';
 
 @NgModule({
   declarations: [],
@@ -117,6 +118,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
 
     FlexLayoutModule,
     GoogleMapsModule,
+
+    NgxMatTimepickerModule
   ],
   exports: [
     CommonModule,
@@ -169,6 +172,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
 
     FlexLayoutModule,
     GoogleMapsModule,
+
+    NgxMatTimepickerModule
   ],
 })
 export class ImportModule {}

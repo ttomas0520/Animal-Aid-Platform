@@ -57,4 +57,14 @@ export class AdminService {
       })
     });
   }
+
+  async updateAnimalShelter(id: number, updatableShelter: AnimalShelterDTO): Promise<AnimalShelterDTO>{
+    return new Promise<AnimalShelterDTO>((resolve,reject) =>{
+      this.apiService.api.animalShelterUpdate(id, updatableShelter).then((resp) =>{
+        if(resp){
+          resolve(resp.data)
+        }
+      })
+    })
+  }
 }

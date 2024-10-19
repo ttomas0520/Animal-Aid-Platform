@@ -49,7 +49,7 @@
 
         public AnimalShelter ToEntity()
         {
-            return new AnimalShelter
+            var animalShelter =  new AnimalShelter
             {
                 Id = this.Id,
                 Name = this.Name,
@@ -69,11 +69,41 @@
                 Visiting = this.Visiting,
                 Volunteering = this.Volunteering,
                 MedicalCare = this.MedicalCare,
-                Donations = this.Donations
+                Donations = this.Donations,
+                Location = new NetTopologySuite.Geometries.Point(this.Location.Longitude, this.Location.Latitude)
+            };
+            animalShelter.Location.SRID = 4326;
+            return animalShelter;
+        }
+
+        public void UpdateEntity(AnimalShelter existingShelter)
+        {
+            existingShelter.Name = this.Name;
+            existingShelter.Type = this.Type;
+            existingShelter.Description = this.Description;
+            existingShelter.GeoLong = this.Location.Longitude;
+            existingShelter.GeoLat = this.Location.Latitude;
+            existingShelter.Address = this.Location.Address;
+            existingShelter.PhoneNumber = this.PhoneNumber;
+            existingShelter.Email = this.Email;
+            existingShelter.Website = this.Website;
+            existingShelter.ContactName = this.ContactName;
+            existingShelter.ContactPosition = this.ContactPosition;
+            existingShelter.Weekdays = this.Weekdays;
+            existingShelter.Weekend = this.Weekend;
+            existingShelter.Adoption = this.Adoption;
+            existingShelter.Visiting = this.Visiting;
+            existingShelter.Volunteering = this.Volunteering;
+            existingShelter.MedicalCare = this.MedicalCare;
+            existingShelter.Donations = this.Donations;
+            existingShelter.Location = new NetTopologySuite.Geometries.Point(this.Location.Longitude, this.Location.Latitude)
+            {
+                SRID = 4326
             };
         }
+
     }
 
-   
+
 
 }
