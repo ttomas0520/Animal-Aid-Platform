@@ -32,6 +32,7 @@ namespace AnimalAidPlatform.API.Controllers
                 {
                     Name = request.Name,
                     Urlhandle = request.Urlhandle,
+                    AssestIconHref = request.AssetsIconHref
                 };
 
                 var createdCategory = await categoryRepository.CreateCategory(category);
@@ -41,6 +42,7 @@ namespace AnimalAidPlatform.API.Controllers
                     Id = createdCategory.Id,
                     Name = createdCategory.Name,
                     Urlhandle = createdCategory.Urlhandle,
+                    AssestIconHref = createdCategory.AssestIconHref
                 };
 
                 return Ok(categoryDto);
@@ -63,6 +65,7 @@ namespace AnimalAidPlatform.API.Controllers
                     Id = category.Id,
                     Name = category.Name,
                     Urlhandle = category.Urlhandle,
+                    AssestIconHref= category.AssestIconHref
                 }).ToList();
 
                 return Ok(categoryDtos);
@@ -90,6 +93,7 @@ namespace AnimalAidPlatform.API.Controllers
                     Id = category.Id,
                     Name = category.Name,
                     Urlhandle = category.Urlhandle,
+                    AssestIconHref = category.AssestIconHref
                 };
 
                 return Ok(categoryDto);
@@ -127,6 +131,7 @@ namespace AnimalAidPlatform.API.Controllers
                     Id = updatedCategory.Id,
                     Name = updatedCategory.Name,
                     Urlhandle = updatedCategory.Urlhandle,
+                    AssestIconHref= updatedCategory.AssestIconHref
                 };
 
                 return Ok(categoryDto);

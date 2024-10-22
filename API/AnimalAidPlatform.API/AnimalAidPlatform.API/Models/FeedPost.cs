@@ -21,6 +21,7 @@ namespace AnimalAidPlatform.API.Models
         public double GeoLong { get; set; }
         public double GeoLat { get; set; }
         public string Address { get; set; }
+        public string LocUrl { get; set; }
 
         public Point? Location { get; set; }
 

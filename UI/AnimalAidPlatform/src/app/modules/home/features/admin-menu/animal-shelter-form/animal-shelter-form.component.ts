@@ -111,8 +111,10 @@ export class AnimalShelterFormComponent {
             latitude: place.geometry.location.lat(),
             longitude: place.geometry.location.lng(),
             address: place.formatted_address,
+            url: place.url,
           };
         }
+        console.log(this.geocodedLocation)
       })
     });
 
@@ -241,7 +243,8 @@ export class AnimalShelterFormComponent {
       location: {
         address: this.geocodedLocation.address,
         longitude: this.geocodedLocation.longitude,
-        latitude: this.geocodedLocation.latitude 
+        latitude: this.geocodedLocation.latitude,
+        url: this.geocodedLocation.url
       },
       phoneNumber: this.locationInfo.get('phoneNumber')?.value,
       email: this.locationInfo.get('email')?.value,

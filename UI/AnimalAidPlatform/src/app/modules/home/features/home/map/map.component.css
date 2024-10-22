@@ -1,8 +1,69 @@
 .my-google-map {
-  width: 100%;
+  position: relative;
   height: 87vh;
+  overflow: hidden; 
 }
 
-.wrap {
-  margin-left: auto;
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right 0.3s ease-in-out;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.open {
+  right: 0;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 50%;
+  left: -40px;
+  transform: translateY(-50%);
+  background-color: #333;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.toggle-button img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Scrollable shelter list */
+.shelter-list {
+  overflow-y: auto;
+  flex-grow: 1;
+  margin-top: 20px;
+}
+
+/* Material card styling */
+mat-card {
+  background-color: #444;
+  color: white;
+  margin-bottom: 15px;
+}
+
+mat-card-header {
+  color: #ddd;
+}
+
+mat-card-content p {
+  margin: 5px 0;
 }

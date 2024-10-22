@@ -22,6 +22,7 @@ namespace AnimalAidPlatform.Models
         public double GeoLong { get; set; }
         public double GeoLat { get; set; }
         public string Address { get; set; }
+        public string LocUrl { get; set; }
 
         public Point? Location { get; set; }
 
@@ -65,7 +66,8 @@ namespace AnimalAidPlatform.Models
                 {
                     Longitude = this.GeoLong,
                     Latitude = this.GeoLat,
-                    Address = this.Address
+                    Address = this.Address,
+                    Url = this.LocUrl
                 },
                 PhoneNumber = this.PhoneNumber,
                 Email = this.Email,

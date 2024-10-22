@@ -50,7 +50,7 @@ namespace AnimalAidPlatform.API.Controllers
                     UserID = feedPost.CreatorId,
                     CreatorName = feedPost.Creator.Name,
                     ImageUrl = feedPost.ImageUrl,
-                    Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong },
+                    Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong, Url = feedPost.LocUrl },
                     Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle },
                     LikeNumber = feedPost.Likes,
                     IsLiked = isItLiked,
@@ -95,6 +95,7 @@ namespace AnimalAidPlatform.API.Controllers
                 Creator = user,
                 Category = category,
                 Location = point,
+                LocUrl = request.Location.Url,
 
             };
             var createdFeedPost = await _feedPostRepository.CreateFeedPost(createPost);
@@ -149,7 +150,7 @@ namespace AnimalAidPlatform.API.Controllers
                     UserID = feedPost.CreatorId,
                     CreatorName = feedPost.Creator.Name,
                     ImageUrl = feedPost.ImageUrl,
-                    Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong },
+                    Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong, Url = feedPost.LocUrl },
                     Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle },
                     LikeNumber = feedPost.Likes,
                     IsLiked = isItLiked,

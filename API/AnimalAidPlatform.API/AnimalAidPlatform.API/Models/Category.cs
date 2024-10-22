@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public string Urlhandle { get; set; }
+        public string AssestIconHref { get; set; }
         public ICollection<FeedPost> Posts { get; set; }
         public ICollection<NotificationSettings> NotificationSettings { get; set; }
     }

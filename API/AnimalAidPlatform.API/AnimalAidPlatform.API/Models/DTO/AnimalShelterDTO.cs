@@ -58,6 +58,7 @@
                 GeoLong = this.Location.Longitude,
                 GeoLat = this.Location.Latitude,
                 Address = this.Location.Address,
+                LocUrl = this.Location.Url,
                 PhoneNumber = this.PhoneNumber,
                 Email = this.Email,
                 Website = this.Website,
@@ -84,6 +85,7 @@
             existingShelter.GeoLong = this.Location.Longitude;
             existingShelter.GeoLat = this.Location.Latitude;
             existingShelter.Address = this.Location.Address;
+            existingShelter.LocUrl = this.Location.Url;
             existingShelter.PhoneNumber = this.PhoneNumber;
             existingShelter.Email = this.Email;
             existingShelter.Website = this.Website;

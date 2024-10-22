@@ -1,6 +1,31 @@
 <div class="my-google-map">
-  <!--<google-map height="87vh" width="100%" [options]="options">
-    <map-advanced-marker [position]="options.center!"></map-advanced-marker>
-  </google-map>-->
   <div id="map" class="my-google-map"></div>
+  <div class="sidebar" [class.open]="isPanelOpen">
+    <button class="toggle-button" (click)="togglePanel()">
+      <img src="/assets/shelter.png" alt="Toggle Icon" class="toggle-icon">
+    </button>
+    <h2>Állatmenhelyek</h2>
+    <div><mat-slide-toggle
+      [checked]="animalShelterChecked"
+      (change)="onAnimalShelterToggle($event)">
+  </mat-slide-toggle> Állatmenhelyek megjelenítése</div>
+
+  <!-- Scrollable shelter list -->
+  <div class="shelter-list">
+    <mat-card *ngFor="let shelter of animalShelters" (click)="focusShelter(shelter.location!)">
+      <mat-card-header>
+        <mat-card-title>{{ shelter.name }}</mat-card-title>
+        <mat-card-subtitle>{{ shelter.type }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ shelter.description }}</p>
+        <p>Phone: {{ shelter.phoneNumber }}</p>
+        <p>Email: {{ shelter.email }}</p>
+        <p>Contact: {{ shelter.contactName }} ({{ shelter.contactPosition }})</p>
+        <p *ngIf="shelter.weekdays">Weekdays: {{ shelter.weekdays }}</p>
+        <p *ngIf="shelter.weekend">Weekend: {{ shelter.weekend }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  </div>
 </div>

@@ -44,6 +44,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             {
                 existingCategory.Name = category.Name;
                 existingCategory.Urlhandle = category.Urlhandle;
+                existingCategory.AssestIconHref = category.AssestIconHref;
 
                 await _context.SaveChangesAsync();
             }

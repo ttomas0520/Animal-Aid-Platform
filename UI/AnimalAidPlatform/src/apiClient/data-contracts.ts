@@ -43,6 +43,7 @@ export interface AnimalShelter {
   /** @format double */
   geoLat?: number;
   address?: string | null;
+  locUrl?: string | null;
   location?: Point;
   /**
    * @minLength 1
@@ -259,6 +260,7 @@ export interface FeedPost {
   /** @format double */
   geoLat?: number;
   address?: string | null;
+  locUrl?: string | null;
   location?: Point;
   /** @format date-time */
   postDate?: string;
@@ -343,6 +345,7 @@ export interface LocationDTO {
   /** @format double */
   longitude?: number;
   address?: string | null;
+  url?: string | null;
 }
 
 export interface LoginDTO {

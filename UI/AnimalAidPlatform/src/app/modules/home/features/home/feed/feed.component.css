@@ -13,3 +13,27 @@
 mat-grid-tile {
   background: lightblue;
 }
+
+.postButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.postButtons div {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.postButtons div button{
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .postButtons {
+    display: none;
+  }
+}

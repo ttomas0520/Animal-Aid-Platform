@@ -1,5 +1,39 @@
 <mat-card class="feed">
   @if(!isAdminMode){
+    <div class="postButtons" *ngIf="!isSmallScreen">
+        <div *ngFor="let category of categories">
+          <button mat-fab extended>
+            <mat-icon>favorite</mat-icon>
+            {{ category.name }}
+          </button>
+        </div>
+      </div>
+      
+      <!-- Dropdown menu for small screens -->
+      <div *ngIf="isSmallScreen">
+        <button mat-button [matMenuTriggerFor]="menu">
+          Válasszon lehetőséget
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>favorite</mat-icon>
+            Basic 1
+          </button>
+          <button mat-menu-item>
+            <mat-icon>favorite</mat-icon>
+            Basic 2
+          </button>
+          <button mat-menu-item>
+            <mat-icon>favorite</mat-icon>
+            Basic 3
+          </button>
+          <button mat-menu-item>
+            <mat-icon>favorite</mat-icon>
+            Basic 4
+          </button>
+        </mat-menu>
+      </div>
+   
   <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
     <div fxLayout="column">
       <div fxLayout="column" fxFlex="50%" style="background-color: #f0f0f0">

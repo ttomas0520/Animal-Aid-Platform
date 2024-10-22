@@ -8,7 +8,9 @@ import {
 import { ImportModule } from '../../../../common/import.module';
 import { Loader } from '@googlemaps/js-api-loader';
 import { environment } from '../../../../../../environments/environment.development';
-import { FeedPostResponseDTO } from '../../../../../../apiClient/data-contracts';
+import { AnimalShelterDTO, FeedPostResponseDTO, LocationDTO } from '../../../../../../apiClient/data-contracts';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { AnimalShelterService } from '../../../../../core/services/animalShelter.service';
 @Component({
   selector: 'app-map',
   standalone: true,
@@ -23,6 +25,23 @@ export class MapComponent implements OnInit {
     center: { lat: -31, lng: 147 },
     zoom: 13,
   };
+
+  public animalShelters: AnimalShelterDTO[] = [];
+  constructor(private animalshelterService: AnimalShelterService) {
+    
+  }
+
+  animalSheltersMarkers: google.maps.marker.AdvancedMarkerElement[] =[]
+  isPanelOpen = false;
+  animalShelterChecked = false;
+  togglePanel() {
+    this.isPanelOpen = !this.isPanelOpen;
+  }
+
+  onAnimalShelterToggle(event: MatSlideToggleChange) {
+    this.animalShelterChecked = event.checked; 
+    this.showAnimalShelters()
+  }
 
   loader = new Loader({
     apiKey: environment.googleApiKey,
@@ -176,6 +195,95 @@ export class MapComponent implements OnInit {
       });
     }
   }
+
+  showAnimalShelters() {
+    if (!this.animalShelterChecked) {
+      this.animalSheltersMarkers.forEach(marker =>
+        marker.map = null
+      )
+      this.animalSheltersMarkers = []
+      return;
+    }
+
+    const helpString =
+      '<h2>${title}</h2>' +
+      '<a href ="${url}">${address}</a>' +
+      '<div style="display: flex; justify-content: space-between;">' +
+      '<span class="material-icons">visibility</span>' +
+      '<span class="material-icons">thumb_up</span>' +
+      '<span class="material-icons">arrow_forward</span>' +
+      '</div>';
+  
+    if(this.animalShelterChecked){
+       this.animalshelterService.getAllAnimalShelter().then((resp) => {
+        if(resp.length != this.animalShelters.length){
+          this.animalShelters = [...resp];
+        }
+        
+        var features: any[] = [];;
+  
+        this.animalShelters.forEach((shelter) => {
+          features.push({
+            position: new google.maps.LatLng(
+              shelter.location?.latitude!,
+              shelter.location?.longitude
+            ),
+            type: 'shelter',
+            content: this.fillTemplateString(helpString, {
+              title: shelter.name,
+              address: shelter.location?.address,
+              url: shelter.location?.url,
+            }),
+          });
+        });
+      
+        var lastOpenedWindow: google.maps.InfoWindow;
+        for (let i = 0; i < features.length; i++) {
+          const iconImage = document.createElement('img');
+          iconImage.src = "/assets/shelter.png";
+          iconImage.width = 40;
+          iconImage.height = 40;
+      
+          const marker = new google.maps.marker.AdvancedMarkerElement({
+            map: this.map,
+            position: features[i].position,
+            content: iconImage,
+          });
+          
+          var finded = this.animalSheltersMarkers.find(aMarker => aMarker.position == marker.position);
+          if(finded){
+            finded.map = this.map
+          }else{
+            this.animalSheltersMarkers.push(marker)
+          }
+          
+         
+          
+      
+          const infowindow = new google.maps.InfoWindow({
+            content: features[i].content,
+          });
+      
+          marker.gmpClickable = true;
+          marker.addListener('click', (e: any) => {
+            if (lastOpenedWindow) lastOpenedWindow.close();
+            infowindow.open(marker.map, marker);
+            lastOpenedWindow = infowindow;
+          });
+        }
+      });
+    }
+   
+  }
+
+  focusShelter(location: LocationDTO){
+    if(this.animalShelterChecked){
+      var pos = new google.maps.LatLng(location.latitude!, location.longitude!) 
+      this.map?.setCenter(pos)
+    }
+  }
+
+  
   fillTemplateString(
     template: string,
     variables: { [key: string]: any }

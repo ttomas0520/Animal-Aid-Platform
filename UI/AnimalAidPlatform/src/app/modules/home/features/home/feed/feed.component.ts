@@ -24,6 +24,7 @@ import {
   uploadBytesResumable,
 } from '@angular/fire/storage';
 import { getDownloadURL } from '@firebase/storage';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-feed',
@@ -38,11 +39,13 @@ export class FeedComponent implements OnInit {
   @Output() postCreated = new EventEmitter<number>();
   categories: CategoryDto[] = [];
   postForm: UntypedFormGroup;
+  isSmallScreen = false;
 
   constructor(
     private sanitizer: DomSanitizer,
     private postService: FeedPostService,
-    private storage: Storage
+    private storage: Storage,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.postForm = new UntypedFormGroup({
       title: new UntypedFormControl('', Validators.required),
@@ -53,7 +56,11 @@ export class FeedComponent implements OnInit {
     postService.getCategories().then((resp) => (this.categories = resp));
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
+      this.isSmallScreen = result.matches;
+    });
+  }
 
   image: string | SafeUrl = '';
   currentLocation = 'Hely meghatározása';
@@ -110,6 +117,7 @@ export class FeedComponent implements OnInit {
             geocoder.geocode({ location: pos }).then((resp) => {
               this.currentLocation = resp.results[0].formatted_address;
               this.geocodedLocation.address = this.currentLocation;
+              this.geocodedLocation.url = this.generateGoogleMapsUrl(pos.lat,pos.lng,resp.results[0].place_id)
               this.currentLocation = this.currentLocation.replace(
                 ' Magyarország',
                 ''
@@ -120,5 +128,10 @@ export class FeedComponent implements OnInit {
         );
       }
     });
+  }
+
+  generateGoogleMapsUrl(placeLatitude: number, placeLongitude: number, placeId: string): string {
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(placeLatitude)},${encodeURIComponent(placeLongitude)}&query_place_id=${encodeURIComponent(placeId)}`;
+    return url;
   }
 }
