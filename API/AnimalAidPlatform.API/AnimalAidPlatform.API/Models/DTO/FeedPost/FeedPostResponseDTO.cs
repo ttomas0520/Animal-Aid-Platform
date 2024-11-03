@@ -15,5 +15,6 @@ namespace AnimalAidPlatform.API.Models.DTO.FeedPost
         public string ImageUrl { get; set; }
         public int LikeNumber { get; set; }
         public bool IsLiked { get; set; }
+        public bool OwnPost { get; set; }
     }
 }

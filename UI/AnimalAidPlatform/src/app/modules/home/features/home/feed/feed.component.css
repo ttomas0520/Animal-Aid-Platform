@@ -37,3 +37,15 @@ mat-grid-tile {
     display: none;
   }
 }
+
+.form-container {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.form-container.open {
+  max-height: 1000px;
+  opacity: 1;
+}

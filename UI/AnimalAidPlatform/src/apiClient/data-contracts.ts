@@ -138,6 +138,7 @@ export interface Category {
   id?: number;
   name?: string | null;
   urlhandle?: string | null;
+  assestIconHref?: string | null;
   posts?: FeedPost[] | null;
   notificationSettings?: NotificationSettings[] | null;
 }
@@ -147,11 +148,13 @@ export interface CategoryDto {
   id?: number;
   name?: string | null;
   urlhandle?: string | null;
+  assestIconHref?: string | null;
 }
 
 export interface CategoryRequestDto {
   name?: string | null;
   urlhandle?: string | null;
+  assetsIconHref?: string | null;
 }
 
 export interface Coordinate {
@@ -295,6 +298,7 @@ export interface FeedPostResponseDTO {
   /** @format int32 */
   likeNumber?: number;
   isLiked?: boolean;
+  ownPost?: boolean;
 }
 
 export interface Geometry {

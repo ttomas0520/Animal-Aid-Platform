@@ -21,6 +21,7 @@
       alt="Sample image"
       width="200"
       height="200"
+      priority
     />
     }
   </div>
@@ -35,9 +36,11 @@
 
 <mat-menu #menu="matMenu">
   @if(isAdminMode){
-  <button mat-menu-item>Poszt törlése</button>
   <button mat-menu-item>Figyelmeztetés</button>
   }@else {
   <button mat-menu-item>Jelentés</button>
+  }
+  @if(this.post?.ownPost){
+    <button mat-menu-item (click)="delete()">Poszt törlése</button>
   }
 </mat-menu>

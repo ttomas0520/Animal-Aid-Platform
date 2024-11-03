@@ -51,10 +51,10 @@ namespace AnimalAidPlatform.API.Controllers
                     CreatorName = feedPost.Creator.Name,
                     ImageUrl = feedPost.ImageUrl,
                     Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong, Url = feedPost.LocUrl },
-                    Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle },
+                    Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle, AssestIconHref = feedPost.Category.AssestIconHref },
                     LikeNumber = feedPost.Likes,
                     IsLiked = isItLiked,
-
+                    OwnPost = currentUserId == feedPost.CreatorId
                 }); 
             }
             return Ok(resp);
@@ -62,7 +62,7 @@ namespace AnimalAidPlatform.API.Controllers
 
         // GET: api/FeedPosts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FeedPost>> GetFeedPost(int id)
+        public async Task<ActionResult<FeedPostResponseDTO>> GetFeedPost(int id)
         {
             var feedPost = await _feedPostRepository.GetFeedPostById(id);
 
@@ -70,8 +70,23 @@ namespace AnimalAidPlatform.API.Controllers
             {
                 return NotFound();
             }
-
-            return feedPost;
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bool isItLiked = (await _feedPostLikeRepository.GetUserPostLikeAsync(feedPost.Id, currentUserId)) != null;
+            var result = new FeedPostResponseDTO
+            {
+                Id = feedPost.Id,
+                Title = feedPost.Title,
+                ContentText = feedPost.ContentText,
+                UserID = feedPost.CreatorId,
+                CreatorName = feedPost.Creator.Name,
+                ImageUrl = feedPost.ImageUrl,
+                Location = new Models.DTO.LocationDTO { Address = feedPost.Address, Latitude = feedPost.GeoLat, Longitude = feedPost.GeoLong, Url = feedPost.LocUrl },
+                Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle, AssestIconHref = feedPost.Category.AssestIconHref },
+                LikeNumber = feedPost.Likes,
+                IsLiked = isItLiked,
+                OwnPost = currentUserId == feedPost.CreatorId
+            };
+            return result;
         }
 
         // POST: api/FeedPosts
@@ -126,17 +141,33 @@ namespace AnimalAidPlatform.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFeedPost(int id)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var isAdmin = User.IsInRole("ADMIN");
+
+            var post = await _feedPostRepository.GetFeedPostById(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            if (post.CreatorId != userId && !isAdmin)
+            {
+                return Forbid();
+            }
+
             var result = await _feedPostRepository.DeleteFeedPost(id);
             if (!result)
             {
                 return NotFound();
             }
+
             return NoContent();
         }
 
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<FeedPostResponseDTO>>> GetAllFeedPostsCreatedByUser(string userId)
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var feedPosts = await _feedPostRepository.GetAllFeedPostCreatedByUser(userId);
             var resp = new List<FeedPostResponseDTO>();
             foreach (var feedPost in feedPosts)
@@ -154,6 +185,7 @@ namespace AnimalAidPlatform.API.Controllers
                     Category = new Models.DTO.Category.CategoryDto { Id = feedPost.CategoryId, Name = feedPost.Category.Name, Urlhandle = feedPost.Category.Urlhandle },
                     LikeNumber = feedPost.Likes,
                     IsLiked = isItLiked,
+                    OwnPost = currentUserId == feedPost.CreatorId
                 });
             }
             return Ok(resp);

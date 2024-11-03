@@ -25,27 +25,31 @@ import {
 } from '@angular/fire/storage';
 import { getDownloadURL } from '@firebase/storage';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { HttpClientModule } from "@angular/common/http";
+import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
   selector: 'app-feed',
   standalone: true,
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css',
-  imports: [ImportModule, FeedPostComponent],
+  imports: [ImportModule, FeedPostComponent, HttpClientModule],
 })
 export class FeedComponent implements OnInit {
   @Input() isAdminMode: boolean = false;
   @Input() posts: FeedPostResponseDTO[] = [];
-  @Output() postCreated = new EventEmitter<number>();
+  @Output() postRefresh = new EventEmitter<number>();
   categories: CategoryDto[] = [];
   postForm: UntypedFormGroup;
   isSmallScreen = false;
+  isNewPostFormOpened = false;
 
   constructor(
     private sanitizer: DomSanitizer,
     private postService: FeedPostService,
     private storage: Storage,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private matIconRegistry: MatIconRegistry
   ) {
     this.postForm = new UntypedFormGroup({
       title: new UntypedFormControl('', Validators.required),
@@ -53,7 +57,13 @@ export class FeedComponent implements OnInit {
       category: new UntypedFormControl('', Validators.required),
       image: new UntypedFormControl(null),
     });
-    postService.getCategories().then((resp) => (this.categories = resp));
+    postService.getCategories().then((resp) => {
+      this.categories = resp;
+      this.categories.forEach(cat =>{
+        this.matIconRegistry.addSvgIcon(cat.assestIconHref!, this.sanitizer.bypassSecurityTrustResourceUrl(`assets/${cat.assestIconHref}`))
+      })
+
+    });
   }
 
   ngOnInit() {
@@ -94,7 +104,7 @@ export class FeedComponent implements OnInit {
       };
       this.postService.createPost(post).then((id) => {
         if (id) {
-          this.postCreated.emit(id);
+          this.postRefresh.emit(id);
         }
       });
     } else {
@@ -128,6 +138,17 @@ export class FeedComponent implements OnInit {
         );
       }
     });
+  }
+
+  openForm(category: CategoryDto){
+    const currentCategory = this.postForm.controls['category'].value;
+
+    if (this.isNewPostFormOpened && currentCategory === category.id) {
+      this.isNewPostFormOpened = false;
+    } else {
+      this.isNewPostFormOpened = true;
+      this.postForm.controls['category'].patchValue(category.id);
+    }
   }
 
   generateGoogleMapsUrl(placeLatitude: number, placeLongitude: number, placeId: string): string {

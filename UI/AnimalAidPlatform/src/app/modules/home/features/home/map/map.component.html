@@ -15,15 +15,15 @@
     <mat-card *ngFor="let shelter of animalShelters" (click)="focusShelter(shelter.location!)">
       <mat-card-header>
         <mat-card-title>{{ shelter.name }}</mat-card-title>
-        <mat-card-subtitle>{{ shelter.type }}</mat-card-subtitle>
+        <span>{{ shelter.type }}</span>
       </mat-card-header>
       <mat-card-content>
         <p>{{ shelter.description }}</p>
-        <p>Phone: {{ shelter.phoneNumber }}</p>
+        <p>Tel.: {{ shelter.phoneNumber }}</p>
         <p>Email: {{ shelter.email }}</p>
-        <p>Contact: {{ shelter.contactName }} ({{ shelter.contactPosition }})</p>
-        <p *ngIf="shelter.weekdays">Weekdays: {{ shelter.weekdays }}</p>
-        <p *ngIf="shelter.weekend">Weekend: {{ shelter.weekend }}</p>
+        <p>Kapcs. tart.: {{ shelter.contactName }} ({{ shelter.contactPosition }})</p>
+        <p *ngIf="shelter.weekdays">Hétköznap: {{ shelter.weekdays }}</p>
+        <p *ngIf="shelter.weekend">Hétvége: {{ shelter.weekend }}</p>
       </mat-card-content>
     </mat-card>
   </div>

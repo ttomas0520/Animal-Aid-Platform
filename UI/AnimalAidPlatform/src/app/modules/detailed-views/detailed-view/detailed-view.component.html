@@ -1,0 +1,71 @@
+<div class="main-container">
+    @if (
+        isLoading
+    ) {
+        <div class="spinner-container">
+            <mat-spinner></mat-spinner>
+        </div>
+    } @else {
+        @if(!isPostView && animalShelter){
+            <mat-card class="info">
+                <mat-card-header>
+                <mat-card-title>{{ animalShelter!.name }}</mat-card-title>
+                <mat-card-subtitle>{{ animalShelter!.type }}</mat-card-subtitle>
+                </mat-card-header>
+            
+                <mat-card-content>
+                <div class="info-details">
+                    <div class="info-item">
+                    <strong>Leírás:</strong>
+                    <p>{{ animalShelter!.description || 'Nincs leírás.' }}</p>
+                    </div>
+                    <div class="info-item">
+                    <strong>Elhelyezkedés:</strong>
+                    <p *ngIf="animalShelter!.location">
+                        {{ animalShelter!.location.address }},
+                    </p>
+                    <p *ngIf="!animalShelter!.location">Nincs megadott elhelyezkedés.</p>
+                    </div>
+                    <div class="info-item">
+                    <strong>Telefonszám:</strong> {{ animalShelter!.phoneNumber }}
+                    </div>
+                    <div class="info-item">
+                    <strong>Email:</strong> <a mat-button href="mailto:{{ animalShelter!.email }}">{{ animalShelter!.email }}</a>
+                    </div>
+                    <div class="info-item">
+                    <strong>Weboldal:</strong>
+                    <a *ngIf="animalShelter!.website" mat-button [href]="animalShelter!.website" target="_blank">{{ animalShelter!.website }}</a>
+                    <span *ngIf="!animalShelter!.website">Nincs megadott weboldal.</span>
+                    </div>
+                    <div class="info-item">
+                    <strong>Kapcsolattartó:</strong> {{ animalShelter!.contactName }} ({{ animalShelter!.contactPosition }})
+                    </div>
+                    <div class="info-item">
+                    <strong>Nyitvatartás:</strong>
+                    <p *ngIf="animalShelter!.weekdays">Hétfőtől Péntekig: {{ animalShelter!.weekdays }}</p>
+                    <p *ngIf="animalShelter!.weekend">Hétvégén: {{ animalShelter!.weekend }}</p>
+                    </div>
+                    <div class="info-item">
+                    <strong>Szolgáltatások:</strong>
+                    <mat-list>
+                        <mat-list-item *ngIf="animalShelter!.adoption">Örökbefogadás</mat-list-item>
+                        <mat-list-item *ngIf="animalShelter!.visiting">Látogatás</mat-list-item>
+                        <mat-list-item *ngIf="animalShelter!.volunteering">Önkéntes lehetőségek</mat-list-item>
+                        <mat-list-item *ngIf="animalShelter!.medicalCare">Orvosi ellátás</mat-list-item>
+                        <mat-list-item *ngIf="animalShelter!.donations">Adományok</mat-list-item>
+                    </mat-list>
+                    </div>
+                </div>
+                </mat-card-content>
+          </mat-card>
+        }
+        @if(isPostView && feedPost){
+            <div class="info">
+                <app-feed-post [isAdminMode]="false" [post]="feedPost"></app-feed-post>
+            </div>
+        }
+       
+    }
+    
+    
+</div>

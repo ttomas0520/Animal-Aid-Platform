@@ -285,7 +285,7 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @secure
    */
   postDetail = (id: number, params: RequestParams = {}) =>
-    this.request<FeedPost, any>({
+    this.request<FeedPostResponseDTO, any>({
       path: `/api/Post/${id}`,
       method: "GET",
       secure: true,

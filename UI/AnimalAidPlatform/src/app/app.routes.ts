@@ -13,6 +13,7 @@ import { NotificationSettingsComponent } from './modules/user-menu/notification-
 import { OwnedAnimalsComponent } from './modules/user-menu/owned-animals/owned-animals.component';
 import { ProfileComponent } from './modules/user-menu/profile/profile.component';
 import { AnimalShelterFormComponent } from './modules/home/features/admin-menu/animal-shelter-form/animal-shelter-form.component';
+import { DetailedViewComponent } from './modules/detailed-views/detailed-view/detailed-view.component';
 
 export const routes: Routes = [
   {
@@ -76,4 +77,20 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path:'detailed-view',
+    canActivate:[authGuard],
+    children:[
+      {
+        path: 'post/:id',
+        component: DetailedViewComponent,
+        canActivate:[authGuard]
+      },
+      {
+        path: 'shelter/:id',
+        component: DetailedViewComponent,
+        canActivate:[authGuard]
+      }
+    ]
+  }
 ];

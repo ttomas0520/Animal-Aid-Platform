@@ -42,6 +42,8 @@ export class FeedPostService {
       this.apiService.api.categoriesList().then((resp) => {
         if (resp.ok) {
           resolve(resp.data);
+        }else{
+          reject();
         }
       });
     });
@@ -55,6 +57,28 @@ export class FeedPostService {
           resolve(resp.data);
         }else {
           reject();
+        }
+      })
+    })
+  }
+
+  getPostById(id: number) :Promise<FeedPostResponseDTO>{
+    return new Promise<FeedPostResponseDTO>((resolve,reject) =>{
+      this.apiService.api.postDetail(id).then((resp) =>{
+        if(resp.ok){
+          resolve(resp.data)
+        }
+      })
+    })
+  }
+
+  deletePostById(id: number): Promise<void>{
+    return new Promise<void>((resolve,reject)=>{
+      this.apiService.api.postDelete(id).then((resp) =>{
+        if(resp.ok){
+          resolve()
+        }else{
+          reject()
         }
       })
     })

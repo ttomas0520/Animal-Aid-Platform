@@ -2,8 +2,8 @@
   @if(!isAdminMode){
     <div class="postButtons" *ngIf="!isSmallScreen">
         <div *ngFor="let category of categories">
-          <button mat-fab extended>
-            <mat-icon>favorite</mat-icon>
+          <button mat-fab extended (click)="openForm(category)">
+            <mat-icon svgIcon="{{category.assestIconHref}}"></mat-icon>
             {{ category.name }}
           </button>
         </div>
@@ -15,102 +15,92 @@
           Válasszon lehetőséget
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>favorite</mat-icon>
-            Basic 1
-          </button>
-          <button mat-menu-item>
-            <mat-icon>favorite</mat-icon>
-            Basic 2
-          </button>
-          <button mat-menu-item>
-            <mat-icon>favorite</mat-icon>
-            Basic 3
-          </button>
-          <button mat-menu-item>
-            <mat-icon>favorite</mat-icon>
-            Basic 4
-          </button>
+            <button mat-menu-item *ngFor="let category of categories">
+                <mat-icon svgIcon="{{category.assestIconHref}}"></mat-icon>
+                {{ category.name }}
+            </button>
         </mat-menu>
       </div>
-   
-  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-    <div fxLayout="column">
-      <div fxLayout="column" fxFlex="50%" style="background-color: #f0f0f0">
-        <mat-form-field>
-          <input matInput formControlName="title" />
-          <mat-error
-            *ngIf="
-              postForm.get('title')?.invalid && postForm.get('title')?.touched
-            "
-          >
-            A cím megadása kötelező.
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Leírás</mat-label>
-          <textarea matInput formControlName="contentText"></textarea>
-          <mat-error
-            *ngIf="
-              postForm.get('contentText')?.invalid &&
-              postForm.get('contentText')?.touched
-            "
-          >
-            A tartalom megadása kötelező.
-          </mat-error>
-        </mat-form-field>
-        <img [src]="image" (click)="selectImage.click()" width="200px" />
-      </div>
-      <div fxLayout="row" fxFlex="50%">
-        <div fxFlex="33%" style="background-color: #f0f0f0">
-          <mat-form-field style="width: 100%" subscriptSizing="dynamic">
-            <mat-label>Poszt jellege</mat-label>
-            <mat-select formControlName="category">
-              <mat-option
-                *ngFor="let category of categories"
-                [value]="category.id"
-              >
-                {{ category.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div fxFlex="34%" style="background-color: #f0f0f0">
-          <input
-            type="file"
-            (change)="updateImage($event)"
-            style="display: none"
-            #selectImage
-          />
-          <button
-            mat-button
-            type="button"
-            (click)="selectImage.click()"
-            style="width: 100%; height: 100%"
-          >
-            Fénykép hozzáadása
-          </button>
-        </div>
-        <div fxFlex="33%" style="background-color: #f0f0f0">
-          <button
-            mat-button
-            type="button"
-            (click)="reverseGeocode()"
-            style="width: 100%; height: 100%"
-          >
-            <mat-icon>location_on</mat-icon>
-            {{ currentLocation }}
-          </button>
-        </div>
-      </div>
+    <div class="form-container" [class.open]="isNewPostFormOpened">
+        <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+            <div fxLayout="column">
+              <div fxLayout="column" fxFlex="50%" style="background-color: #f0f0f0">
+                <mat-form-field>
+                  <input matInput formControlName="title" />
+                  <mat-error
+                    *ngIf="
+                      postForm.get('title')?.invalid && postForm.get('title')?.touched
+                    "
+                  >
+                    A cím megadása kötelező.
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Leírás</mat-label>
+                  <textarea matInput formControlName="contentText"></textarea>
+                  <mat-error
+                    *ngIf="
+                      postForm.get('contentText')?.invalid &&
+                      postForm.get('contentText')?.touched
+                    "
+                  >
+                    A tartalom megadása kötelező.
+                  </mat-error>
+                </mat-form-field>
+                <img [src]="image" (click)="selectImage.click()" width="200px" />
+              </div>
+              <div fxLayout="row" fxFlex="50%">
+                <div fxFlex="33%" style="background-color: #f0f0f0">
+                  <mat-form-field style="width: 100%" subscriptSizing="dynamic">
+                    <mat-label>Poszt jellege</mat-label>
+                    <mat-select formControlName="category">
+                      <mat-option
+                        *ngFor="let category of categories"
+                        [value]="category.id"
+                      >
+                        {{ category.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div fxFlex="34%" style="background-color: #f0f0f0">
+                  <input
+                    type="file"
+                    (change)="updateImage($event)"
+                    style="display: none"
+                    #selectImage
+                  />
+                  <button
+                    mat-button
+                    type="button"
+                    (click)="selectImage.click()"
+                    style="width: 100%; height: 100%"
+                  >
+                    Fénykép hozzáadása
+                  </button>
+                </div>
+                <div fxFlex="33%" style="background-color: #f0f0f0">
+                  <button
+                    mat-button
+                    type="button"
+                    (click)="reverseGeocode()"
+                    style="width: 100%; height: 100%"
+                  >
+                    <mat-icon>location_on</mat-icon>
+                    {{ currentLocation }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <button mat-raised-button type="submit" [disabled]="postForm.invalid">
+              Poszt létrehozása
+            </button>
+          </form>
     </div>
-    <button mat-raised-button type="submit" [disabled]="postForm.invalid">
-      Poszt létrehozása
-    </button>
-  </form>
+  
 
   } @for (item of posts; track $index) {
-  <app-feed-post [isAdminMode]="isAdminMode" [post]="item"></app-feed-post>
+  <app-feed-post [isAdminMode]="isAdminMode" [post]="item" (postRefresh)="this.postRefresh.emit($event)"></app-feed-post>
   }
 </mat-card>
 

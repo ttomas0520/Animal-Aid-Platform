@@ -4,3 +4,60 @@
     background: -webkit-linear-gradient(to right,  #FE90AF,#C6EA8D);
     background: linear-gradient(to right,  #eeaeca,#C6EA8D);
 }
+
+
+/* A form pozíciójának beállítása */
+.position-relative {
+    position: relative;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%; 
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1000;
+    max-width: 90vw; 
+}
+
+.search-results h5 {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.search-results ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 5px 0;
+}
+
+.search-results li {
+    padding: 5px 0;
+}
+
+.search-results hr {
+    margin: 5px 0;
+    border-top: 1px solid #ddd;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3); 
+    z-index: 10;
+  }
+
+.searchForm{
+    position: relative;
+    z-index: 1000;
+}

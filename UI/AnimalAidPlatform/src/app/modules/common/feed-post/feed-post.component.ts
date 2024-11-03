@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ImportModule } from '../import.module';
 import { FeedPostResponseDTO } from '../../../../apiClient/data-contracts';
 import { NgOptimizedImage } from '@angular/common';
@@ -14,6 +14,7 @@ import { FeedPostService } from '../../../core/services/feedPost.service';
 export class FeedPostComponent {
   @Input() post?: FeedPostResponseDTO;
   @Input() isAdminMode: boolean = false;
+  @Output() postRefresh = new EventEmitter<number>();
   constructor(protected feedpostService: FeedPostService){}
 
   like(){
@@ -27,5 +28,11 @@ export class FeedPostComponent {
       }
     })
 
+  }
+
+  delete(){
+    this.feedpostService.deletePostById(this.post!.id!).then(resp =>
+      this.postRefresh.emit(this.post!.id!)
+    )
   }
 }

@@ -29,10 +29,23 @@ import { BehaviorSubject, Subject } from 'rxjs';
         this.apiService.api.animalShelterList().then((resp) =>{
           if(resp){
             resolve(resp.data)
+          }else{
+            reject()
           }
-        }
-        );
+        });
       });
+    }
+
+    async getAnimalShelterById(id: number) : Promise<AnimalShelterDTO> {
+      return new Promise<AnimalShelterDTO>((resolve,reject) =>{
+        this.apiService.api.animalShelterDetail(id).then((resp) =>{
+          if(resp){
+            resolve(resp.data)
+          }else{
+            reject()
+          }
+        })
+      })
     }
 
     

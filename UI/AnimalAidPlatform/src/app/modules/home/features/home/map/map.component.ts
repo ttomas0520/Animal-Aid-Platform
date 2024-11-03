@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   OnInit,
+  Renderer2,
   contentChild,
 } from '@angular/core';
 import { ImportModule } from '../../../../common/import.module';
@@ -11,6 +12,7 @@ import { environment } from '../../../../../../environments/environment.developm
 import { AnimalShelterDTO, FeedPostResponseDTO, LocationDTO } from '../../../../../../apiClient/data-contracts';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { AnimalShelterService } from '../../../../../core/services/animalShelter.service';
+import { FeedPostService } from '../../../../../core/services/feedPost.service';
 @Component({
   selector: 'app-map',
   standalone: true,
@@ -27,7 +29,7 @@ export class MapComponent implements OnInit {
   };
 
   public animalShelters: AnimalShelterDTO[] = [];
-  constructor(private animalshelterService: AnimalShelterService) {
+  constructor(private animalshelterService: AnimalShelterService , protected feedpostService: FeedPostService, private renderer: Renderer2) {
     
   }
 
@@ -64,6 +66,19 @@ export class MapComponent implements OnInit {
     }
   }
   map: google.maps.Map | undefined;
+
+
+  like(id:number){
+    var likes = this.posts[id]?.likeNumber!
+    
+    this.feedpostService.likePost(id).then((resp) =>{
+      likes = resp;
+      if (this.posts[id]) {
+        this.posts[id].likeNumber = likes;
+        this.posts[id].isLiked = !this.posts[id].isLiked
+      }
+    })
+  }
 
   async initMap() {
     // Request needed libraries.
@@ -110,8 +125,7 @@ export class MapComponent implements OnInit {
       '<p>${address}</p>' +
       '<div style="text-align:center"><img src="${imgUrl}" class="img-fluid" alt="Sample image" width="200" height="200" priority/></div>' +
       '<div style="display: flex; justify-content: space-between;">' +
-      '<span class="material-icons">visibility</span>' +
-      '<span class="material-icons">thumb_up</span>' +
+      '<span class="material-icons like-btn" data-id="${id}">thumb_up</span>' +
       '<span class="material-icons">arrow_forward</span>' +
       '</div>';
 
@@ -138,23 +152,24 @@ export class MapComponent implements OnInit {
     var features = [
       {
         position: new google.maps.LatLng(47.476923, 19.1004811),
-        type: 'lost',
         content: lostString,
+        iconSrc:"lost.svg",
+        id: 0
       },
       {
         position: new google.maps.LatLng(47.486923, 19.1004811),
-        type: 'help',
         content: helpString,
+        iconSrc:"help.svg"
       },
       {
         position: new google.maps.LatLng(47.456923, 19.1004811),
-        type: 'found',
         content: foundString,
+        iconSrc:"found.svg"
       },
       {
         position: new google.maps.LatLng(47.466923, 19.1004811),
-        type: 'ad',
         content: adString,
+        iconSrc:"ad.svg"
       },
     ];
 
@@ -164,19 +179,21 @@ export class MapComponent implements OnInit {
           post.location?.latitude!,
           post.location?.longitude
         ),
-        type: 'help',
+        iconSrc: post.category?.assestIconHref!,
         content: this.fillTemplateString(helpString, {
           title: post.title,
           address: post.location?.address,
           imgUrl: post.imageUrl,
+          id: post.id,
         }),
+        id:post.id
       });
     });
 
     var lastOpenedWindow: google.maps.InfoWindow;
     for (let i = 0; i < features.length; i++) {
       const iconImage = document.createElement('img');
-      iconImage.src = icons[features[i].type].icon;
+      iconImage.src = "/assets/"+features[i].iconSrc;
       iconImage.width = 40;
       iconImage.height = 40;
       const marker = new google.maps.marker.AdvancedMarkerElement({
@@ -186,6 +203,12 @@ export class MapComponent implements OnInit {
       });
       const infowindow = new google.maps.InfoWindow({
         content: features[i].content,
+      });
+      infowindow.addListener('domready', () => {
+        const likeButton = document.querySelector(`.like-btn[data-id="${features[i].id}"]`);
+        if (likeButton) {
+          this.renderer.listen(likeButton, 'click', () => this.like(features[i].id!));
+        }
       });
       marker.gmpClickable = true;
       marker.addListener('click', (e: any) => {
@@ -209,9 +232,6 @@ export class MapComponent implements OnInit {
       '<h2>${title}</h2>' +
       '<a href ="${url}">${address}</a>' +
       '<div style="display: flex; justify-content: space-between;">' +
-      '<span class="material-icons">visibility</span>' +
-      '<span class="material-icons">thumb_up</span>' +
-      '<span class="material-icons">arrow_forward</span>' +
       '</div>';
   
     if(this.animalShelterChecked){

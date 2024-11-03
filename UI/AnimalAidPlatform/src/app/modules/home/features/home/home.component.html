@@ -5,7 +5,7 @@
         class="feed_new"
         [isAdminMode]="false"
         [posts]="postList"
-        (postCreated)="refreshPostList($event)"
+        (postRefresh)="refreshPostList($event)"
       ></app-feed></div
   ></mat-tab>
   <mat-tab label="Térkép">

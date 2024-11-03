@@ -16,12 +16,13 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
 
         public async Task<IEnumerable<FeedPost>> GetAllFeedPosts()
         {
-            return await _context.FeedPosts.Include(fp => fp.Creator).Include(fp => fp.Category).ToListAsync();
+            var posts = await _context.FeedPosts.Include(fp => fp.Creator).Include(fp => fp.Category).ToListAsync();
+            return posts;
         }
 
         public async Task<FeedPost> GetFeedPostById(int id)
         {
-            return await _context.FeedPosts.FirstOrDefaultAsync(fp => fp.Id == id);
+            return await _context.FeedPosts.Include(fp => fp.Creator).Include(fp => fp.Category).FirstOrDefaultAsync(fp => fp.Id == id);
         }
 
         public async Task<FeedPost> CreateFeedPost(FeedPost feedPost)

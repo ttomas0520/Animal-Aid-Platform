@@ -19,12 +19,40 @@
       </div>
       <form class="d-flex" role="search">
         <input
-          class="form-control me-2"
+          class="form-control me-2 searchForm"
           type="search"
           placeholder="Keresés"
           aria-label="Keresés"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="filterResults()"
+          name="searchTerm"
+          (focus)="onFocus()"
         />
-        <button class="btn btn-outline-success" type="submit">Keresés</button>
+        <button class="btn btn-outline-success searchForm" type="submit">Keresés</button>
+        <div *ngIf="showResults && (filteredPosts.length || filteredShelters.length) && searchTerm != ''" class="search-results">
+          <div *ngIf="filteredPosts.length">
+            <h5>Posztok</h5>
+            <ul>
+              <li *ngFor="let post of filteredPosts">
+                <a (click)="navigateToPost(post.id!)" style="cursor: pointer;">{{ post.title }} - {{ post.creatorName }}</a>
+              </li>
+            </ul>
+          </div>
+          <hr *ngIf="filteredPosts.length && filteredShelters.length" />
+          <div *ngIf="filteredShelters.length">
+            <h5>Shelterek</h5>
+            <ul>
+              <li *ngFor="let shelter of filteredShelters">
+                <a (click)="navigateToShelter(shelter.id!)" style="cursor: pointer;">{{ shelter.name }} - {{ shelter.contactName }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="overlay"
+          *ngIf="showResults"
+          (click)="showResults = false"
+        ></div>
       </form>
 
       <button
