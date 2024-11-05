@@ -49,3 +49,20 @@ mat-grid-tile {
   max-height: 1000px;
   opacity: 1;
 }
+
+
+.post-grid {
+  display: grid;
+  gap: 1rem; /* Space between posts */
+  grid-template-columns: 1fr; /* Default to single column */
+}
+
+@media (min-width: 768px) {
+  .post-grid {
+    grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
+  }
+}
+
+app-feed-post {
+  display: block; /* Ensures each component takes up the full column width */
+}

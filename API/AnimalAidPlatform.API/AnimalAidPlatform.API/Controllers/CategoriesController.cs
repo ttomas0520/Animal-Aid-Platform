@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AnimalAidPlatform.API.Controllers
 {
 
-    [Route("api/categories")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {

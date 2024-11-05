@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Jelentés indoklása</h2>
+
+<div mat-dialog-content *ngIf="!showSuccessMessage">
+  <mat-form-field class="area">
+    <mat-label>Indoklás</mat-label>
+    <textarea matInput [(ngModel)]="reason" placeholder="Írd be a jelentés okát"></textarea>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-content *ngIf="showSuccessMessage">
+  <p>Köszönjük, hogy jelentette a posztot, az adminisztrátorok reagálni fognak.</p>
+</div>
+
+<div mat-dialog-actions *ngIf="!showSuccessMessage">
+  <button mat-button (click)="onCancel()">Mégse</button>
+  <button mat-button color="primary" (click)="onSubmit()">Küldés</button>
+</div>

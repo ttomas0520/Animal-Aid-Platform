@@ -21,6 +21,9 @@ import {
   LoginDTO,
   NotificationSettingsDto,
   RegisterDTO,
+  Report,
+  ReportDTO,
+  ResolveReportDTO,
   RoleDTO,
   UserDetailDTO,
 } from "./data-contracts";
@@ -126,12 +129,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    *
    * @tags Categories
    * @name CategoriesCreate
-   * @request POST:/api/categories
+   * @request POST:/api/Categories
    * @secure
    */
   categoriesCreate = (data: CategoryRequestDto, params: RequestParams = {}) =>
     this.request<void, any>({
-      path: `/api/categories`,
+      path: `/api/Categories`,
       method: "POST",
       body: data,
       secure: true,
@@ -143,12 +146,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    *
    * @tags Categories
    * @name CategoriesList
-   * @request GET:/api/categories
+   * @request GET:/api/Categories
    * @secure
    */
   categoriesList = (params: RequestParams = {}) =>
     this.request<CategoryDto[], any>({
-      path: `/api/categories`,
+      path: `/api/Categories`,
       method: "GET",
       secure: true,
       format: "json",
@@ -159,7 +162,7 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    *
    * @tags Categories
    * @name CategoriesDelete
-   * @request DELETE:/api/categories
+   * @request DELETE:/api/Categories
    * @secure
    */
   categoriesDelete = (
@@ -170,7 +173,7 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
     params: RequestParams = {},
   ) =>
     this.request<void, any>({
-      path: `/api/categories`,
+      path: `/api/Categories`,
       method: "DELETE",
       query: query,
       secure: true,
@@ -181,12 +184,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    *
    * @tags Categories
    * @name CategoriesDetail
-   * @request GET:/api/categories/{id}
+   * @request GET:/api/Categories/{id}
    * @secure
    */
   categoriesDetail = (id: number, params: RequestParams = {}) =>
     this.request<CategoryDto, any>({
-      path: `/api/categories/${id}`,
+      path: `/api/Categories/${id}`,
       method: "GET",
       secure: true,
       format: "json",
@@ -197,12 +200,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    *
    * @tags Categories
    * @name CategoriesUpdate
-   * @request PUT:/api/categories/{id}
+   * @request PUT:/api/Categories/{id}
    * @secure
    */
   categoriesUpdate = (id: number, data: CategoryRequestDto, params: RequestParams = {}) =>
     this.request<void, any>({
-      path: `/api/categories/${id}`,
+      path: `/api/Categories/${id}`,
       method: "PUT",
       body: data,
       secure: true,
@@ -352,6 +355,103 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
     this.request<number, any>({
       path: `/api/Post/${id}/like`,
       method: "POST",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Report
+   * @name ReportList
+   * @request GET:/api/Report
+   * @secure
+   */
+  reportList = (params: RequestParams = {}) =>
+    this.request<Report[], any>({
+      path: `/api/Report`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Report
+   * @name ReportCreate
+   * @request POST:/api/Report
+   * @secure
+   */
+  reportCreate = (data: ReportDTO, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/api/Report`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Report
+   * @name ReportDetail
+   * @request GET:/api/Report/{id}
+   * @secure
+   */
+  reportDetail = (id: number, params: RequestParams = {}) =>
+    this.request<Report, any>({
+      path: `/api/Report/${id}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Report
+   * @name ReportDelete
+   * @request DELETE:/api/Report/{id}
+   * @secure
+   */
+  reportDelete = (id: number, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/api/Report/${id}`,
+      method: "DELETE",
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Report
+   * @name ReportResolveUpdate
+   * @request PUT:/api/Report/resolve/{id}
+   * @secure
+   */
+  reportResolveUpdate = (id: number, data: ResolveReportDTO, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/api/Report/resolve/${id}`,
+      method: "PUT",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Report
+   * @name ReportFeedpostDetail
+   * @request GET:/api/Report/feedpost/{feedPostId}
+   * @secure
+   */
+  reportFeedpostDetail = (feedPostId: number, params: RequestParams = {}) =>
+    this.request<Report[], any>({
+      path: `/api/Report/feedpost/${feedPostId}`,
+      method: "GET",
       secure: true,
       format: "json",
       ...params,

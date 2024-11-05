@@ -7,6 +7,8 @@ import { ApiService } from './api.service';
 import {
   AnimalShelterDTO,
   FeedPostResponseDTO,
+  Report,
+  ResolveReportDTO,
   UserDetailDTO,
 } from '../../../apiClient/data-contracts';
 import { user } from '@angular/fire/auth';
@@ -62,6 +64,28 @@ export class AdminService {
     return new Promise<AnimalShelterDTO>((resolve,reject) =>{
       this.apiService.api.animalShelterUpdate(id, updatableShelter).then((resp) =>{
         if(resp){
+          resolve(resp.data)
+        }
+      })
+    })
+  }
+
+  async getReportsForPost(id: number):Promise<Array<Report>>{
+    return new Promise<Array<Report>>((resolve,reject) =>{
+      this.apiService.api.reportFeedpostDetail(id).then((resp) =>{
+        if(resp){
+          console.log(resp.data)
+          resolve(resp.data)
+        }
+      })
+    })
+  }
+
+  async resolveReport(id: number,data: ResolveReportDTO):Promise<void>{
+    return new Promise<void>((resolve,reject) =>{
+      this.apiService.api.reportResolveUpdate(id,data).then((resp) =>{
+        if(resp){
+          console.log(resp.data)
           resolve(resp.data)
         }
       })

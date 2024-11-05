@@ -98,10 +98,27 @@
           </form>
     </div>
   
-
-  } @for (item of posts; track $index) {
-  <app-feed-post [isAdminMode]="isAdminMode" [post]="item" (postRefresh)="this.postRefresh.emit($event)"></app-feed-post>
+    <div class="post-grid">
+        @for (item of posts; track $index) {
+          <app-feed-post
+            [isAdminMode]="isAdminMode"
+            [post]="item"
+            (postRefresh)="postRefresh.emit($event)"
+          ></app-feed-post>
+        }
+      </div>
+  }@else {
+    @for (item of posts; track $index) {
+        <app-feed-post
+          [isAdminMode]="isAdminMode"
+          [post]="item"
+          (postRefresh)="postRefresh.emit($event)"
+        ></app-feed-post>
+      }
   }
+
+  
+
 </mat-card>
 
 <!--<div class="container-fluid gedf-wrapper">

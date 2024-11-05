@@ -34,6 +34,6 @@ namespace AnimalAidPlatform.API.Models
 
         public ICollection<FeedPostLike> PostLikes { get; set; }
         public int Likes { get; set; } = 0;
-
+        public ICollection<Report> Reports { get; set; } = new List<Report>();
     }
 }

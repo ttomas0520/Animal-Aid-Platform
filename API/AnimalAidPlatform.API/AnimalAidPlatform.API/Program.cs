@@ -12,12 +12,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var JWTSettings = builder.Configuration.GetSection("JWTSettings");
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
+        ); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -60,6 +63,7 @@ builder.Services.AddScoped<IFeedPostRepository, FeedPostRepository>();
 builder.Services.AddScoped<INotificationSettingsRepository, NotificationSettingsRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IFeedPostLikeRepository, FeedPostLikeRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -89,6 +93,8 @@ builder.Services.AddSwaggerGen(c =>
         new List<string>()
       }
     });
+
+    c.UseInlineDefinitionsForEnums();
 });
 var app = builder.Build();
 

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { CategoryModel } from '../../../../../core/models/category-model';
 import { AdminService } from '../../../../../core/services/admin.service';
 import { FeedPostService } from '../../../../../core/services/feedPost.service';
 import { CategoryDto } from '../../../../../../apiClient/data-contracts';
@@ -37,5 +36,5 @@ export class CategoryListComponent implements OnInit {
     });
   }
 
-  onDeleteCategory(category: CategoryModel) {}
+  onDeleteCategory(category: any) {}
 }

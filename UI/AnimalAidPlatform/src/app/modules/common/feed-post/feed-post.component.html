@@ -1,46 +1,104 @@
-<mat-card class="mt-3 p-3">
-  <div class="header">
-    <h2 class="title">{{ post?.title }}</h2>
-    <b>{{ post?.creatorName }}</b> posztja
-    <button
-      mat-icon-button
-      class="example-icon"
-      aria-label="Example icon-button with menu icon"
-      [matMenuTriggerFor]="menu"
-    >
-      <mat-icon>more_vert</mat-icon>
-    </button>
-  </div>
-
-  <div class="text-muted location">{{ post?.location?.address }}</div>
-  <div style="text-align: center">
-    @if(post?.imageUrl){
-    <img
-      [ngSrc]="post?.imageUrl!"
-      class="img-fluid"
-      alt="Sample image"
-      width="200"
-      height="200"
-      priority
-    />
-    }
-  </div>
-  <div class="description">
-    {{ post?.contentText }}
-  </div>
-  <div class="feed-buttons">
-    <span class="material-icons">visibility</span>
-    <div><span class="material-icons" (click)="like()">thumb_up</span><span>{{this.post?.likeNumber}}</span></div>
-  </div>
+<mat-card class="mt-3 p-3 d-flex flex-column">
+  <!-- Left Side: Metadata -->
+   <div class="main">
+    <div class="metadata" style="flex: 1;">
+      <div class="header d-flex align-items-center justify-content-between">
+        <div>
+          <h2 class="title">{{ post?.title }}</h2>
+          <b>{{ post?.creatorName }}</b> posztja
+        </div>
+        <button
+          mat-icon-button
+          class="example-icon"
+          aria-label="Example icon-button with menu icon"
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </div>
+  
+      <div class="text-muted location">{{ post?.location?.address }}</div>
+      <div class="description mt-2">
+        {{ post?.contentText }}
+      </div>
+  
+      <div class="feed-buttons mt-3 d-flex align-items-center">
+        <span class="material-icons me-2">visibility</span>
+        <div>
+          <span class="material-icons" (click)="like()">thumb_up</span>
+          <span>{{ post?.likeNumber }}</span>
+        </div>
+      </div>
+    </div>
+    <!-- Right Side: Image -->
+    <div class="image-container" style="flex: 0 0 200px; text-align: center;">
+      <div class="inner-div" (mouseover)="isHovered = true" (mouseleave)="isHovered = false">
+        <img
+        *ngIf="post?.imageUrl"
+        [ngSrc]="post?.imageUrl!"
+        class="image"
+        alt="Sample image"
+        fill
+        priority
+        (click)="openImagePreview(post?.imageUrl!)"
+        />
+        <div *ngIf="isHovered" class="zoom-icon">
+          <span class="material-icons icon">zoom_in</span>
+        </div>
+      </div>
+    </div>
+   </div>
+  
+    <!-- Reports Section for Admin -->
+    <div>
+    <ng-container *ngIf="isAdminMode">
+      <mat-expansion-panel (opened)="fetchReports()">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Jelentések </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <div *ngIf="reports">
+            <table mat-table [dataSource]="reports" class="mat-elevation-z8 mat-table">
+              <!-- Report Columns -->
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let report">{{ report.id }}</td>
+              </ng-container>
+              <ng-container matColumnDef="reporterId">
+                <th mat-header-cell *matHeaderCellDef>Jelentő ID</th>
+                <td mat-cell *matCellDef="let report">{{ report.reporterId }}</td>
+              </ng-container>
+              <ng-container matColumnDef="reason">
+                <th mat-header-cell *matHeaderCellDef>Indoklás</th>
+                <td mat-cell *matCellDef="let report">
+                  <span matTooltip="{{ report.reason }}" matTooltipPosition="above">
+                    {{ report.reason.length > 30 ? (report.reason | slice:0:30) + '...' : report.reason }}
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Akciók</th>
+                <td mat-cell *matCellDef="let report">
+                  <button mat-button color="primary" (click)="openReportDecisionDialog(report)">Megoldás</button>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="['id', 'reporterId', 'reason', 'actions']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['id', 'reporterId', 'reason', 'actions']"></tr>
+            </table>
+          </div>
+          <div *ngIf="!reports">
+            <p>Loading reports...</p>
+          </div>
+        </ng-template>
+      </mat-expansion-panel>
+    </ng-container>
+    </div>
+    
 </mat-card>
 
+<!-- Menu for actions -->
 <mat-menu #menu="matMenu">
-  @if(isAdminMode){
-  <button mat-menu-item>Figyelmeztetés</button>
-  }@else {
-  <button mat-menu-item>Jelentés</button>
-  }
-  @if(this.post?.ownPost){
-    <button mat-menu-item (click)="delete()">Poszt törlése</button>
-  }
+  <button mat-menu-item *ngIf="isAdminMode" (click)="adminService.getReportsForPost(post!.id!)">Figyelmeztetés</button>
+  <button mat-menu-item *ngIf="!isAdminMode" (click)="openReportDialog()">Jelentés</button>
+  <button mat-menu-item *ngIf="post?.ownPost" (click)="delete()">Poszt törlése</button>
 </mat-menu>

@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Döntés</h2>
+
+<div mat-dialog-content>
+  <mat-form-field class="area">
+    <mat-label>Admin válasza</mat-label>
+    <textarea matInput [(ngModel)]="reportDecision.adminResponse" placeholder="Írd be az admin válaszát" maxlength="500"></textarea>
+  </mat-form-field>
+
+  <mat-radio-group [(ngModel)]="reportDecision.reportAction">
+    <mat-radio-button value="None">Nincs teendő</mat-radio-button>
+    <mat-radio-button value="Delete">Törlés</mat-radio-button>
+    <mat-radio-button value="NoticeCreator">Értesítés a szerzőnek</mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Mégse</button>
+  <button mat-button color="primary" (click)="onSubmit()">Küldés</button>
+</div>

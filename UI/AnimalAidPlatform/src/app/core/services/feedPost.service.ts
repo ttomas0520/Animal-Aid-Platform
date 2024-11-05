@@ -5,6 +5,7 @@ import {
   CreatePostDTO,
   FeedPost,
   FeedPostResponseDTO,
+  ReportDTO,
 } from '../../../apiClient/data-contracts';
 
 @Injectable({
@@ -82,6 +83,19 @@ export class FeedPostService {
         }
       })
     })
+  }
+
+  reportPostById(dto: ReportDTO): Promise<void>{
+   return new Promise<void>((resolve,reject) =>{
+    this.apiService.api.reportCreate(dto).then((resp) =>{
+        if(resp.ok){
+          resolve()
+        }else{
+          reject()
+        }
+      })
+   })
+
   }
 
 }

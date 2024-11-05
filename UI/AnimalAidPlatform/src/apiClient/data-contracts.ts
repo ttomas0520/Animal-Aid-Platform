@@ -122,7 +122,7 @@ export interface ApplicationUser {
   name: string;
   phoneNumber?: string | null;
   email?: string | null;
-  role?: Role;
+  role?: "ADMIN" | "Civilian" | "Activist" | "ShelterWorker" | "ShelterAdmin";
   posts?: FeedPost[] | null;
   notificationSettings?: NotificationSettings;
 }
@@ -179,7 +179,47 @@ export interface CoordinateSequence {
   measures?: number;
   /** @format int32 */
   spatial?: number;
-  ordinates?: Ordinates;
+  ordinates?:
+    | "None"
+    | "X"
+    | "Y"
+    | "XY"
+    | "Z"
+    | "XYZ"
+    | "Spatial4"
+    | "Spatial5"
+    | "Spatial6"
+    | "Spatial7"
+    | "Spatial8"
+    | "Spatial9"
+    | "Spatial10"
+    | "Spatial11"
+    | "Spatial12"
+    | "Spatial13"
+    | "Spatial14"
+    | "Spatial15"
+    | "Spatial16"
+    | "AllSpatialOrdinates"
+    | "M"
+    | "XYM"
+    | "XYZM"
+    | "Measure2"
+    | "Measure3"
+    | "Measure4"
+    | "Measure5"
+    | "Measure6"
+    | "Measure7"
+    | "Measure8"
+    | "Measure9"
+    | "Measure10"
+    | "Measure11"
+    | "Measure12"
+    | "Measure13"
+    | "Measure14"
+    | "Measure15"
+    | "Measure16"
+    | "AllMeasureOrdinates"
+    | "AllOrdinates";
   hasZ?: boolean;
   hasM?: boolean;
   /** @format int32 */
@@ -193,7 +233,47 @@ export interface CoordinateSequence {
 }
 
 export interface CoordinateSequenceFactory {
-  ordinates?: Ordinates;
+  ordinates?:
+    | "None"
+    | "X"
+    | "Y"
+    | "XY"
+    | "Z"
+    | "XYZ"
+    | "Spatial4"
+    | "Spatial5"
+    | "Spatial6"
+    | "Spatial7"
+    | "Spatial8"
+    | "Spatial9"
+    | "Spatial10"
+    | "Spatial11"
+    | "Spatial12"
+    | "Spatial13"
+    | "Spatial14"
+    | "Spatial15"
+    | "Spatial16"
+    | "AllSpatialOrdinates"
+    | "M"
+    | "XYM"
+    | "XYZM"
+    | "Measure2"
+    | "Measure3"
+    | "Measure4"
+    | "Measure5"
+    | "Measure6"
+    | "Measure7"
+    | "Measure8"
+    | "Measure9"
+    | "Measure10"
+    | "Measure11"
+    | "Measure12"
+    | "Measure13"
+    | "Measure14"
+    | "Measure15"
+    | "Measure16"
+    | "AllMeasureOrdinates"
+    | "AllOrdinates";
 }
 
 export interface CreatePostDTO {
@@ -211,14 +291,6 @@ export interface CreatePostDTO {
 export interface CreateRoleDTO {
   /** @minLength 1 */
   roleName: string;
-}
-
-/** @format int32 */
-export enum Dimension {
-  Value0 = 0,
-  Value1 = 1,
-  Value2 = 2,
-  Value3 = 3,
 }
 
 export interface Envelope {
@@ -273,6 +345,7 @@ export interface FeedPost {
   postLikes?: FeedPostLike[] | null;
   /** @format int32 */
   likes?: number;
+  reports?: Report[] | null;
 }
 
 export interface FeedPostLike {
@@ -307,7 +380,23 @@ export interface Geometry {
   /** @format int32 */
   srid?: number;
   geometryType?: string | null;
-  ogcGeometryType?: OgcGeometryType;
+  ogcGeometryType?:
+    | "Point"
+    | "LineString"
+    | "Polygon"
+    | "MultiPoint"
+    | "MultiLineString"
+    | "MultiPolygon"
+    | "GeometryCollection"
+    | "CircularString"
+    | "CompoundCurve"
+    | "CurvePolygon"
+    | "MultiCurve"
+    | "MultiSurface"
+    | "Curve"
+    | "Surface"
+    | "PolyhedralSurface"
+    | "TIN";
   precisionModel?: PrecisionModel;
   coordinate?: Coordinate;
   coordinates?: Coordinate[] | null;
@@ -325,9 +414,9 @@ export interface Geometry {
   centroid?: Point;
   interiorPoint?: Point;
   pointOnSurface?: Point;
-  dimension?: Dimension;
+  dimension?: "Point" | "Curve" | "Surface" | "Collapse" | "Dontcare" | "True" | "False";
   boundary?: Geometry;
-  boundaryDimension?: Dimension;
+  boundaryDimension?: "Point" | "Curve" | "Surface" | "Collapse" | "Dontcare" | "True" | "False";
   envelope?: Geometry;
   envelopeInternal?: Envelope;
   isRectangle?: boolean;
@@ -393,68 +482,6 @@ export interface NtsGeometryServices {
   defaultPrecisionModel?: PrecisionModel;
 }
 
-/** @format int32 */
-export enum OgcGeometryType {
-  Value1 = 1,
-  Value2 = 2,
-  Value3 = 3,
-  Value4 = 4,
-  Value5 = 5,
-  Value6 = 6,
-  Value7 = 7,
-  Value8 = 8,
-  Value9 = 9,
-  Value10 = 10,
-  Value11 = 11,
-  Value12 = 12,
-  Value13 = 13,
-  Value14 = 14,
-  Value15 = 15,
-  Value16 = 16,
-}
-
-/** @format int32 */
-export enum Ordinates {
-  Value0 = 0,
-  Value1 = 1,
-  Value2 = 2,
-  Value3 = 3,
-  Value4 = 4,
-  Value7 = 7,
-  Value8 = 8,
-  Value16 = 16,
-  Value32 = 32,
-  Value64 = 64,
-  Value128 = 128,
-  Value256 = 256,
-  Value512 = 512,
-  Value1024 = 1024,
-  Value2048 = 2048,
-  Value4096 = 4096,
-  Value8192 = 8192,
-  Value16384 = 16384,
-  Value32768 = 32768,
-  Value65535 = 65535,
-  Value65536 = 65536,
-  Value65539 = 65539,
-  Value65543 = 65543,
-  Value131072 = 131072,
-  Value262144 = 262144,
-  Value524288 = 524288,
-  Value1048576 = 1048576,
-  Value2097152 = 2097152,
-  Value4194304 = 4194304,
-  Value8388608 = 8388608,
-  Value16777216 = 16777216,
-  Value33554432 = 33554432,
-  Value67108864 = 67108864,
-  Value134217728 = 134217728,
-  Value268435456 = 268435456,
-  Value536870912 = 536870912,
-  Value1073741824 = 1073741824,
-  Value2147483648 = -2147483648,
-}
-
 export interface Point {
   factory?: GeometryFactory;
   userData?: any;
@@ -480,15 +507,31 @@ export interface Point {
   /** @format int32 */
   numPoints?: number;
   isEmpty?: boolean;
-  dimension?: Dimension;
-  boundaryDimension?: Dimension;
+  dimension?: "Point" | "Curve" | "Surface" | "Collapse" | "Dontcare" | "True" | "False";
+  boundaryDimension?: "Point" | "Curve" | "Surface" | "Collapse" | "Dontcare" | "True" | "False";
   /** @format double */
   x?: number;
   /** @format double */
   y?: number;
   coordinate?: Coordinate;
   geometryType?: string | null;
-  ogcGeometryType?: OgcGeometryType;
+  ogcGeometryType?:
+    | "Point"
+    | "LineString"
+    | "Polygon"
+    | "MultiPoint"
+    | "MultiLineString"
+    | "MultiPolygon"
+    | "GeometryCollection"
+    | "CircularString"
+    | "CompoundCurve"
+    | "CurvePolygon"
+    | "MultiCurve"
+    | "MultiSurface"
+    | "Curve"
+    | "Surface"
+    | "PolyhedralSurface"
+    | "TIN";
   boundary?: Geometry;
   /** @format double */
   z?: number;
@@ -504,14 +547,7 @@ export interface PrecisionModel {
   scale?: number;
   /** @format double */
   gridSize?: number;
-  precisionModelType?: PrecisionModels;
-}
-
-/** @format int32 */
-export enum PrecisionModels {
-  Value0 = 0,
-  Value1 = 1,
-  Value2 = 2,
+  precisionModelType?: "Floating" | "FloatingSingle" | "Fixed";
 }
 
 export interface RegisterDTO {
@@ -529,13 +565,42 @@ export interface RegisterDTO {
   roles?: string[] | null;
 }
 
-/** @format int32 */
-export enum Role {
-  Value0 = 0,
-  Value1 = 1,
-  Value2 = 2,
-  Value3 = 3,
-  Value4 = 4,
+export interface Report {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  feedPostId?: number;
+  feedPost?: FeedPost;
+  /** @minLength 1 */
+  reporterId: string;
+  reporter?: ApplicationUser;
+  /** @minLength 1 */
+  reason: string;
+  /** @format date-time */
+  reportDate?: string;
+  isResolved?: boolean;
+  adminResponse?: string | null;
+}
+
+export interface ReportDTO {
+  /** @format int32 */
+  feedPostId: number;
+  /**
+   * @minLength 0
+   * @maxLength 500
+   */
+  reason: string;
+}
+
+export interface ResolveReportDTO {
+  /**
+   * @minLength 0
+   * @maxLength 500
+   */
+  adminResponse: string;
+  isResolved: boolean;
+  /** @default "None" */
+  reportAction: "None" | "Delete" | "NoticeCreator";
 }
 
 export interface RoleDTO {
