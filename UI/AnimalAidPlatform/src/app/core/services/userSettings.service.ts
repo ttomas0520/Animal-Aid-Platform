@@ -41,7 +41,7 @@ export class UserSettingsService {
   async updateNotificationSettings(settings: NotificationSettingsDto) {
     return new Promise<boolean>((resolve, reject) => {
       this.apiService.api.notificationSettingsUpdate(settings).then((resp) => {
-        resolve(resp.ok);
+        resolve(resp.status == 200);
       });
     });
   }

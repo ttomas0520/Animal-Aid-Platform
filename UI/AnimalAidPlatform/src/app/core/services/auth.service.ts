@@ -7,7 +7,6 @@ import {
 import { Api } from '../../../apiClient/Api';
 import { environment } from '../../../environments/environment.development';
 import { Observable } from 'rxjs';
-import { HttpResponse } from '../../../apiClient/http-client';
 import { ApiService } from './api.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import {

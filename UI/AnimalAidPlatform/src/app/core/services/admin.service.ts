@@ -26,7 +26,7 @@ export class AdminService {
   async getUsers(): Promise<Array<UserDetailDTO>> {
     return new Promise<Array<UserDetailDTO>>((resolve, reject) => {
       this.apiService.api.userList().then((resp) => {
-        if (resp.ok) {
+        if (resp.status) {
           resolve(resp.data);
         }
       });
@@ -38,7 +38,7 @@ export class AdminService {
   ): Promise<Array<FeedPostResponseDTO>> {
     return new Promise<Array<FeedPostResponseDTO>>((resolve, reject) => {
       this.apiService.api.postUserDetail(userId).then((resp) => {
-        if (resp.ok) {
+        if (resp.data) {
           resolve(resp.data);
         }
       });

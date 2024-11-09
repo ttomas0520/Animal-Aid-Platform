@@ -95,7 +95,7 @@
 
             if (reports == null || !reports.Any())
             {
-                return NotFound(); 
+                return NotFound("Nem érkezett az adott poszthoz bejelentés"); 
             }
 
             return Ok(reports);

@@ -17,7 +17,7 @@ export class FeedPostService {
   getPosts(): Promise<Array<FeedPostResponseDTO>> {
     return new Promise<Array<FeedPostResponseDTO>>((resolve, reject) => {
       this.apiService.api.postList().then((resp) => {
-        if (resp.ok) {
+        if (resp.data) {
           resolve(resp.data);
         } else {
           reject();
@@ -29,7 +29,7 @@ export class FeedPostService {
   createPost(post: CreatePostDTO): Promise<number> {
     return new Promise<number>((resolve, reject) => {
       this.apiService.api.postCreate(post).then((resp) => {
-        if (resp.ok) {
+        if (resp.data) {
           resolve(resp.data);
         } else {
           reject();
@@ -41,7 +41,7 @@ export class FeedPostService {
   getCategories(): Promise<Array<CategoryDto>> {
     return new Promise<Array<CategoryDto>>((resolve, reject) => {
       this.apiService.api.categoriesList().then((resp) => {
-        if (resp.ok) {
+        if (resp.data) {
           resolve(resp.data);
         }else{
           reject();
@@ -53,7 +53,7 @@ export class FeedPostService {
   likePost(id: number) : Promise<number>{
     return new Promise<number>((resolve,reject) =>{
       this.apiService.api.postLikeCreate(id).then((resp) =>{
-        if(resp.ok){
+        if(resp.data){
           resolve(resp.data);
         }else {
           reject();
@@ -65,7 +65,7 @@ export class FeedPostService {
   getPostById(id: number) :Promise<FeedPostResponseDTO>{
     return new Promise<FeedPostResponseDTO>((resolve,reject) =>{
       this.apiService.api.postDetail(id).then((resp) =>{
-        if(resp.ok){
+        if(resp.data){
           resolve(resp.data)
         }
       })
@@ -75,7 +75,7 @@ export class FeedPostService {
   deletePostById(id: number): Promise<void>{
     return new Promise<void>((resolve,reject)=>{
       this.apiService.api.postDelete(id).then((resp) =>{
-        if(resp.ok){
+        if(resp.status == 200){
           resolve()
         }else{
           reject()
@@ -87,7 +87,7 @@ export class FeedPostService {
   reportPostById(dto: ReportDTO): Promise<void>{
    return new Promise<void>((resolve,reject) =>{
     this.apiService.api.reportCreate(dto).then((resp) =>{
-        if(resp.ok){
+        if(resp.status == 200){
           resolve()
         }else{
           reject()

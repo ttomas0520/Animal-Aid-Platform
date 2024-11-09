@@ -13,6 +13,7 @@ import { AnimalShelterDTO, FeedPostResponseDTO, LocationDTO } from '../../../../
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { AnimalShelterService } from '../../../../../core/services/animalShelter.service';
 import { FeedPostService } from '../../../../../core/services/feedPost.service';
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
 @Component({
   selector: 'app-map',
   standalone: true,
@@ -29,11 +30,11 @@ export class MapComponent implements OnInit {
   };
 
   public animalShelters: AnimalShelterDTO[] = [];
-  constructor(private animalshelterService: AnimalShelterService , protected feedpostService: FeedPostService, private renderer: Renderer2) {
-    
+  constructor(private animalshelterService: AnimalShelterService, protected feedpostService: FeedPostService, private renderer: Renderer2) {
+
   }
 
-  animalSheltersMarkers: google.maps.marker.AdvancedMarkerElement[] =[]
+  animalSheltersMarkers: google.maps.marker.AdvancedMarkerElement[] = []
   isPanelOpen = false;
   animalShelterChecked = false;
   togglePanel() {
@@ -41,7 +42,7 @@ export class MapComponent implements OnInit {
   }
 
   onAnimalShelterToggle(event: MatSlideToggleChange) {
-    this.animalShelterChecked = event.checked; 
+    this.animalShelterChecked = event.checked;
     this.showAnimalShelters()
   }
 
@@ -61,17 +62,17 @@ export class MapComponent implements OnInit {
           this.options.center = pos;
           this.loader.importLibrary('maps').then(() => this.initMap());
         },
-        () => {}
+        () => { }
       );
     }
   }
   map: google.maps.Map | undefined;
 
 
-  like(id:number){
+  like(id: number) {
     var likes = this.posts[id]?.likeNumber!
-    
-    this.feedpostService.likePost(id).then((resp) =>{
+
+    this.feedpostService.likePost(id).then((resp) => {
       likes = resp;
       if (this.posts[id]) {
         this.posts[id].likeNumber = likes;
@@ -152,23 +153,23 @@ export class MapComponent implements OnInit {
       {
         position: new google.maps.LatLng(47.476923, 19.1004811),
         content: lostString,
-        iconSrc:"lost.svg",
+        iconSrc: "lost.svg",
         id: 0
       },
       {
         position: new google.maps.LatLng(47.486923, 19.1004811),
         content: helpString,
-        iconSrc:"help.svg"
+        iconSrc: "help.svg"
       },
       {
         position: new google.maps.LatLng(47.456923, 19.1004811),
         content: foundString,
-        iconSrc:"found.svg"
+        iconSrc: "found.svg"
       },
       {
         position: new google.maps.LatLng(47.466923, 19.1004811),
         content: adString,
-        iconSrc:"ad.svg"
+        iconSrc: "ad.svg"
       },
     ];
 
@@ -185,14 +186,15 @@ export class MapComponent implements OnInit {
           imgUrl: post.imageUrl,
           id: post.id,
         }),
-        id:post.id
+        id: post.id
       });
     });
 
     var lastOpenedWindow: google.maps.InfoWindow;
+    let markers: google.maps.marker.AdvancedMarkerElement[] = [];
     for (let i = 0; i < features.length; i++) {
       const iconImage = document.createElement('img');
-      iconImage.src = "/assets/"+features[i].iconSrc;
+      iconImage.src = "/assets/" + features[i].iconSrc;
       iconImage.width = 40;
       iconImage.height = 40;
       const marker = new google.maps.marker.AdvancedMarkerElement({
@@ -200,6 +202,7 @@ export class MapComponent implements OnInit {
         position: features[i].position,
         content: iconImage,
       });
+      markers.push(marker)
       const infowindow = new google.maps.InfoWindow({
         content: features[i].content,
       });
@@ -216,6 +219,8 @@ export class MapComponent implements OnInit {
         lastOpenedWindow = infowindow;
       });
     }
+    const map = this.map;
+    new MarkerClusterer({ markers, map });
   }
 
   showAnimalShelters() {
@@ -232,15 +237,15 @@ export class MapComponent implements OnInit {
       '<a href ="${url}">${address}</a>' +
       '<div style="display: flex; justify-content: space-between;">' +
       '</div>';
-  
-    if(this.animalShelterChecked){
-       this.animalshelterService.getAllAnimalShelter().then((resp) => {
-        if(resp.length != this.animalShelters.length){
+
+    if (this.animalShelterChecked) {
+      this.animalshelterService.getAllAnimalShelter().then((resp) => {
+        if (resp.length != this.animalShelters.length) {
           this.animalShelters = [...resp];
         }
-        
+
         var features: any[] = [];;
-  
+
         this.animalShelters.forEach((shelter) => {
           features.push({
             position: new google.maps.LatLng(
@@ -255,34 +260,34 @@ export class MapComponent implements OnInit {
             }),
           });
         });
-      
+
         var lastOpenedWindow: google.maps.InfoWindow;
         for (let i = 0; i < features.length; i++) {
           const iconImage = document.createElement('img');
           iconImage.src = "/assets/shelter.png";
           iconImage.width = 40;
           iconImage.height = 40;
-      
+
           const marker = new google.maps.marker.AdvancedMarkerElement({
             map: this.map,
             position: features[i].position,
             content: iconImage,
           });
-          
+
           var finded = this.animalSheltersMarkers.find(aMarker => aMarker.position == marker.position);
-          if(finded){
+          if (finded) {
             finded.map = this.map
-          }else{
+          } else {
             this.animalSheltersMarkers.push(marker)
           }
-          
-         
-          
-      
+
+
+
+
           const infowindow = new google.maps.InfoWindow({
             content: features[i].content,
           });
-      
+
           marker.gmpClickable = true;
           marker.addListener('click', (e: any) => {
             if (lastOpenedWindow) lastOpenedWindow.close();
@@ -292,17 +297,17 @@ export class MapComponent implements OnInit {
         }
       });
     }
-   
+
   }
 
-  focusShelter(location: LocationDTO){
-    if(this.animalShelterChecked){
-      var pos = new google.maps.LatLng(location.latitude!, location.longitude!) 
+  focusShelter(location: LocationDTO) {
+    if (this.animalShelterChecked) {
+      var pos = new google.maps.LatLng(location.latitude!, location.longitude!)
       this.map?.setCenter(pos)
     }
   }
 
-  
+
   fillTemplateString(
     template: string,
     variables: { [key: string]: any }
