@@ -17,7 +17,7 @@ namespace AnimalAidPlatform.API.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Notification Background Service is running.");
+            _logger.LogInformation("Értesítés kiküldő háttérszolgáltatás fut.");
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -40,11 +40,11 @@ namespace AnimalAidPlatform.API.Services
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Hiba történt a notification service-ben.");
+                    _logger.LogError(ex, "Hiba történt az értesítés kiküldő háttérszolgáltatásban");
                 }
             }
 
-            _logger.LogInformation("Notification Background Service is stopping.");
+            _logger.LogInformation("Értesítés kiküldő háttérszolgáltatás leáll.");
         }
     }
 

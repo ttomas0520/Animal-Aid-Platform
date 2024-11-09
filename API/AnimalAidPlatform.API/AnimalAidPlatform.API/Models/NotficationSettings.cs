@@ -18,7 +18,6 @@ namespace AnimalAidPlatform.API.Models
 
         public double Radius { get; set; }
 
-        // Many-to-many relationship with Category
         public ICollection<Category> Categories { get; set; }
     }
 

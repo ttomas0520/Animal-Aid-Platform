@@ -202,13 +202,11 @@ namespace AnimalAidPlatform.API.Controllers
 
             if (existingLike != null)
             {
-                // If the like exists, remove it (user is "unliking" the post)
                 await _feedPostLikeRepository.RemoveLikeAsync(id, userId);
                 await _feedPostRepository.LikePost(post, false);
             }
             else
             {
-                // If no like exists, add a new like
                 var postLike = new FeedPostLike
                 {
                     FeedPostId = id,

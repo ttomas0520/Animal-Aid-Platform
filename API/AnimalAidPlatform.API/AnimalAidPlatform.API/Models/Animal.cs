@@ -12,7 +12,7 @@ namespace AnimalAidPlatform.Models
         [Required(ErrorMessage = "A fajta megadása kötelező.")]
         public string Breed { get; set; }
 
-        public byte[]? Photo { get; set; } // Kép bináris adatként (byte tömbként)
+        public byte[]? Photo { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "A kor nem lehet negatív.")]
         public int? Age { get; set; }

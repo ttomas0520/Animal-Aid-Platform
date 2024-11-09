@@ -59,7 +59,7 @@ namespace AnimalAidPlatform.API.Controllers
             return Ok(new AuthResponseDTO
             {
                 IsSucces = true,
-                Message = "Account created sucessfully "
+                Message = "Fiók létrehozása sikeres"
             });
         }
 
@@ -74,14 +74,14 @@ namespace AnimalAidPlatform.API.Controllers
             var user = await _userManager.FindByEmailAsync(data.Email);
             if (user is null)
             {
-                return Unauthorized(new AuthResponseDTO { IsSucces = false, Message = "User not found with this email" });
+                return Unauthorized(new AuthResponseDTO { IsSucces = false, Message = "Nem található felhasználó ezzel az email címmel" });
             }
 
             var result = await _userManager.CheckPasswordAsync(user, data.Password);
 
             if (!result)
             {
-                return Unauthorized(new AuthResponseDTO { IsSucces = false, Message = "Invalid Password" });
+                return Unauthorized(new AuthResponseDTO { IsSucces = false, Message = "Helytelen jelszó" });
 
             }
 
@@ -90,7 +90,7 @@ namespace AnimalAidPlatform.API.Controllers
             {
                 Token = token,
                 IsSucces = true,
-                Message = "Login Success"
+                Message = "Sikeres bejelentkezés"
             });
         }
 
@@ -139,7 +139,7 @@ namespace AnimalAidPlatform.API.Controllers
                 return NotFound(new AuthResponseDTO
                 {
                     IsSucces = false,
-                    Message = "User not found"
+                    Message = "Felhasználó nem található"
                 });
             }
 

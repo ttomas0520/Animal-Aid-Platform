@@ -7,7 +7,6 @@
     {
         public int Id { get; set; }
 
-        // Shelter Info
         [Required(ErrorMessage = "A menhely nevének megadása kötelező.")]
         public string Name { get; set; }
 
@@ -16,7 +15,6 @@
 
         public string? Description { get; set; }
 
-        // Location Info (Using LocationDTO)
         public LocationDTO Location { get; set; }
 
         [Required(ErrorMessage = "A telefonszám megadása kötelező.")]
@@ -29,18 +27,15 @@
 
         public string? Website { get; set; }
 
-        // Contact Info
         [Required(ErrorMessage = "A kapcsolattartó nevének megadása kötelező.")]
         public string ContactName { get; set; }
 
         [Required(ErrorMessage = "A kapcsolattartó pozíciójának megadása kötelező.")]
         public string ContactPosition { get; set; }
 
-        // Opening Hours
         public string? Weekdays { get; set; }
         public string? Weekend { get; set; }
 
-        // Services
         public bool Adoption { get; set; }
         public bool Visiting { get; set; }
         public bool Volunteering { get; set; }

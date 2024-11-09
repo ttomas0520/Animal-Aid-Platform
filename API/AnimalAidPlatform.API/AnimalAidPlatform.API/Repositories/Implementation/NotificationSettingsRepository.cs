@@ -21,7 +21,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
         public NotificationSettings GetByUserId(string userId)
         {
             return _context.NotificationSettings
-                .Include(ns => ns.Categories)  // Eager loading a kategóriákhoz
+                .Include(ns => ns.Categories)
                 .FirstOrDefault(ns => ns.UserId == userId);
         }
 
@@ -31,12 +31,10 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
 
             if (existingSettings == null)
             {
-                // Létrehozzuk, ha nem létezik
                 _context.NotificationSettings.Add(notificationSettings);
             }
             else
             {
-                // Frissítjük, ha létezik
                 existingSettings.PushNotificationEnabled = notificationSettings.PushNotificationEnabled;
                 existingSettings.GeoLat = notificationSettings.GeoLat;
                 existingSettings.GeoLong = notificationSettings.GeoLong;
@@ -44,7 +42,6 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
                 existingSettings.Radius = notificationSettings.Radius;
                 existingSettings.Location = notificationSettings.Location;
 
-                // Kategóriák frissítése
                 UpdateCategories(existingSettings, notificationSettings.Categories);
 
                 _context.NotificationSettings.Update(existingSettings);
@@ -58,13 +55,11 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
             var existingCategoryIds = existingSettings.Categories.Select(c => c.Id).ToList();
             var newCategoryIds = newCategories.Select(c => c.Id).ToList();
 
-            // Hozzáadjuk az új kategóriákat
             foreach (var category in newCategories.Where(c => !existingCategoryIds.Contains(c.Id)))
             {
                 existingSettings.Categories.Add(category);
             }
 
-            // Eltávolítjuk a már nem kívánt kategóriákat
             foreach (var category in existingSettings.Categories.Where(c => !newCategoryIds.Contains(c.Id)).ToList())
             {
                 existingSettings.Categories.Remove(category);

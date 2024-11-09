@@ -18,7 +18,7 @@ namespace AnimalAidPlatform.API.Data
         public DbSet<AnimalShelter> AnimalShelters { get; set; }
         public DbSet<NotificationSettings> NotificationSettings { get; set; }
         public DbSet<Notification> Notifications { get; set; }
-        public DbSet<Report> Reports { get; set; } // New DbSet for Report
+        public DbSet<Report> Reports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -66,7 +66,7 @@ namespace AnimalAidPlatform.API.Data
             // Report entity relationships
             modelBuilder.Entity<Report>()
                 .HasOne(r => r.FeedPost)
-                .WithMany(fp => fp.Reports)  // Ensure FeedPost has Reports collection
+                .WithMany(fp => fp.Reports)  
                 .HasForeignKey(r => r.FeedPostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -74,7 +74,7 @@ namespace AnimalAidPlatform.API.Data
                 .HasOne(r => r.Reporter)
                 .WithMany()
                 .HasForeignKey(r => r.ReporterId)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent deleting users with reports
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

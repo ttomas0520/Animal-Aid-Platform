@@ -10,10 +10,10 @@ namespace AnimalAidPlatform.API.Models.DTO.Report
     {
         [Required(ErrorMessage = "A válasz megadása kötelező, ha a jelentést lezárjuk.")]
         [StringLength(500, ErrorMessage = "A válasz legfeljebb 500 karakter lehet.")]
-        public string? AdminResponse { get; set; }  // Az admin válasza a jelentésre
+        public string? AdminResponse { get; set; } 
 
         [Required]
-        public bool IsResolved { get; set; }  // Az állapot frissítése (lezárt vagy nem)
+        public bool IsResolved { get; set; }
 
         [Required]
         [DefaultValue(ReportAction.None)]

@@ -29,7 +29,7 @@ namespace AnimalAidPlatform.API.Controllers
             var notificationSettings = _repository.GetByUserId(currentUserId);
             if (notificationSettings == null)
             {
-                return NotFound("Notification settings not found.");
+                return NotFound("Értesítés beállítások nem találhatók.");
             }
 
             var notificationSettingsDto = new NotificationSettingsDto
@@ -56,7 +56,7 @@ namespace AnimalAidPlatform.API.Controllers
             var user = _context.Users.Find(currentUserId);
             if (user == null)
             {
-                return NotFound("User not found.");
+                return NotFound("Felhasználó nem található");
             }
 
             var newCategories = _context.Categories.Where(c => dto.CategoryIds.Contains(c.Id)).ToList();
@@ -77,7 +77,7 @@ namespace AnimalAidPlatform.API.Controllers
 
             _repository.Upsert(notificationSettings);
 
-            return Ok("Notification settings have been saved.");
+            return Ok("Értesítési beállítások mentve");
         }
     }
 

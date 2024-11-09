@@ -8,7 +8,6 @@ namespace AnimalAidPlatform.Models
     {
         public int Id { get; set; }
 
-        // Shelter Info
         [Required(ErrorMessage = "A menhely nevének megadása kötelező.")]
         public string Name { get; set; }
 
@@ -17,7 +16,6 @@ namespace AnimalAidPlatform.Models
 
         public string? Description { get; set; }
 
-        // Location Info
         [Required(ErrorMessage = "A cím megadása kötelező.")]
         public double GeoLong { get; set; }
         public double GeoLat { get; set; }
@@ -36,18 +34,15 @@ namespace AnimalAidPlatform.Models
 
         public string? Website { get; set; }
 
-        // Contact Info
         [Required(ErrorMessage = "A kapcsolattartó nevének megadása kötelező.")]
         public string ContactName { get; set; }
 
         [Required(ErrorMessage = "A kapcsolattartó pozíciójának megadása kötelező.")]
         public string ContactPosition { get; set; }
 
-        // Opening Hours
         public string? Weekdays { get; set; }
         public string? Weekend { get; set; }
 
-        // Services
         public bool Adoption { get; set; }
         public bool Visiting { get; set; }
         public bool Volunteering { get; set; }

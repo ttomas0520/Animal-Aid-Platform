@@ -51,7 +51,6 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
 
         public async Task<IEnumerable<AnimalShelter>> GetByLocationAsync(Point location, double radius)
         {
-            // Spatial query to find shelters within a certain radius of the given location
             return await _context.AnimalShelters
                 .Where(s => s.Location != null &&
                             s.Location.Distance(location) <= radius)

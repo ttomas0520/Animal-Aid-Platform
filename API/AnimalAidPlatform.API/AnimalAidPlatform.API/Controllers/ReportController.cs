@@ -22,7 +22,7 @@
 
         // GET: api/report
         [HttpGet]
-        [Authorize(Roles = "ADMIN")] // Csak adminok számára elérhető
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<IEnumerable<Report>>> GetReports()
         {
             var reports = await _reportRepository.GetAllAsync();
@@ -31,7 +31,7 @@
 
         // GET: api/report/{id}
         [HttpGet("{id}")]
-        [Authorize(Roles = "ADMIN")] // Csak adminok számára elérhető
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<Report>> GetReport(int id)
         {
             var report = await _reportRepository.GetByIdAsync(id);
@@ -68,7 +68,7 @@
 
         // DELETE: api/report/{id}
         [HttpDelete("{id}")]
-        [Authorize(Roles = "ADMIN")] // Csak adminok számára elérhető
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> DeleteReport(int id)
         {
             await _reportRepository.DeleteAsync(id);
@@ -77,7 +77,7 @@
 
         // PUT: api/report/resolve/{id}
         [HttpPut("resolve/{id}")]
-        [Authorize(Roles = "ADMIN")] // Csak adminok számára elérhető
+        [Authorize(Roles = "ADMIN")] 
         public async Task<IActionResult> ResolveReport(int id, [FromBody] ResolveReportDTO resolveReportDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -88,14 +88,14 @@
 
         // GET: api/report/feedpost/{feedPostId}
         [HttpGet("feedpost/{feedPostId}")]
-        [Authorize(Roles = "ADMIN")] // Csak adminok számára elérhető
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<IEnumerable<Report>>> GetReportsByFeedPostId(int feedPostId)
         {
             var reports = await _reportRepository.GetReportsByFeedPostIdAsync(feedPostId);
 
             if (reports == null || !reports.Any())
             {
-                return NotFound(); // Nincs jelentés az adott FeedPost ID-hoz
+                return NotFound(); 
             }
 
             return Ok(reports);

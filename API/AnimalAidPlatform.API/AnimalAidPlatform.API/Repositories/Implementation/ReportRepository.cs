@@ -67,7 +67,6 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
                 switch (resolveReportDto.reportAction)
                 {
                     case ReportAction.Delete:
-                        // Töröljük a FeedPost-ot, amennyiben szükséges
                         var feedPost = await _context.FeedPosts.FindAsync(report.FeedPostId);
                         if (feedPost != null)
                         {
@@ -76,8 +75,7 @@ namespace AnimalAidPlatform.API.Repositories.Implementation
                         break;
 
                     case ReportAction.NoticeCreator:
-                        // Értesítjük a poszt szerzőjét a jelentésről
-                        // Itt jöhet a logika a felhasználó értesítéséhez
+                        //TODO
                         break;
 
                     case ReportAction.None:

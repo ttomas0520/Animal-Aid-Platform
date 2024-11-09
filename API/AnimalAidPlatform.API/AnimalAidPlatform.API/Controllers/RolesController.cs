@@ -25,22 +25,22 @@ namespace AnimalAidPlatform.API.Controllers
         {
             if (string.IsNullOrEmpty(data.RoleName))
             {
-                return BadRequest("Role name is required");
+                return BadRequest("Role név megadása kötelező");
             }
 
             var roleExist = await _roleManager.RoleExistsAsync(data.RoleName);
 
             if (roleExist)
             {
-                return BadRequest("Role already exist");
+                return BadRequest("A Role már létezik");
             }
 
             var roleResult = await _roleManager.CreateAsync(new IdentityRole(data.RoleName));
 
             if (roleResult.Succeeded)
             {
-                return Ok(new { message = "Role created" });
-            }
+                return Ok(new { message = "Role létrehozása sikeres" });
+                }
             else
             {
                 return BadRequest(roleResult.Errors.ToString());

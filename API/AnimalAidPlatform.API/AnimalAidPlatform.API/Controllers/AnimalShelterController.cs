@@ -22,7 +22,6 @@ namespace AnimalAidPlatform.API.Controllers
         {
             var shelters = await _repository.GetAllAsync();
 
-            // Mapping domain models to DTOs using AnimalShelterMapper
             var shelterDtos = shelters.Select(s => s.ToDto()).ToList();
 
             return Ok(shelterDtos);
@@ -37,7 +36,6 @@ namespace AnimalAidPlatform.API.Controllers
                 return NotFound();
             }
 
-            // Mapping domain model to DTO using AnimalShelterMapper
             var shelterDto = shelter.ToDto();
 
             return Ok(shelterDto);
@@ -51,7 +49,6 @@ namespace AnimalAidPlatform.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Mapping DTO to domain model using AnimalShelterMapper
             var shelter = shelterDto.ToEntity();
 
             await _repository.AddAsync(shelter);
@@ -77,10 +74,8 @@ namespace AnimalAidPlatform.API.Controllers
                 return NotFound();
             }
 
-            // Map DTO to existing entity (instead of creating a new one)
             shelterDto.UpdateEntity(existingShelter);
 
-            // Update the entity in the repository
             var dbEntity = await _repository.UpdateAsync(existingShelter);
             return Ok(dbEntity.ToDto());
         }
@@ -91,7 +86,7 @@ namespace AnimalAidPlatform.API.Controllers
             var location = new Point(longitude, latitude) { SRID = 4326 };  // WGS 84 standard
             var shelters = await _repository.GetByLocationAsync(location, radius);
 
-            // Mapping domain models to DTOs using AnimalShelterMapper
+
             var shelterDtos = shelters.Select(s => s.ToDto()).ToList();
 
             return Ok(shelterDtos);
