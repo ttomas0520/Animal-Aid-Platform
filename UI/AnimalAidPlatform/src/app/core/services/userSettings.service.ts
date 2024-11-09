@@ -14,7 +14,6 @@ export class UserSettingsService {
     return new Promise<NotificationSettingsDto>((resolve, reject) => {
       this.apiService.api.notificationSettingsList().catch((resp) => {
         if (resp.ok) {
-          console.log(resp.data)
           resolve(resp.data);
         }else{
           var defaultLocation: LocationDTO ={

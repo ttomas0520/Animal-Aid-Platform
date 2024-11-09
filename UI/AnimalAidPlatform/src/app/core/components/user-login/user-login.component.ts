@@ -33,6 +33,5 @@ export class UserLoginComponent {
 
   async loginSubmit() {
     var res = await this.authService.login(this.loginForm.value);
-    console.log(this.loginForm.value);
   }
 }

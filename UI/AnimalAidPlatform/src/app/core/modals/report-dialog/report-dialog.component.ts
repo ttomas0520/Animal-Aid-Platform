@@ -21,8 +21,6 @@ export class ReportDialogComponent {
 
   onSubmit(): void {
     this.showSuccessMessage = true;
-
-    // Wait 2 seconds before closing the dialog
     setTimeout(() => {
       this.dialogRef.close(this.reason);
     }, 2000);

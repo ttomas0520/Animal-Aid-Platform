@@ -58,7 +58,6 @@ export class UserRegisterComponent {
   }
 
   registerSubmit() {
-    console.log(this.registerForm.value);
     this.authService.register(this.registerForm.value);
   }
 }

@@ -54,7 +54,6 @@ export class FeedPostService {
     return new Promise<number>((resolve,reject) =>{
       this.apiService.api.postLikeCreate(id).then((resp) =>{
         if(resp.ok){
-          console.log(resp.data)
           resolve(resp.data);
         }else {
           reject();

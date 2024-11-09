@@ -15,7 +15,6 @@ export class ApiService {
       })
     var possibleToken = localStorage.getItem('userToken')
     if(possibleToken){
-        console.log("Van token")
         this.api.setSecurityData(possibleToken)
     }
   }

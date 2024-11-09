@@ -20,7 +20,7 @@ export class FeedPostComponent {
   @Input() post?: FeedPostResponseDTO;
   @Input() isAdminMode: boolean = false;
   @Output() postRefresh = new EventEmitter<number>();
-  reports: Report[] | null = null; // Initialize as null for lazy loading
+  reports: Report[] | null = null;
   isHovered: boolean = false;
   constructor(protected feedpostService: FeedPostService, private dialog: MatDialog, protected adminService:AdminService){}
   
@@ -56,8 +56,6 @@ export class FeedPostComponent {
   }
 
   submitReport(reason: string): void {
-    // Send the report to the backend, using reason as the report justification
-    console.log('Report reason:', reason);
     const reportDTO: ReportDTO = {
       feedPostId: this.post!.id!, 
       reason: reason
@@ -66,7 +64,7 @@ export class FeedPostComponent {
   }
 
   fetchReports(): void {
-    if (!this.reports) { // Fetch only if reports haven't been loaded
+    if (!this.reports) { 
       this.adminService.getReportsForPost(this.post!.id!)
         .then(
           (data) => {

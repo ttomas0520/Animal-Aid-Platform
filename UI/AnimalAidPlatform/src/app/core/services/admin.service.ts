@@ -21,11 +21,6 @@ export class AdminService {
 
   async getRoles() {
     console.log(await this.apiService.api.rolesList());
-    /*this.http
-      .get('https://jsonplaceholder.typicode.com/users')
-      .subscribe((res) => {
-        console.log(res);
-      });*/
   }
 
   async getUsers(): Promise<Array<UserDetailDTO>> {
@@ -74,7 +69,6 @@ export class AdminService {
     return new Promise<Array<Report>>((resolve,reject) =>{
       this.apiService.api.reportFeedpostDetail(id).then((resp) =>{
         if(resp){
-          console.log(resp.data)
           resolve(resp.data)
         }
       })
@@ -85,7 +79,6 @@ export class AdminService {
     return new Promise<void>((resolve,reject) =>{
       this.apiService.api.reportResolveUpdate(id,data).then((resp) =>{
         if(resp){
-          console.log(resp.data)
           resolve(resp.data)
         }
       })

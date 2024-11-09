@@ -32,14 +32,14 @@
 .image {
   width: 100%;
   height: auto; 
-  object-fit: contain; /* Ensures the image covers the area without distortion */
+  object-fit: contain;
   transition: opacity 0.3s ease;
 }
 
 .inner-div {
-  position: relative;  /* to be used on th eparent whenever using "fill" attribute of NgOptimisedImage */
-  aspect-ratio: 1/1;  /* width/height, require sqaure in my case */
-  margin: 30px  /* for better visibily */
+  position: relative;
+  aspect-ratio: 1/1; 
+  margin: 30px 
 }
 
 .main{
@@ -47,21 +47,21 @@
 }
 
 .inner-div:hover .image {
-  opacity: 0.5; /* A kép beszürkülése */
+  opacity: 0.5;
 }
 
 .zoom-icon {
   position: absolute;
-  top: 0; /* Az ikon a szülő elem tetejére igazítva */
-  left: 0; /* Az ikon a szülő elem bal oldalára igazítva */
-  width: 100%; /* Kitölti a szülő elem szélességét */
-  height: 100%; /* Kitölti a szülő elem magasságát */
-  display: flex; /* Flexbox használata az ikon középre igazításához */
-  justify-content: center; /* Vízszintes középre igazítás */
-  align-items: center; /* Függőleges középre igazítás */
-  color: gray; /* Ikon színe */
-  opacity: 0.8; /* Ikon áttetszősége */
-  pointer-events: none; /* Ne zavarja meg az egér eseményeket */
+  top: 0; 
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: gray; 
+  opacity: 0.8; 
+  pointer-events: none;
 }
 
 .icon{

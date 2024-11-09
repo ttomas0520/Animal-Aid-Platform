@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { AdminService } from '../../../../../core/services/admin.service';
-import { FeedComponent } from '../../home/feed/feed.component';
 import { FeedPostService } from '../../../../../core/services/feedPost.service';
 import { ImportModule } from '../../../../common/import.module';
 

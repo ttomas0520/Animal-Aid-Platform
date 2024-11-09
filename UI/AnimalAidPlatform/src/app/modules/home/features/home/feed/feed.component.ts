@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ImportModule } from '../../../../common/import.module';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FeedPostComponent } from '../../../../common/feed-post/feed-post.component';
@@ -18,7 +17,6 @@ import {
 } from '@angular/forms';
 import { environment } from '../../../../../../environments/environment.development';
 import {
-  FirebaseStorage,
   Storage,
   ref,
   uploadBytesResumable,

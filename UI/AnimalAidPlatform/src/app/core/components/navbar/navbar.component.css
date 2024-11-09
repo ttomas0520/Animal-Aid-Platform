@@ -5,8 +5,6 @@
     background: linear-gradient(to right,  #eeaeca,#C6EA8D);
 }
 
-
-/* A form pozíciójának beállítása */
 .position-relative {
     position: relative;
 }

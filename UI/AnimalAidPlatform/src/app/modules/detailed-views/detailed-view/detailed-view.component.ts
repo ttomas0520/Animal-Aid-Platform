@@ -42,8 +42,6 @@ export class DetailedViewComponent {
       }
 
       this.isLoading = false; 
-      console.log(`Navigált ID: ${this.id}`);
-      console.log(`Aktuális nézet: ${this.isPostView ? 'Post :' + this.feedPost : 'Shelter :' + this.animalShelter}`);
     });
   }
 }

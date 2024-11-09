@@ -70,10 +70,10 @@ export class AnimalShelterFormComponent {
           shelterInfo: {
             name: this.selectedShelter!.name,
             type: this.selectedShelter!.type,
-            description: this.selectedShelter!.description || '' // Üres string ha null vagy undefined
+            description: this.selectedShelter!.description || ''
           },
           locationInfo: {
-            address: this.selectedShelter!.location?.address || '', // Feltételezve, hogy a LocationDTO tartalmazza az address-t
+            address: this.selectedShelter!.location?.address || '', 
             phoneNumber: this.selectedShelter!.phoneNumber,
             email: this.selectedShelter!.email,
             website: this.selectedShelter!.website || ''
@@ -114,7 +114,6 @@ export class AnimalShelterFormComponent {
             url: place.url,
           };
         }
-        console.log(this.geocodedLocation)
       })
     });
 
@@ -123,9 +122,8 @@ export class AnimalShelterFormComponent {
 
   onSubmit(): void {
     if (this.registrationForm!.valid) {
-      console.log('Form Submitted', this.geocodedLocation);
       var animalShelter = this.getAnimalShelterDTO()
-      console.log(this.adminService.addAnimalShelter(animalShelter))
+      this.adminService.addAnimalShelter(animalShelter)
     } else {
       console.log('Form is invalid');
     }
@@ -148,7 +146,6 @@ export class AnimalShelterFormComponent {
 
 
 
-   // Getter függvények a form csoportokhoz
    get shelterInfo() {
     return this.registrationForm.get('shelterInfo') as FormGroup;
   }
@@ -169,7 +166,6 @@ export class AnimalShelterFormComponent {
     return this.registrationForm.get('services') as FormGroup;
   }
 
-  // Getter függvények az egyes mezőkhöz
   get name() {
     return this.shelterInfo.get('name');
   }

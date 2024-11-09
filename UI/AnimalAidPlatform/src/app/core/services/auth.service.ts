@@ -52,7 +52,6 @@ export class AuthService {
   async register(data: RegisterDTO) {
     data.roles = ['ADMIN'];
     var token = await this.apiService.api.userRegisterCreate(data);
-    console.log(token);
   }
 
   isAuthenticated(): boolean {

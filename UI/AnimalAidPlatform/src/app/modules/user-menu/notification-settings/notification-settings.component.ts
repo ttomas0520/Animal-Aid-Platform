@@ -55,7 +55,6 @@ export class NotificationSettingsComponent {
 
   async loadSettingsAndCategories() {
     try {
-      // Párhuzamosan futtatjuk a két API hívást
       const [settings, categories] = await Promise.all([
         this.userSettingsService.getNotificationById(),
         this.postService.getCategories(),
@@ -145,11 +144,9 @@ export class NotificationSettingsComponent {
       const input = document.getElementById('autocomplete') as HTMLInputElement;
       this.autocomplete = new Autocomplete(input);
       this.notiForm.get('radius')?.valueChanges.subscribe((value) => {
-        console.log(value);
         this.cityCircle?.setRadius(value * 1000);
         map.fitBounds(this.cityCircle?.getBounds()!);
       });
-      // Add event listener for place changes
       this.autocomplete.addListener('place_changed', () => {
         const place = this.autocomplete?.getPlace();
 
@@ -197,6 +194,5 @@ export class NotificationSettingsComponent {
 
     this.userSettingsService
       .updateNotificationSettings(settings)
-      .then((resp) => console.log(resp));
   }
 }

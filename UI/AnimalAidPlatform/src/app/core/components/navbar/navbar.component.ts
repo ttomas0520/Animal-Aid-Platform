@@ -32,10 +32,6 @@ export class NavbarComponent {
     this.animalShelterService.getAllAnimalShelter().then(resp => this.shelters = [...resp])
   }
 
-  ngOnInit() {
-    console.log(this.name);
-  }
-
   checkAuthenticated(): boolean {
     if (this.authService.isAuthenticated()) {
       this.name = this.authService.getUserName()!;

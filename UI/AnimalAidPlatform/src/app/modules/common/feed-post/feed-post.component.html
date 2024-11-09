@@ -1,5 +1,4 @@
 <mat-card class="mt-3 p-3 d-flex flex-column">
-  <!-- Left Side: Metadata -->
    <div class="main">
     <div class="metadata" style="flex: 1;">
       <div class="header d-flex align-items-center justify-content-between">
@@ -30,7 +29,6 @@
         </div>
       </div>
     </div>
-    <!-- Right Side: Image -->
     <div class="image-container" style="flex: 0 0 200px; text-align: center;">
       <div class="inner-div" (mouseover)="isHovered = true" (mouseleave)="isHovered = false">
         <img
@@ -49,7 +47,6 @@
     </div>
    </div>
   
-    <!-- Reports Section for Admin -->
     <div>
     <ng-container *ngIf="isAdminMode">
       <mat-expansion-panel (opened)="fetchReports()">

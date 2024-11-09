@@ -81,7 +81,6 @@ export class MapComponent implements OnInit {
   }
 
   async initMap() {
-    // Request needed libraries.
     const { Map } = (await google.maps.importLibrary(
       'maps'
     )) as google.maps.MapsLibrary;
