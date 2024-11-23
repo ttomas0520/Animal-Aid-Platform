@@ -22,13 +22,13 @@ export class NavbarComponent {
 
   showResults = false;
   searchTerm = '';
-  shelters: AnimalShelterDTO[] =[];
-  posts: FeedPostResponseDTO[] =[];
+  shelters: AnimalShelterDTO[] = [];
+  posts: FeedPostResponseDTO[] = [];
   filteredShelters: AnimalShelterDTO[] = [];
   filteredPosts: FeedPostResponseDTO[] = [];
 
-  constructor(private postService: FeedPostService, private animalShelterService: AnimalShelterService,private eRef: ElementRef, private router: Router ) {
-    this.postService.getPosts().then(resp => this.posts=[...resp])
+  constructor(private postService: FeedPostService, private animalShelterService: AnimalShelterService, private eRef: ElementRef, private router: Router) {
+    this.postService.getPosts().then(resp => this.posts = [...resp])
     this.animalShelterService.getAllAnimalShelter().then(resp => this.shelters = [...resp])
   }
 
@@ -42,7 +42,7 @@ export class NavbarComponent {
 
   filterResults() {
     const term = this.searchTerm.toLowerCase();
-    if(term == ''){
+    if (term == '') {
       this.filteredShelters = this.filteredPosts = []
     }
     this.filteredShelters = this.shelters

@@ -14,9 +14,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       @if (checkAuthenticated()) {
-      <div class="me-auto mb-2 mb-lg-0">
-        <button mat-button [routerLink]="'/admin'">Admin</button>
-      </div>
+        @if(this.authService.isAdmin){
+          <div class="me-auto mb-2 mb-lg-0">
+            <button mat-button [routerLink]="'/admin'">Admin</button>
+          </div>
+        }
       <form class="d-flex" role="search">
         <input
           class="form-control me-2 searchForm"
