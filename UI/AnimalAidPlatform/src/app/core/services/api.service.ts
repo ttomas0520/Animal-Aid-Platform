@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { Api } from '../../../apiClient/Api';
 import { environment } from '../../../environments/environment.development';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  AuthResponseDTO,
+
+} from '../../../apiClient/data-contracts';
 
 @Injectable({
   providedIn: 'root',
@@ -29,9 +33,22 @@ export class ApiService {
     this.api.instance.interceptors.response.use(
       (response) => response,
       async (error) => {
-        this.snackBar.open(`Hiba történt: ${error.response.status} - ${error.response.data}`, 'Bezár', {
-          duration: 3000,
-        });
+        const isAuthError = (value: AuthResponseDTO): value is AuthResponseDTO => {
+          if (value.message)
+            return true
+          else
+            return false;
+        }
+        if (isAuthError(error.response.data)) {
+          this.snackBar.open(`Hiba történt: ${error.response.status} - ${error.response.data.message}`, 'Bezár', {
+            duration: 3000,
+          });
+        } else {
+          this.snackBar.open(`Hiba történt: ${error.response.status} - ${error.response.data}`, 'Bezár', {
+            duration: 3000,
+          });
+        }
+
         return Promise.reject(error);
       }
     );

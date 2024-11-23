@@ -20,7 +20,7 @@ const helper = new JwtHelperService();
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router) { }
 
   get isAdmin() {
     var roles = localStorage.getItem('userRoles');
@@ -38,8 +38,6 @@ export class AuthService {
       localStorage.setItem('userRoles', JSON.stringify(details.data.roles));
       localStorage.setItem('userName', details.data.name!);
       this.router.navigate(['home']);
-    } else {
-      this.router.navigate(['error']);
     }
   }
 

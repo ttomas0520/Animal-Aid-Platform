@@ -25,8 +25,10 @@ namespace AnimalAidPlatform.API.Services
                 {
                     using (var scope = _serviceProvider.CreateScope()) 
                     {
-                        var notificationService = scope.ServiceProvider.GetRequiredService<NotificationService>();
-                        var notificationRepository = scope.ServiceProvider.GetRequiredService<INotificationRepository>();
+                        var notificationService = scope.ServiceProvider.
+                            GetRequiredService<NotificationService>();
+                        var notificationRepository = scope.ServiceProvider.
+                            GetRequiredService<INotificationRepository>();
 
                         var notifications = await notificationRepository.GetNotificationsAsync(100);
 
