@@ -23,7 +23,7 @@ import { UserSettingsService } from '../../../core/services/userSettings.service
 @Component({
   selector: 'app-notification-settings',
   standalone: true,
-  imports: [ImportModule, MapComponent],
+  imports: [ImportModule],
   templateUrl: './notification-settings.component.html',
   styleUrl: './notification-settings.component.css',
 })
@@ -49,7 +49,7 @@ export class NotificationSettingsComponent {
       radius: [1],
       categories: this.fb.array([]),
     });
-   
+
   }
 
 
@@ -60,7 +60,7 @@ export class NotificationSettingsComponent {
         this.postService.getCategories(),
       ]);
 
-      this.settings = settings; 
+      this.settings = settings;
       const categoryArray = categories.map((c) =>
         this.fb.group({
           id: [c.id],

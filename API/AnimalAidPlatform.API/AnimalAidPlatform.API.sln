@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimalAidPlatform.API", "AnimalAidPlatform.API\AnimalAidPlatform.API.csproj", "{2964F45E-229C-45AF-804B-BCBD6E9F9BD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimalAidPlatform.API", "AnimalAidPlatform.API\AnimalAidPlatform.API.csproj", "{2964F45E-229C-45AF-804B-BCBD6E9F9BD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimalAidPlatform.API.Tests", "AnimalAidPlatform.API.Tests\AnimalAidPlatform.API.Tests.csproj", "{27E5453F-B73F-4CFC-9C5C-0BD28FAFF2FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2964F45E-229C-45AF-804B-BCBD6E9F9BD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2964F45E-229C-45AF-804B-BCBD6E9F9BD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2964F45E-229C-45AF-804B-BCBD6E9F9BD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27E5453F-B73F-4CFC-9C5C-0BD28FAFF2FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27E5453F-B73F-4CFC-9C5C-0BD28FAFF2FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27E5453F-B73F-4CFC-9C5C-0BD28FAFF2FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27E5453F-B73F-4CFC-9C5C-0BD28FAFF2FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -151,25 +151,10 @@ export class MapComponent implements OnInit {
 
     var features = [
       {
-        position: new google.maps.LatLng(47.476923, 19.1004811),
+        position: new google.maps.LatLng(54.476923, 28.1004811),
         content: lostString,
         iconSrc: "lost.svg",
         id: 0
-      },
-      {
-        position: new google.maps.LatLng(47.486923, 19.1004811),
-        content: helpString,
-        iconSrc: "help.svg"
-      },
-      {
-        position: new google.maps.LatLng(47.456923, 19.1004811),
-        content: foundString,
-        iconSrc: "found.svg"
-      },
-      {
-        position: new google.maps.LatLng(47.466923, 19.1004811),
-        content: adString,
-        iconSrc: "ad.svg"
       },
     ];
 
@@ -186,7 +171,7 @@ export class MapComponent implements OnInit {
           imgUrl: post.imageUrl,
           id: post.id,
         }),
-        id: post.id
+        id: post.id!
       });
     });
 

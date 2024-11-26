@@ -597,7 +597,7 @@ namespace AnimalAidPlatform.API.Migrations
                     b.HasOne("AnimalAidPlatform.API.Models.FeedPost", "FeedPost")
                         .WithMany("PostLikes")
                         .HasForeignKey("FeedPostId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AnimalAidPlatform.Models.ApplicationUser", "User")

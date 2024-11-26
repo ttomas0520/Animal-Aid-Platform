@@ -40,6 +40,7 @@ namespace AnimalAidPlatform.API.Data
                 .HasForeignKey(e => e.CreatorId)
                 .HasPrincipalKey(e => e.Id);
 
+
             modelBuilder.Entity<FeedPost>()
             .Property(f => f.Location)
             .HasColumnType("geography");
@@ -55,7 +56,7 @@ namespace AnimalAidPlatform.API.Data
                 .HasOne(pl => pl.FeedPost)
                 .WithMany(fp => fp.PostLikes)
                 .HasForeignKey(pl => pl.FeedPostId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<FeedPostLike>()
                 .HasOne(pl => pl.User)
